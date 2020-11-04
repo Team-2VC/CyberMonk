@@ -430,9 +430,9 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 46384a28bb8e1f048b7a0378b0e1de5f, type: 3}
+  m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.17
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -528,17 +528,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b356ba5329cc5f04bb3cda502c4016f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  songBpm: 120
-  secPerBeat: 0
-  songPosition: 0
-  songPositionInBeats: 0
-  dspSongTime: 0
-  musicSource: {fileID: 1610978605}
+  beatsPerMinute: 120
+  beatsPerSongLoop: 1
   firstBeatOffset: 0
-  beatsPerLoop: 1
-  completedLoops: 0
-  loopPositionInBeats: 0
-  loopPositionInAnalog: 0
 --- !u!4 &1610978607
 Transform:
   m_ObjectHideFlags: 0
