@@ -10,12 +10,18 @@ namespace CyberMonk.Game
     [RequireComponent(typeof(AudioSource))]
     public class Conductor : MonoBehaviour
     {
+        [SerializeField]
+        private Utils.References.IntegerReference beatCounter;
 
         public event System.Action DownBeatEvent = delegate { };
 
         [Tooltip("The song beats per minute.")]
         [SerializeField, Range(0.1f, 150)]
         private float beatsPerMinute;
+
+        [SerializeField, Range(3,4)]
+        private int timeSignature;
+
         [SerializeField]
         [Tooltip("The number of beats in the entire song.")]
         private float beatsPerSongLoop;
@@ -86,8 +92,10 @@ namespace CyberMonk.Game
             if (this.BeatsSongPosition >= (this._completedLoops + 1) * this.beatsPerSongLoop)
             {
                 this._completedLoops++;
+                this.beatCounter.Value = this._completedLoops % timeSignature;
                 this.DownBeatEvent();
             }
+            
         }
     }
 }

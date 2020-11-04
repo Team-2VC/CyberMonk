@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 namespace CyberMonk.Tests
 {
     /// <summary>
@@ -59,7 +60,7 @@ namespace CyberMonk.Tests
         /// </summary>
         private void OnDownBeat()
         {
-            Debug.Log("beat down");
+            
             this._renderer.enabled = !this._renderer.enabled;
         }
     }
