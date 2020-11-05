@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace CyberMonk.Game.Zombie
 {
+
     /// <summary>
     /// The Zombie Settings.
     /// </summary>
@@ -15,11 +16,17 @@ namespace CyberMonk.Game.Zombie
         [SerializeField]
         private ZombieType type;
 
+        [SerializeField]
+        private Target.ZombieTargetsData targetsData;
+
         #endregion
 
         #region properties
 
         public ZombieType Type => this.type;
+
+        public Target.ZombieTargetsData TargetsData
+            => this.targetsData;
 
         #endregion
     }

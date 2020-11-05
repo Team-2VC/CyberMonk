@@ -52,6 +52,7 @@ namespace CyberMonk.Game.Music
             {
                 this._audioSource.clip = this.musicData.Music;
             }
+
             this._audioSource.Play();
         }
 
@@ -65,7 +66,7 @@ namespace CyberMonk.Game.Music
                 this._songPosition = (float)(AudioSettings.dspTime -
                     this._originalDSPSongTime - this.musicData.FirstBeatOffset);
 
-                if (this.BeatsSongPosition > (this.currentBeat + 1) * this.musicData.SecondsPerBeat)
+                if (this.BeatsSongPosition > (this.currentBeat + 1))
                 {
                     this.currentBeat++;
                     this.beatCounter.Value = this.currentBeat % this.musicData.BeatsPerMeasure;

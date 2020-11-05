@@ -13,3 +13,11 @@ MonoBehaviour:
   m_Name: MELEE
   m_EditorClassIdentifier: 
   type: 0
+  targetsData:
+    prefab: {fileID: 7306352282361568017, guid: 0d94f69c770130e4eb92e090c7874fb2,
+      type: 3}
+    zombieTargetPositions:
+    - {x: 0, y: 2}
+    - {x: 2, y: 0}
+    - {x: 0, y: -2}
+    randomizeTargetOrder: 1

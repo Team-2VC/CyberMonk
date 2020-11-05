@@ -10,12 +10,32 @@ namespace CyberMonk.Game.Zombie.Melee
     public class MeleeZombieStateController : AZombieStateController
     {
 
+        private ZombieTargetController _targetController;
+
         public MeleeZombieStateController(MeleeZombieController controller)
-            : base(controller) { }
+            : base(controller) 
+        {
+            this._targetController = controller.TargetController;
+        }
 
         protected override void OnDownBeat()
         {
-            // TODO: Implementation.
+
+            #region test_code
+
+            // TODO: Remove
+
+            if (this._controller.Component != null)
+            {
+                int beatCounter = this._controller.Component.References.BeatCounter;
+
+                if(beatCounter == 3 && !this._targetController.TargetsActive)
+                {
+                    this._targetController.TargetsActive = true;
+                }
+            }
+
+            #endregion
         }
     }
 
@@ -36,16 +56,12 @@ namespace CyberMonk.Game.Zombie.Melee
         public override AZombieStateController StateController
             => this._stateController;
 
-        public override AZombieTargetController TargetController 
-            // TODO: Implementation
-            => throw new System.NotImplementedException();
-
         #endregion
 
         #region constructor
 
         public MeleeZombieController(ZombieComponent component, ZombieSettings settings)
-            : base(component, settings.Type)
+            : base(component, settings)
         {
             this._stateController = new MeleeZombieStateController(this);
         }

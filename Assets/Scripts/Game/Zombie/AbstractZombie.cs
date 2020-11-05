@@ -5,6 +5,88 @@ using UnityEngine;
 namespace CyberMonk.Game.Zombie
 {
 
+    namespace Target
+    {
+        /// <summary>
+        /// The data containing the zombie targets.
+        /// </summary>
+        [System.Serializable]
+        public struct ZombieTargetsData
+        {
+            #region fields
+
+            [SerializeField]
+            private GameObject prefab;
+
+            [SerializeField]
+            private List<Vector2> zombieTargetPositions;
+
+            [SerializeField]
+            private bool randomizeTargetOrder;
+
+            #endregion
+
+            #region properties
+
+            public GameObject Prefab
+            {
+                get => this.prefab;
+            }
+
+            public List<Vector2> ZombieTargetPositions
+                => this.zombieTargetPositions;
+
+            public bool RandomizeTargets
+                => this.randomizeTargetOrder;
+
+            #endregion
+        }
+
+        /// <summary>
+        /// The wrapper class containing the information for the zombie target.
+        /// </summary>
+        public class ZombieTargetWrapper
+        {
+
+            #region fields
+
+            private AZombieController _parent;
+            private GameObject _prefab;
+            private Vector2 _spawnPosition;
+
+            #endregion
+            // TODO: Reference the ZombieTargetComponent
+
+            #region constructor
+
+            public ZombieTargetWrapper(AZombieController parent, Vector2 position, GameObject prefab)
+            {
+                this._parent = parent;
+                this._prefab = prefab;
+                this._spawnPosition = position;
+            }
+
+            /// <summary>
+            /// Spawns the target.
+            /// </summary>
+            public void SpawnTarget()
+            {
+                if(this._parent.Component == null)
+                {
+                    return;
+                }
+
+                Vector2 transformPosition = (Vector2)this._parent.Component.transform.position;
+                // TODO: Reference, parent this object, etc...
+                Vector2 position = this._spawnPosition + transformPosition;
+                GameObject spawned = GameObject.Instantiate<GameObject>(this._prefab, position, Quaternion.identity);
+                spawned.transform.parent = this._parent.Component.transform;
+            }
+
+            #endregion
+        }
+    }
+
     /// <summary>
     /// The Zombie Type Enum.
     /// </summary>
@@ -16,11 +98,214 @@ namespace CyberMonk.Game.Zombie
     }
 
     /// <summary>
+    /// The state of the zombie.
+    /// </summary>
+    public enum ZombieState
+    {
+        STATE_DANCING,
+        STATE_IDLE,
+        STATE_ATTACKED,
+        STATE_LAUNCHED
+    }
+
+    /// <summary>
     /// Controls how the targets are handled for each zombie.
     /// </summary>
-    public abstract class AZombieTargetController
+    public class ZombieTargetController
     {
-        // TODO: Implementation
+        /// <summary>
+        /// Iterates through each target when the targets 
+        /// are active.
+        /// </summary>
+        public class TargetsIterator
+        {
+            #region fields
+
+            private Target.ZombieTargetsData _targetsData;
+           
+            private List<Target.ZombieTargetWrapper> _targets;
+            private int currentTarget;
+
+            private AZombieController _parent;
+
+            #endregion
+
+            #region constructor
+
+            public TargetsIterator(AZombieController parent, Target.ZombieTargetsData data)
+            {
+                this._targetsData = data;
+                this._parent = parent;
+                
+                this._targets = new List<Target.ZombieTargetWrapper>();
+                this.currentTarget = -1;
+                
+                this.SetupTargets();
+            }
+
+            #endregion
+
+            #region methods
+
+            /// <summary>
+            /// This sets up the targets.
+            /// </summary>
+            private void SetupTargets()
+            {
+                if(this._targetsData.RandomizeTargets)
+                {
+                    int positionCount = this._targetsData.ZombieTargetPositions.Count;
+                    List<Vector2> positionsFilled = new List<Vector2>();
+
+                    while(this._targets.Count < positionCount)
+                    {
+                        Vector2 position;
+                        do
+                        {
+                            int randomTarget = Random.Range(0, positionCount);
+                            position = this._targetsData.ZombieTargetPositions[randomTarget];
+                        }
+                        while (positionsFilled.Contains(position));
+
+                        Target.ZombieTargetWrapper wrapper = new Target.ZombieTargetWrapper(
+                            this._parent, position, this._targetsData.Prefab);
+                        
+                        this._targets.Add(wrapper);
+                        positionsFilled.Add(position);
+                    }
+                    return;
+                }
+
+                foreach(Vector2 position in this._targetsData.ZombieTargetPositions)
+                {
+                    Target.ZombieTargetWrapper wrapper = new Target.ZombieTargetWrapper(
+                        this._parent, position, this._targetsData.Prefab);
+                    this._targets.Add(wrapper);
+                }
+            }
+
+            /// <summary>
+            /// Gets the next zombie target.
+            /// </summary>
+            /// <returns>The next zombie target in the list.</returns>
+            public Target.ZombieTargetWrapper Next()
+            {
+
+                if(!this.HasNext())
+                {
+                    return null;
+                }
+
+                return this._targets[++this.currentTarget];
+            }
+
+            /// <summary>
+            /// Determines whether the iterator has a next value.
+            /// </summary>
+            /// <returns>True if the iterator has a next.</returns>
+            public bool HasNext()
+            {
+                if(this._targets.Count <= 0)
+                {
+                    return false;
+                }
+
+                if((this.currentTarget + 1) >= this._targets.Count)
+                {
+                    return false;
+                }
+
+                return true;
+            }
+
+            /// <summary>
+            /// Resets the iterator.
+            /// </summary>
+            public void Reset()
+            {
+                this.currentTarget = -1;
+            }
+
+            #endregion
+        }
+
+        #region fields
+
+        private bool _targetsActive = false;
+        private TargetsIterator _targetsIterator;
+
+        /// <summary>
+        /// Current Target represents the previous target that we have in the iterator.
+        /// Next Target represents the current target that we have in the iterator.
+        /// </summary>
+        private Target.ZombieTargetWrapper _currentTarget;
+
+        private AZombieController _controller;
+        private ZombieReferences? references = null;
+
+        #endregion
+
+        #region properties
+
+        public bool TargetsActive
+        {
+            get => this._targetsActive;
+            set => this._targetsActive = value;
+        }
+
+        #endregion
+
+        #region constructor
+
+        public ZombieTargetController(AZombieController controller, Target.ZombieTargetsData data)
+        {
+            this._controller = controller;
+            this._targetsIterator = new TargetsIterator(controller, data);
+            
+            this._currentTarget = null;
+        }
+
+        #endregion
+
+        #region methods
+
+        /// <summary>
+        /// Hooks the events from the target controller.
+        /// </summary>
+        public virtual void HookEvents()
+        {
+            if(this.references == null)
+            {
+                this.references = this._controller.Component.References;
+            }
+
+            ZombieReferences reference = this.references.Value;
+            reference.BeatDownEvent += this.OnDownBeat;
+        }
+
+        /// <summary>
+        /// Called to unhook the events.
+        /// </summary>
+        public virtual void UnHookEvents()
+        {
+            ZombieReferences reference = this.references.Value;
+            reference.BeatDownEvent += this.OnDownBeat;
+        }
+
+        /// <summary>
+        /// Called when the beat is on down
+        /// </summary>
+        private void OnDownBeat()
+        {
+            if(this._targetsActive)
+            {
+                // TODO: Test
+                this._currentTarget = this._targetsIterator.Next();
+                this._currentTarget?.SpawnTarget();
+            }
+        }
+
+        #endregion
     }
 
     /// <summary>
@@ -32,6 +317,7 @@ namespace CyberMonk.Game.Zombie
 
         #region fields
 
+        protected ZombieState _state;
         protected readonly AZombieController _controller;
 
         #endregion
@@ -41,6 +327,7 @@ namespace CyberMonk.Game.Zombie
         public AZombieStateController(AZombieController controller)
         {
             this._controller = controller;
+            this._state = ZombieState.STATE_IDLE;
         }
 
         #endregion
@@ -132,15 +419,14 @@ namespace CyberMonk.Game.Zombie
 
         private readonly ZombieComponent _component;
         private readonly ZombieType _type;
+        private readonly ZombieTargetController _targetController;
 
         #endregion
 
         #region properties
 
-        public abstract AZombieTargetController TargetController
-        {
-            get;
-        }
+        public virtual ZombieTargetController TargetController
+            => this._targetController;
 
         public abstract AZombieStateController StateController
         {
@@ -155,10 +441,12 @@ namespace CyberMonk.Game.Zombie
 
         #region constructor
 
-        public AZombieController(ZombieComponent component, ZombieType type)
+        public AZombieController(ZombieComponent component, ZombieSettings settings)
         {
             this._component = component;
-            this._type = type;
+            this._type = settings.Type;
+
+            this._targetController = new ZombieTargetController(this, settings.TargetsData);
         }
 
         #endregion
@@ -171,6 +459,7 @@ namespace CyberMonk.Game.Zombie
         public virtual void HookEvents()
         {
             this.StateController?.HookEvents();
+            this.TargetController.HookEvents();
         }
 
         /// <summary>
@@ -179,6 +468,7 @@ namespace CyberMonk.Game.Zombie
         public virtual void UnHookEvents()
         {
             this.StateController?.UnHookEvents();
+            this.TargetController.UnHookEvents();
         }
 
         #endregion
