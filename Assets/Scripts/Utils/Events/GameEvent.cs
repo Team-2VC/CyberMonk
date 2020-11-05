@@ -8,7 +8,7 @@ namespace CyberMonk.Utils.Events
     /// The Generic Event class definition without the type.
     /// </summary>
     [CreateAssetMenu(fileName = "Game Event", menuName = "Game Event")]
-    public class GenericEvent : ScriptableObject
+    public class GameEvent : ScriptableObject
     {
 
         private event System.Action gameEvent
@@ -29,7 +29,7 @@ namespace CyberMonk.Utils.Events
         /// <param name="e">The event that is being added.</param>
         /// <param name="func">The function that we are adding.</param>
         /// <returns>The generic event.</returns>
-        public static GenericEvent operator+(GenericEvent e, System.Action @func)
+        public static GameEvent operator+(GameEvent e, System.Action @func)
         {
             e.gameEvent += func;
             return e;
@@ -41,7 +41,7 @@ namespace CyberMonk.Utils.Events
         /// <param name="e">The event we are subtracting from.</param>
         /// <param name="func">The function we are subtracting.</param>
         /// <returns>The Generic Event.</returns>
-        public static GenericEvent operator-(GenericEvent e, System.Action @func)
+        public static GameEvent operator-(GameEvent e, System.Action @func)
         {
             e.gameEvent -= func;
             return e;

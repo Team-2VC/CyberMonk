@@ -15,12 +15,12 @@ namespace CyberMonk.Game.Zombie
         [SerializeField]
         private Utils.References.IntegerReference beatCounter;
         [SerializeField]
-        private Utils.Events.GenericEvent beatDownEvent;
+        private Utils.Events.GameEvent beatDownEvent;
 
         public int BeatCounter
             => this.beatCounter != null ? this.beatCounter.Value : 0;
 
-        public Utils.Events.GenericEvent BeatDownEvent
+        public Utils.Events.GameEvent BeatDownEvent
         {
             set => this.beatDownEvent = value;
             get => this.beatDownEvent;

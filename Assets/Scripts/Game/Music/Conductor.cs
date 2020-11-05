@@ -15,7 +15,7 @@ namespace CyberMonk.Game.Music
         [SerializeField]
         private Utils.References.IntegerReference beatCounter;
         [SerializeField]
-        private Utils.Events.GenericEvent beatDownEvent;
+        private Utils.Events.GameEvent beatDownEvent;
 
         [SerializeField]
         private ConductorMusicData musicData;

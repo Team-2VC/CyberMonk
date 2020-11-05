@@ -17,7 +17,7 @@ namespace CyberMonk.Tests
         #region fields
 
         [SerializeField]
-        private Utils.Events.GenericEvent beatDownEvent;
+        private Utils.Events.GameEvent beatDownEvent;
         private SpriteRenderer _renderer;
 
         #endregion
