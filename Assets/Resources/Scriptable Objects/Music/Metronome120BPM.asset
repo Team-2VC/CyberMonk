@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13547b921a4ff01459197ee78aa4b6bb, type: 3}
+  m_Name: Metronome120BPM
+  m_EditorClassIdentifier: 
+  beatsPerMeasure: 4
+  beatsPerMinute: 120
+  firstBeatOffset: 0
+  music: {fileID: 8300000, guid: cb75d63e3d491dc47a6f334685c9b06d, type: 3}
