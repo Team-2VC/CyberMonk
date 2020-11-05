@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5bf7c34a0dc4e6348bea04faa70406ee, type: 3}
+  m_Name: ProtoMoonkey
+  m_EditorClassIdentifier: 
+  m_Labels:
+  - m_Name: ProtoRun
+    m_Hash: 1245497930
+    m_CategoryList:
+    - m_Name: frame0
+      m_Hash: 297507088
+      m_Sprite: {fileID: 21300000, guid: db3952aeffdd14e479549fac3e5aeb86, type: 3}
+    - m_Name: frame1
+      m_Hash: 1723640198
+      m_Sprite: {fileID: 21300000, guid: 161a84f8b008ddc4a9c4d238e16dad09, type: 3}
+    - m_Name: frame2
+      m_Hash: -21628868
+      m_Sprite: {fileID: 21300000, guid: 1a1d22dfd47dfec46af4e3fcb83d1908, type: 3}
+    - m_Name: frame3
+      m_Hash: -2001549142
+      m_Sprite: {fileID: 21300000, guid: 172ed074ce9e47b42a1db2d715f83b57, type: 3}
+    - m_Name: frame4
+      m_Hash: 383147273
+      m_Sprite: {fileID: 21300000, guid: 5f0ae165cc2d43a4fa7912fca3ed8e0d, type: 3}
+    - m_Name: frame5
+      m_Hash: 1641115039
+      m_Sprite: {fileID: 21300000, guid: 8b8c39800f2e7a24a9d7fd5c4e5d4e35, type: 3}
+  - m_Name: ProtoIdle
+    m_Hash: -783051451
+    m_CategoryList:
+    - m_Name: idle
+      m_Hash: -601574123
+      m_Sprite: {fileID: 21300000, guid: 6e4c1e4d01973d8478619a5b55588061, type: 3}
