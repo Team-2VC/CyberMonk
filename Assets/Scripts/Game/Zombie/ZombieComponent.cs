@@ -5,39 +5,79 @@ using UnityEngine;
 
 namespace CyberMonk.Game.Zombie
 {
+
+    /// <summary>
+    /// Structure that defines the zombie references.
+    /// </summary>
+    [System.Serializable]
+    public struct ZombieReferences
+    {
+        [SerializeField]
+        private Utils.References.IntegerReference beatCounter;
+        [SerializeField]
+        private Utils.Events.GenericEvent beatDownEvent;
+
+        public int BeatCounter
+            => this.beatCounter != null ? this.beatCounter.Value : 0;
+
+        public Utils.Events.GenericEvent BeatDownEvent
+        {
+            set => this.beatDownEvent = value;
+            get => this.beatDownEvent;
+        }
+    }
+
+    /// <summary>
+    /// The Zombie Component Monobehaviour.
+    /// </summary>
     public class ZombieComponent : MonoBehaviour
     {
-
-        private AZombieController _controller;
+        #region fields
 
         [SerializeField]
         private ZombieSettings settings;
-
         [SerializeField]
-        private Utils.References.IntegerReference beatCounter;
+        private ZombieReferences references;
 
-        public int BeatCounter{
-            get{
-                if(beatCounter != null){
-                    return beatCounter.Value;
-                } else {
-                    return 0;
-                }
-            }
-        }
+        private AZombieController _controller;
 
+        #endregion
+
+        #region properties
+        public ZombieReferences References
+            => this.references;
+
+        public AZombieController Controller
+            => this._controller;
+
+        #endregion
+
+        #region methods
+
+        /// <summary>
+        /// Called when the script is first awakened.
+        /// </summary>
         private void Awake() 
         {
-            //TODO: Create "Create" Function
             this._controller = AZombieController.Create(this, settings);
-                
-            
         }
 
-        // Update is called once per frame
-        void Update()
+        /// <summary>
+        /// Called when the zombie component is enabled.
+        /// </summary>
+        private void OnEnable()
         {
-            
+            this._controller?.HookEvents();
         }
+
+        /// <summary>
+        /// Called when the zombie component is disabled.
+        /// </summary>
+        private void OnDisable()
+        {
+            this._controller?.UnHookEvents();
+        }
+
+        #endregion
     }
 }

@@ -14,14 +14,21 @@ namespace CyberMonk.Tests
     public class ShineBright : MonoBehaviour
     {
 
+        #region fields
+
+        [SerializeField]
+        private Utils.Events.GenericEvent beatDownEvent;
         private SpriteRenderer _renderer;
+
+        #endregion
+
+        #region methods
 
         /// <summary>
         /// Called when the object has started.
         /// </summary>
         private void Start()
         {
-            this.HookEvents();
             this._renderer = this.GetComponent<SpriteRenderer>();
         }
 
@@ -38,9 +45,9 @@ namespace CyberMonk.Tests
         /// </summary>
         private void HookEvents()
         {
-            if (Game.Conductor.Instance != null)
+            if(this.beatDownEvent != null)
             {
-                Game.Conductor.Instance.DownBeatEvent += OnDownBeat;
+                this.beatDownEvent += OnDownBeat;
             }
         }
 
@@ -49,9 +56,9 @@ namespace CyberMonk.Tests
         /// </summary>
         private void OnDisable()
         {
-            if(Game.Conductor.Instance != null)
+            if(this.beatDownEvent != null)
             {
-                Game.Conductor.Instance.DownBeatEvent -= OnDownBeat;
+                this.beatDownEvent -= OnDownBeat;
             }
         }
 
@@ -60,8 +67,9 @@ namespace CyberMonk.Tests
         /// </summary>
         private void OnDownBeat()
         {
-            
             this._renderer.enabled = !this._renderer.enabled;
         }
+
+        #endregion
     }
 }

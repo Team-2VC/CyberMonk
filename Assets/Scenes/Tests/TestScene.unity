@@ -338,6 +338,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e1998976f11da143b14ca8f9147c589, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  beatDownEvent: {fileID: 11400000, guid: d73961cd309650a44b36f0f55ef2d599, type: 2}
 --- !u!212 &874650354
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -432,6 +433,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e1998976f11da143b14ca8f9147c589, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  beatDownEvent: {fileID: 11400000, guid: d73961cd309650a44b36f0f55ef2d599, type: 2}
 --- !u!212 &899661464
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -526,6 +528,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e1998976f11da143b14ca8f9147c589, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  beatDownEvent: {fileID: 11400000, guid: d73961cd309650a44b36f0f55ef2d599, type: 2}
 --- !u!212 &1342148856
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -618,7 +621,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: b5a0c739f991c1744b789d954bd4cbb7, type: 3}
+  m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 0.17
   m_Pitch: 1
@@ -716,9 +719,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b356ba5329cc5f04bb3cda502c4016f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  beatsPerMinute: 121
-  beatsPerSongLoop: 1
-  firstBeatOffset: 0
+  beatCounter:
+    constant: 0
+    constantValue: 0
+    variable: {fileID: 11400000, guid: d50f134e000ce614b8873ed998976472, type: 2}
+  beatDownEvent: {fileID: 11400000, guid: d73961cd309650a44b36f0f55ef2d599, type: 2}
+  musicData: {fileID: 11400000, guid: 1a40d4c1ac94a114ab03e74596e824df, type: 2}
 --- !u!4 &1610978607
 Transform:
   m_ObjectHideFlags: 0

@@ -9,7 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 61a015608c5fe8b49b9b9c5409faf4c5, type: 3}
-  m_Name: TANK
+  m_Script: {fileID: 11500000, guid: 13547b921a4ff01459197ee78aa4b6bb, type: 3}
+  m_Name: Metronome120BPM
   m_EditorClassIdentifier: 
-  type: 0
+  beatsPerMeasure: 4
+  beatsPerMinute: 120
+  firstBeatOffset: 0
+  music: {fileID: 8300000, guid: cb75d63e3d491dc47a6f334685c9b06d, type: 3}

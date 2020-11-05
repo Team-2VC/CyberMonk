@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3704299519937433094}
   - component: {fileID: 3704299519937433093}
   m_Layer: 0
-  m_Name: Diamond (3)
+  m_Name: Diamond
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -94,3 +94,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e1998976f11da143b14ca8f9147c589, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  beatDownEvent: {fileID: 11400000, guid: d73961cd309650a44b36f0f55ef2d599, type: 2}
