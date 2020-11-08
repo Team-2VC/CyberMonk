@@ -163,3 +163,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dde6e48e515041f48b592f593ed35ab3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  beatsActiveCounter: 5
+  beatDownEvent: {fileID: 11400000, guid: d73961cd309650a44b36f0f55ef2d599, type: 2}

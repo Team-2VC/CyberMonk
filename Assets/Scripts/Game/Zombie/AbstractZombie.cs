@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿using CyberMonk.Game.Zombie.Target;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,6 +9,42 @@ namespace CyberMonk.Game.Zombie
 
     namespace Target
     {
+
+        /// <summary>
+        /// The reason why the target got hit.
+        /// </summary>
+        public enum DeactivationReason
+        {
+            // Called when the target is hit by the player.
+            REASON_PLAYER_HIT,
+            // Called when the target runs out of time.
+            REASON_RUN_OUT_OF_TIME,
+            // Called when the target was forced to deactivate
+            // because of other targets
+            REASON_FORCED
+        }
+
+        /// <summary>
+        /// The data for why the zombie target got deactivated.
+        /// </summary>
+        public struct DeactivationData
+        {
+            private DeactivationReason _reason;
+            private object _data;
+
+            public object Data
+                => this._data;
+
+            public DeactivationReason Reason
+                => this._reason;
+
+            public DeactivationData(DeactivationReason reason, object otherData = null)
+            {
+                this._reason = reason;
+                this._data = null;
+            }
+        }
+
         /// <summary>
         /// The data containing the zombie targets.
         /// </summary>
@@ -53,17 +91,21 @@ namespace CyberMonk.Game.Zombie
             private AZombieController _parent;
             private GameObject _prefab;
             private Vector2 _spawnPosition;
+            private int _targetIndex;
 
             #endregion
-            // TODO: Reference the ZombieTargetComponent
+
+            public int TargetIndex
+                => this._targetIndex;
 
             #region constructor
 
-            public ZombieTargetWrapper(AZombieController parent, Vector2 position, GameObject prefab)
+            public ZombieTargetWrapper(AZombieController parent, Vector2 position, GameObject prefab, int targetIndex)
             {
                 this._parent = parent;
                 this._prefab = prefab;
                 this._spawnPosition = position;
+                this._targetIndex = targetIndex;
             }
 
             /// <summary>
@@ -77,10 +119,27 @@ namespace CyberMonk.Game.Zombie
                 }
 
                 Vector2 transformPosition = (Vector2)this._parent.Component.transform.position;
-                // TODO: Reference, parent this object, etc...
                 Vector2 position = this._spawnPosition + transformPosition;
                 GameObject spawned = GameObject.Instantiate<GameObject>(this._prefab, position, Quaternion.identity);
                 spawned.transform.parent = this._parent.Component.transform;
+
+                // Sets the wrapper component.
+                TargetComponent component = spawned.GetComponent<TargetComponent>();
+                if(component != null)
+                {
+                    component.SetWrapper(this);
+                }
+            }
+
+            /// <summary>
+            /// Called when the target is deactivated.
+            /// </summary>
+            /// <param name="data">The data for why the target was deactivated.</param>
+            public void OnDeactivated(DeactivationData data)
+            {
+                Debug.Log(this.TargetIndex);
+                this._parent.TargetController.OnDeactivate(
+                    this.TargetIndex, data);
             }
 
             #endregion
@@ -113,6 +172,17 @@ namespace CyberMonk.Game.Zombie
     /// </summary>
     public class ZombieTargetController
     {
+
+        #region events
+
+        /// <summary>
+        /// Called when all targets are deactivated.
+        /// </summary>
+        public event System.Action OnTargetsDeactivated
+            = delegate { };
+
+        #endregion
+
         /// <summary>
         /// Iterates through each target when the targets 
         /// are active.
@@ -162,13 +232,13 @@ namespace CyberMonk.Game.Zombie
                         Vector2 position;
                         do
                         {
-                            int randomTarget = Random.Range(0, positionCount);
+                            int randomTarget = UnityEngine.Random.Range(0, positionCount);
                             position = this._targetsData.ZombieTargetPositions[randomTarget];
                         }
                         while (positionsFilled.Contains(position));
 
                         Target.ZombieTargetWrapper wrapper = new Target.ZombieTargetWrapper(
-                            this._parent, position, this._targetsData.Prefab);
+                            this._parent, position, this._targetsData.Prefab, this._targets.Count);
                         
                         this._targets.Add(wrapper);
                         positionsFilled.Add(position);
@@ -179,7 +249,7 @@ namespace CyberMonk.Game.Zombie
                 foreach(Vector2 position in this._targetsData.ZombieTargetPositions)
                 {
                     Target.ZombieTargetWrapper wrapper = new Target.ZombieTargetWrapper(
-                        this._parent, position, this._targetsData.Prefab);
+                        this._parent, position, this._targetsData.Prefab, this._targets.Count);
                     this._targets.Add(wrapper);
                 }
             }
@@ -243,6 +313,8 @@ namespace CyberMonk.Game.Zombie
         private AZombieController _controller;
         private ZombieReferences? references = null;
 
+        private int _previousTargetClicked = -1;
+
         #endregion
 
         #region properties
@@ -303,6 +375,33 @@ namespace CyberMonk.Game.Zombie
                 this._currentTarget = this._targetsIterator.Next();
                 this._currentTarget?.SpawnTarget();
             }
+        }
+
+        /// <summary>
+        /// Called when the target at the index is deactivated.
+        /// </summary>
+        /// <param name="targetIndex">The target index.</param>
+        /// <param name="data">The data.</param>
+        internal void OnDeactivate(int targetIndex, DeactivationData data)
+        {
+            if(data.Reason == DeactivationReason.REASON_RUN_OUT_OF_TIME)
+            {
+                // TODO: hook up the targets to the event and damage player.
+                Debug.Log("Damage the player & deactivate targets.");
+                this.OnTargetsDeactivated();
+                return;
+            }
+
+            if(this._previousTargetClicked + 1 != targetIndex)
+            {
+                // TODO: Hook up the targets to the event and damage player. 
+                Debug.Log("Damage the player & deactivate targets.");
+                this.OnTargetsDeactivated();
+                return;
+            }
+
+            // TODO: check if the target index is the last target 
+            this._previousTargetClicked = targetIndex;
         }
 
         #endregion
