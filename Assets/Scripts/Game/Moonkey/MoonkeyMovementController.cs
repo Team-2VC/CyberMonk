@@ -2,8 +2,9 @@
 using FMODUnity;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
-
+using UnityEngine.Rendering;
 
 namespace CyberMonk.Game.Moonkey
 {
@@ -68,6 +69,8 @@ namespace CyberMonk.Game.Moonkey
         protected GameObject _gameObject;
 
         private Vector2 _lookDirection = Vector2.right;
+        private float _dashTime = 0f;
+        private bool _isDashing = false;
 
         private float _dashCooldownTime = 0f;
         private int _dashCounter = 0;
@@ -105,10 +108,29 @@ namespace CyberMonk.Game.Moonkey
         /// </summary>
         public virtual void Update()
         {
-            if (this.Dashing)
+            if (Input.GetKeyDown(KeyCode.Space))
             {
-                this._dashCooldownTime += Time.deltaTime;
+                this.Jump();
             }
+
+            if (Input.GetMouseButtonDown(0))
+            {
+                this._isDashing = this.Dash();
+            }
+
+            if (this._isDashing)
+            {
+                this._dashTime -= Time.deltaTime;
+                if(this._dashTime <= 0)
+                {
+                    // Stops Dashing here
+                    // TODO: C# Event to stop dashing.
+                    this._rigidbody.velocity = Vector2.zero;
+                    this._isDashing = false;
+
+                }
+            }
+            
         }
 
         /// <summary>
@@ -116,25 +138,14 @@ namespace CyberMonk.Game.Moonkey
         /// </summary>
         public virtual void PhysicsUpdate()
         {
-            if (Input.GetKeyDown(KeyCode.Space) && this.Dash())
-            {
-                return;
-            }
+           
 
             float horizontalAxis = Input.GetAxis("Horizontal");
             if (Mathf.Abs(horizontalAxis) > 0)
             {
                 this.Move(Vector2.right * horizontalAxis);
             }
-            /* if(this.Dashing)
-            {
-                if (this._dashingData.Value.UpdatePosition(
-                    this._rigidbody.position, this._lookDirection, this._settings.DashSpeed))
-                {
-                    this.OnDashFinished();
-                }
-            }
-            */
+           
         }
 
         /// <summary>
@@ -143,12 +154,12 @@ namespace CyberMonk.Game.Moonkey
         /// <param name="direction">Moves the monkey in the given direction.</param>
         public virtual void Move(Vector2 direction)
         {
-            if(this.Dashing)
+            if(this._isDashing)
             {
                 return;
             }
 
-            this._lookDirection = new Vector2(direction.x, 0f);
+            this._lookDirection = new Vector2(direction.normalized.x, 0f);
             this._rigidbody.velocity = direction * this._settings.Speed 
                 + new Vector2(0f, this._rigidbody.velocity.y);
         }
@@ -159,25 +170,28 @@ namespace CyberMonk.Game.Moonkey
         /// <returns>True if the monkey successfully dashed, false otherwise.</returns>
         public virtual bool Dash()
         {
-            /* if (this.CanDash())
+            Debug.Log("Dashing");
+            Vector2 mousePos = Vector2.zero;
+            if(Camera.main != null)
             {
-                this._dashingData = new DashingData(
-                    this._rigidbody.position, this._lookDirection, this._settings.DashDistance);
-
-                this._dashCooldownTime = 0f;
-                this._dashCounter++;
-                return true;
-            } */
-            if(this.CanDash())
-            {
-                this._rigidbody.AddForce(this._lookDirection, ForceMode2D.Impulse);
-                this._dashCooldownTime = 0f;
-                this._dashCounter++;
-                return true;
+                mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             }
 
-            return false;
+            this._rigidbody.velocity = (mousePos - (Vector2)this._gameObject.transform.position).normalized * this._settings.DashSpeed;
+            this._dashTime = this._settings.DashTime;
+            return true;           
+  
         }
+
+        // TODO: Hold jump to jump higher.
+        // TODO: isGrounded Implementation
+
+        public virtual void Jump()
+        {
+            
+            this._rigidbody.AddForce(Vector2.up * this._settings.JumpForce);
+        }
+
 
         /// <summary>
         /// Determines whether or not the moonkey can dash.

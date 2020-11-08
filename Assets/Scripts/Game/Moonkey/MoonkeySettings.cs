@@ -16,10 +16,13 @@ namespace CyberMonk.Game.Moonkey
         private float speed;
 
         [SerializeField]
+        private float jumpForce;
+
+        [SerializeField]
         private float dashSpeed;
 
         [SerializeField]
-        private float dashDistance;
+        private float dashTime;
 
         [SerializeField]
         private float dashCooldownTime;
@@ -34,9 +37,11 @@ namespace CyberMonk.Game.Moonkey
 
         public float Speed => this.speed;
 
+        public float JumpForce => this.jumpForce; 
+
         public float DashSpeed => this.dashSpeed;
 
-        public float DashDistance => this.dashDistance;
+        public float DashTime => this.dashTime;
 
         public float DashCooldownTime => this.dashCooldownTime;
 
