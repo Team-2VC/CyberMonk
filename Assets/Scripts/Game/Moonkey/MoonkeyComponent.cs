@@ -9,15 +9,15 @@ namespace CyberMonk.Game.Moonkey
     /// <summary>
     /// Moonkey Component Monobehaviour
     /// </summary>
+    [RequireComponent(typeof(Rigidbody2D), typeof(Collider2D))]
     public class MoonkeyComponent : MonoBehaviour
     {
         #region fields
+        
         [SerializeField]
         private MoonkeySettings settings;
-
+        
         private MoonkeyController _controller;
-
-        private Vector2 _direction;
 
         #endregion
 
@@ -27,26 +27,22 @@ namespace CyberMonk.Game.Moonkey
 
         #endregion
 
-
         #region methods
+        
         /// <summary>
         /// Called before start, when script is awakened
         /// </summary>
         private void Awake()
         {
             this._controller = new MoonkeyController(this, settings);
-
         }
 
         /// <summary>
         /// Runs once per frame
         /// </summary>
-        void Update()
+        private void Update()
         {
-            this._direction = new Vector2(Input.GetAxis("Horizontal"), 0);
-            this._controller.MovementController.Move();
-            //this._controller.MovementController.Dash();
-            //Debug.Log(this._direction);
+            this._controller.Update();
         }
 
         /// <summary>
@@ -54,7 +50,7 @@ namespace CyberMonk.Game.Moonkey
         /// </summary>
         private void FixedUpdate()
         {
-            
+            this._controller.PhysicsUpdate();
         }
 
 

@@ -11,17 +11,22 @@ namespace CyberMonk.Game.Moonkey
     public class MoonkeySettings : ScriptableObject
     {
         #region fields
-        [SerializeField]
-        private float speed;
 
         [SerializeField]
-        private float gravityScale;
+        private float speed;
 
         [SerializeField]
         private float dashSpeed;
 
         [SerializeField]
-        private float dashTime;
+        private float dashDistance;
+
+        [SerializeField]
+        private float dashCooldownTime;
+
+        [SerializeField, Range(1, 10)]
+        [Tooltip("The maximum number of times that the dash button could be spammed while in the air.")]
+        private int dashMaxCounter;
 
         #endregion
 
@@ -29,11 +34,15 @@ namespace CyberMonk.Game.Moonkey
 
         public float Speed => this.speed;
 
-        public float GravityScale => this.gravityScale;
-
         public float DashSpeed => this.dashSpeed;
 
-        public float DashTime => this.dashTime;
+        public float DashDistance => this.dashDistance;
+
+        public float DashCooldownTime => this.dashCooldownTime;
+
+        public int DashMaxCounter
+            => this.dashMaxCounter;
+
 
         #endregion
     }

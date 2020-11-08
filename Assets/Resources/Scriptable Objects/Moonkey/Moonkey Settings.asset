@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Moonkey Settings
   m_EditorClassIdentifier: 
   speed: 7
-  gravityScale: 1
-  dashSpeed: 0
-  dashTime: 0
+  dashSpeed: 4.34
+  dashDistance: 0.15
+  dashCooldownTime: 0.62
+  dashMaxCounter: 3
