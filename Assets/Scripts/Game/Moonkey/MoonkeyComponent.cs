@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 
@@ -64,6 +65,16 @@ namespace CyberMonk.Game.Moonkey
         private void OnCollisionExit2D(Collision2D collision)
         {
             this._controller.OnCollisionExit2D(collision);
+        }
+        
+        private void OnTriggerEnter2D(Collider2D collider)
+        {
+            this._controller.OnTriggerEnter2D(collider);
+        }
+
+        private void OnTriggerExit2D(Collider2D collider)
+        {
+            this._controller.OnTriggerExit2D(collider);
         }
 
 
