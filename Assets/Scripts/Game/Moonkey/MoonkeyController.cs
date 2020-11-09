@@ -97,6 +97,16 @@ namespace CyberMonk.Game.Moonkey
             this._movementController?.OnCollisionExit2D(collision);
         }
 
+        public void OnTriggerEnter2D(Collider2D collider)
+        {
+            this._attackController?.OnTriggerEnter2D(collider);
+        }
+
+        public void OnTriggerExit2D(Collider2D collider)
+        {
+            this._attackController?.OnTriggerExit2D(collider);
+        }
+
         #endregion
 
         #region static_methods

@@ -62,13 +62,9 @@ namespace CyberMonk.Game.Moonkey
     {
         #region fields
 
-        // TODO: Add Cooldown
-
         protected readonly Rigidbody2D _rigidbody;
         protected readonly MoonkeySettings _settings;
-        protected readonly GameObject _gameObject;
         
-     
         private float _dashTime = 0f;
         private bool _isDashing = false;
 
@@ -105,7 +101,6 @@ namespace CyberMonk.Game.Moonkey
             Debug.Log("constructing movement controller");
             this._rigidbody = controller.Component.GetComponent<Rigidbody2D>();
 
-            this._gameObject = controller.Component.gameObject;
             this._settings = settings;
 
             this._dashCounter = this._settings.DashMaxCounter;

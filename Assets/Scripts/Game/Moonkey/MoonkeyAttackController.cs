@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using UnityEngine;
 
 
@@ -37,6 +38,19 @@ namespace CyberMonk.Game.Moonkey
 
         #endregion
 
+
+        public virtual void OnTriggerEnter2D(Collider2D collider)
+        {
+            if (this._movementController.IsDashing && collider.gameObject.tag == "Zombie")
+            {
+                Debug.Log("Begin attack sequence!");
+            }
+        }
+
+        public virtual void OnTriggerExit2D(Collider2D collider)
+        {
+
+        }
 
     }
 }
