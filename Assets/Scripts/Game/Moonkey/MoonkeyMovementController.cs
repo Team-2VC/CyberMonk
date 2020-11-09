@@ -14,7 +14,6 @@ namespace CyberMonk.Game.Moonkey
     /// </summary>
     public struct DashingData
     {
-        
         private Vector2 finalPosition;
         
         private float lowestDistance;
@@ -64,17 +63,17 @@ namespace CyberMonk.Game.Moonkey
 
         protected readonly Rigidbody2D _rigidbody;
         protected readonly MoonkeySettings _settings;
+
+        private MoonkeyController _controller;
         
         private float _dashTime = 0f;
         private bool _isDashing = false;
 
         private float _dashCooldownTime = 0f;
         private int _dashCounter = 0;
-        private Vector2 _lookDirection = Vector2.zero;
+        private Vector2 _lookDirection = Vector2.right;
 
         
-        private DashingData? _dashingData = null;
-
         private bool _onGround = true;
         private int _jumpBuffer = 0;
         private bool _jumpPressed = false;
@@ -83,44 +82,59 @@ namespace CyberMonk.Game.Moonkey
 
         #endregion
 
-
         #region properties
 
-        public bool Dashing
-            => this._dashingData.HasValue;
-
-        public bool IsDashing => this._isDashing;
+        public bool Dashing 
+            => this._isDashing;
 
         #endregion
-
 
         #region constructor
 
         public MoonkeyMovementController(MoonkeyController controller, MoonkeySettings settings)
         {
-            Debug.Log("constructing movement controller");
+            this._controller = controller;
             this._rigidbody = controller.Component.GetComponent<Rigidbody2D>();
 
             this._settings = settings;
 
             this._dashCounter = this._settings.DashMaxCounter;
             this._dashCooldownTime = this._settings.DashCooldownTime;
-            
-            
         }
 
         #endregion
 
         #region methods
 
+        public void HookEvents()
+        {
+            this._controller.AttackBeginEvent += this.OnAttackBegin;
+        }
+
+        public void UnhookEvents()
+        {
+            this._controller.AttackBeginEvent -= this.OnAttackBegin;
+        }
+
+        private void OnAttackBegin(Zombie.ZombieComponent component)
+        {
+            // TODO: Force the monkey to stop dashing.
+        }
+
         /// <summary>
         /// Called to update the moonkey movement controller.
         /// </summary>
         public virtual void Update()
         {
-            
-            #region jump inputs
+            this.HandleJumping();
+            this.HandleDashing();
+        }
 
+        /// <summary>
+        /// Handles the jumping.
+        /// </summary>
+        private void HandleJumping()
+        {
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 this._jumpPressed = true;
@@ -130,7 +144,6 @@ namespace CyberMonk.Game.Moonkey
             // Buffer jump input so that it feels better to jump if they push early.
             if (this._jumpBuffer >= 0)
             {
-                
                 if (this._onGround && this._jumpPressed)
                 {
                     this.Jump();
@@ -141,13 +154,14 @@ namespace CyberMonk.Game.Moonkey
                 this._jumpBuffer -= 1;
             }
 
-            if(this._isJumping && Input.GetKey(KeyCode.Space))
+            if (this._isJumping && Input.GetKey(KeyCode.Space))
             {
-                if(this._jumpTimeCounter > 0)
+                if (this._jumpTimeCounter > 0)
                 {
                     this.Jump();
                     this._jumpTimeCounter -= Time.deltaTime;
-                } else
+                }
+                else
                 {
                     this._isJumping = false;
                 }
@@ -157,29 +171,29 @@ namespace CyberMonk.Game.Moonkey
             {
                 this._isJumping = false;
             }
+        }
 
-            #endregion 
-
-            if(this._dashCounter < this._settings.DashMaxCounter)
+        /// <summary>
+        /// Handles the dashing of the moonkey.
+        /// </summary>
+        private void HandleDashing()
+        {
+            if (this._dashCounter < this._settings.DashMaxCounter)
             {
                 this._dashCooldownTime -= Time.deltaTime;
-                if(this._dashCooldownTime <= 0)
+                if (this._dashCooldownTime <= 0)
                 {
                     this._dashCounter += 1;
                     this._dashCooldownTime = this._settings.DashCooldownTime;
                 }
             }
 
-            if (Input.GetMouseButtonDown(0) && CanDash())
+            if (Input.GetMouseButtonDown(0) && this.CanDash())
             {
                 this._isDashing = this.Dash();
-                this._dashCounter -= 1; 
-                
+                this._dashCounter -= 1;
             }
-
-            
         }
-
 
         /// <summary>
         /// Updates the physics of the monkey.
@@ -199,11 +213,19 @@ namespace CyberMonk.Game.Moonkey
                 {
                     // Stops Dashing here
                     // TODO: C# Event to stop dashing.
-                    
-                    this._rigidbody.velocity = Vector2.zero;
-                    this._isDashing = false;
+                    this.ForceStopDashing();
                 }
             }
+        }
+
+        /// <summary>
+        /// Forces the moonkey to stop dashing.
+        /// </summary>
+        private void ForceStopDashing()
+        {
+            this._dashTime = 0f;
+            this._rigidbody.velocity = Vector2.zero;
+            this._isDashing = false;
         }
 
         /// <summary>
@@ -229,18 +251,18 @@ namespace CyberMonk.Game.Moonkey
         public virtual bool Dash()
         {
             this._dashTime = this._settings.DashTime;
-
             this._rigidbody.velocity = this._lookDirection * this._settings.DashSpeed;
-            
             return true;            
         }
 
 
+        /// <summary>
+        /// Forces the player to jump.
+        /// </summary>
         public virtual void Jump()
         {
             this._rigidbody.velocity = Vector2.up * this._settings.JumpForce;
         }
-
 
         /// <summary>
         /// Determines whether or not the moonkey can dash.
@@ -252,27 +274,9 @@ namespace CyberMonk.Game.Moonkey
             {
                 return true;
             }
+
             return false;
         }
-
-        /// <summary>
-        /// Called when the dash is finished.
-        /// </summary>
-        protected void OnDashFinished()
-        {
-            this._dashingData = null;
-            this._dashCooldownTime = 0f;
-            this._dashCounter = 0;
-
-            Debug.Log("Dashing has finished");
-
-            if(this._onGround)
-            {
-                this._rigidbody.velocity = Vector2.zero;
-            }
-        }
-
-
 
         public void OnCollisionEnter2D(Collision2D collision)
         {
@@ -281,18 +285,15 @@ namespace CyberMonk.Game.Moonkey
             {
                 this._onGround = true;
             }
-                
         }
 
         public void OnCollisionExit2D(Collision2D collision)
         {
-
             Debug.Log("Collision Exit");
             if(collision.gameObject.tag == "ground")
             {
                 this._onGround = false;
             }
-            
         }
 
         #endregion

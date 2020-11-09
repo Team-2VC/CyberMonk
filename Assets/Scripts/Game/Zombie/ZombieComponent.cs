@@ -28,8 +28,6 @@ namespace CyberMonk.Game.Zombie
         [SerializeField]
         private Utils.Events.GameEvent beatDownEvent;
         [SerializeField]
-        private Utils.References.FloatReference timeBetweenBeats;
-        [SerializeField]
         private Moonkey.Events.MoonkeyFailedAttackEvent failedAttackEvent;
 
         public int BeatCounter
@@ -46,16 +44,12 @@ namespace CyberMonk.Game.Zombie
             set => this.failedAttackEvent = value;
             get => this.failedAttackEvent;
         }
-
-        public float TimeBetweenBeats
-        {
-            get => this.timeBetweenBeats != null ? this.timeBetweenBeats.Value : 0f;
-        }
     }
 
     /// <summary>
     /// The Zombie Component Monobehaviour.
     /// </summary>
+    [RequireComponent(typeof(Rigidbody2D), typeof(Collider2D))]
     public class ZombieComponent : MonoBehaviour
     {
         #region fields

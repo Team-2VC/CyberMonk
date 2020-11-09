@@ -645,6 +645,7 @@ namespace CyberMonk.Game.Zombie
 
             if(this.StateController.OpenForAttack)
             {
+                component.OnBeginAttack(this.Component);
                 this.AttackedEvent(component);
                 return TryZombieAttackOutcome.OUTCOME_SUCCESS;
             }

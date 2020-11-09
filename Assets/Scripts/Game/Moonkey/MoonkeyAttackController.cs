@@ -9,9 +9,10 @@ namespace CyberMonk.Game.Moonkey
     public class MoonkeyAttackController
     {
         #region fields
-        protected readonly MoonkeyMovementController _movementController;
 
+        private MoonkeyController _controller;
         private bool _isDashing;
+        
         #endregion
 
         #region properties
@@ -19,39 +20,41 @@ namespace CyberMonk.Game.Moonkey
         #endregion
 
         #region constructor
+        
         public MoonkeyAttackController(MoonkeyController controller)
         {
-            this._movementController = controller.MovementController;
-            
+            this._controller = controller;
         }
+
         #endregion
 
         #region methods
+
         public virtual void Update()
         {
-            if (this._movementController.IsDashing)
+            /* if (this._controller.MovementController.Dashing)
             {
                 Debug.Log("Is Dashing! from Attack Controller");
-            }   
+            } */  
         }
-
-
-        #endregion
 
 
         public virtual void OnTriggerEnter2D(Collider2D collider)
         {
-            if (this._movementController.IsDashing && collider.gameObject.tag == "Zombie")
+            if (this._controller.MovementController.Dashing)
             {
-                Debug.Log("Begin attack sequence!");
+                Zombie.ZombieComponent component = collider.GetComponent<Zombie.ZombieComponent>();
+                Zombie.TryZombieAttackOutcome? outcome = component?.TryHandleAttack(this._controller.Component);
+                Debug.Log(outcome);
             }
         }
 
         public virtual void OnTriggerExit2D(Collider2D collider)
         {
-
+            // TODO: Implementation.
         }
 
+        #endregion
     }
 }
    

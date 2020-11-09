@@ -18,8 +18,6 @@ namespace CyberMonk.Game.Moonkey
         [SerializeField]
         private MoonkeySettings settings;
 
-        
-        
         private MoonkeyController _controller;
 
         #endregion
@@ -57,21 +55,62 @@ namespace CyberMonk.Game.Moonkey
             this._controller.PhysicsUpdate();
         }
 
+        /// <summary>
+        /// Called when the moonkey component is enabled.
+        /// </summary>
+        private void OnEnable()
+        {
+            this._controller.HookEvents();
+        }
+
+        /// <summary>
+        /// Called when moonkey component is disabled.
+        /// </summary>
+        private void OnDisable()
+        {
+            this._controller.UnhookEvents();
+        }
+
+        /// <summary>
+        /// Called when the moonkey begins an attack.
+        /// </summary>
+        /// <param name="component">The zombie component we are attacking.</param>
+        public void OnBeginAttack(Zombie.ZombieComponent component)
+        {
+            this._controller.OnBeginAttack(component);
+        }
+
+        /// <summary>
+        /// Called when the monkey controler collides with another collision.
+        /// </summary>
+        /// <param name="collision">The collision.</param>
         private void OnCollisionEnter2D(Collision2D collision)
         {
             this._controller.OnCollisionEnter2D(collision);
         }
 
+        /// <summary>
+        /// Called when the monkey controller collides with another collision.
+        /// </summary>
+        /// <param name="collision">The collision.</param>
         private void OnCollisionExit2D(Collision2D collision)
         {
             this._controller.OnCollisionExit2D(collision);
         }
-        
+
+        /// <summary>
+        /// Called when the monkey controller enters a trigger collision.
+        /// </summary>
+        /// <param name="collider">The collision.</param>
         private void OnTriggerEnter2D(Collider2D collider)
         {
             this._controller.OnTriggerEnter2D(collider);
         }
 
+        /// <summary>
+        /// Called when the monkey controller exits trigger collision.
+        /// </summary>
+        /// <param name="collider">The collision.</param>
         private void OnTriggerExit2D(Collider2D collider)
         {
             this._controller.OnTriggerExit2D(collider);
