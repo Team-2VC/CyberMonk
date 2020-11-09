@@ -17,6 +17,6 @@ MonoBehaviour:
   jumpTime: 0.3
   dashSpeed: 50
   dashTime: 0.1
-  dashCooldownTime: 0.62
-  dashMaxCounter: 3
+  dashCooldownTime: 1
+  dashMaxCounter: 2
   inputBufferForFrames: 15
