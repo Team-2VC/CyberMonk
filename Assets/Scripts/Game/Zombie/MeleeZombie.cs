@@ -14,7 +14,7 @@ namespace CyberMonk.Game.Zombie.Melee
         #region fields
 
         private ZombieTargetController _targetController;
-        private int _spawnBeat;
+        private int _attackBeat, _spawnBeat;
 
         #endregion
 
@@ -29,8 +29,9 @@ namespace CyberMonk.Game.Zombie.Melee
             {
                 if(this.References.HasValue)
                 {
-                    return this.References.Value.BeatCounter == this._spawnBeat;
+                    return this.References.Value.BeatCounter != this._attackBeat;
                 }
+                
                 return true;
             }
         }
@@ -43,7 +44,8 @@ namespace CyberMonk.Game.Zombie.Melee
             : base(controller) 
         {
             this._targetController = controller.TargetController;
-            this._spawnBeat = controller.Component.References.BeatCounter;
+            this._spawnBeat = this.References.Value.BeatCounter;
+            this. _attackBeat = (this._spawnBeat + 3) % 4;
         }
 
         #endregion

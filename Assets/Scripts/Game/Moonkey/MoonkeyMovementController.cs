@@ -93,6 +93,8 @@ namespace CyberMonk.Game.Moonkey
         public bool Dashing
             => this._dashingData.HasValue;
 
+        public bool IsDashing => this._isDashing;
+
         #endregion
 
 

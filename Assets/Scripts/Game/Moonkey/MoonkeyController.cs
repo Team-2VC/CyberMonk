@@ -16,6 +16,7 @@ namespace CyberMonk.Game.Moonkey
         private readonly MoonkeyComponent _component;
         private readonly MoonkeySettings _settings;
         private readonly MoonkeyMovementController _movementController;
+        private readonly MoonkeyAttackController _attackController;
 
         #endregion
 
@@ -30,6 +31,10 @@ namespace CyberMonk.Game.Moonkey
         public virtual MoonkeyMovementController MovementController
             => this._movementController;
 
+        public virtual MoonkeyAttackController AttackController
+            => this._attackController;
+
+
         #endregion
 
         #region constructor
@@ -40,6 +45,7 @@ namespace CyberMonk.Game.Moonkey
             this._component = component;
             this._settings = settings;
             this._movementController = new MoonkeyMovementController(this, settings);
+            this._attackController = new MoonkeyAttackController(this);
 
         }
 
@@ -70,6 +76,7 @@ namespace CyberMonk.Game.Moonkey
         public void Update()
         {
             this._movementController?.Update();
+            this._attackController?.Update();
         }
 
         /// <summary>

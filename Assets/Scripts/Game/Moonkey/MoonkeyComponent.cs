@@ -66,6 +66,16 @@ namespace CyberMonk.Game.Moonkey
             this._controller.OnCollisionExit2D(collision);
         }
 
+        private void OnTriggerEnter2D(Collider2D collision)
+        {
+            
+        }
+
+        private void OnTriggerExit2D(Collider2D collision)
+        {
+            
+        }
+
 
         #endregion
     }
