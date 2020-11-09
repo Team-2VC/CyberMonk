@@ -17,15 +17,13 @@ namespace CyberMonk.Game.Moonkey
         [SerializeField]
         private MoonkeySettings settings;
 
-        [SerializeField]
-        private GameObject groundCheck;
+        
         
         private MoonkeyController _controller;
 
         #endregion
 
         #region properties
-        public GameObject GroundCheck;
 
         public MoonkeyController Controller
             => this._controller;

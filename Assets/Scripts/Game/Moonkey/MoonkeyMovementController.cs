@@ -80,9 +80,15 @@ namespace CyberMonk.Game.Moonkey
         private float _floatTime = 0;
         private bool _isFloating = false;
 
+        
         private DashingData? _dashingData = null;
 
         private bool _onGround = true;
+        private int _jumpBuffer = 0;
+        private bool _jumpPressed = false;
+        private bool _isJumping = false;
+        private float _jumpTimeCounter = 0;
+
 
         #endregion
 
@@ -104,6 +110,7 @@ namespace CyberMonk.Game.Moonkey
             this._gameObject = controller.Component.gameObject;
             this._settings = settings;
             this._groundCheck = controller.Component.GroundCheck;
+            
         }
 
         #endregion
@@ -115,11 +122,49 @@ namespace CyberMonk.Game.Moonkey
         /// </summary>
         public virtual void Update()
         {
-            
-            if (this._onGround && Input.GetKeyDown(KeyCode.Space))
+            // Buffer jump input so that it feels better to jump if they push early.
+           
+            if (Input.GetKeyDown(KeyCode.Space))
             {
-                this.Jump();
+                this._jumpPressed = true;
+                
+                this._jumpBuffer = this._settings.InputBufferForFrames;
+                
             }
+
+            if(this._jumpBuffer >= 0)
+            {
+                
+                if (this._onGround && this._jumpPressed)
+                {
+                    this.Jump();
+                    this._isJumping = true;
+                    this._jumpTimeCounter = this._settings.JumpTime;
+                    this._jumpPressed = false;
+                }
+                this._jumpBuffer -= 1;
+            }
+
+            if(this._isJumping && Input.GetKey(KeyCode.Space))
+            {
+                if(this._jumpTimeCounter > 0)
+                {
+                    this.Jump();
+                    this._jumpTimeCounter -= Time.deltaTime;
+                } else
+                {
+                    this._isJumping = false;
+                }
+
+                
+            }
+
+            if (Input.GetKeyUp(KeyCode.Space))
+            {
+                this._isJumping = false;
+            }
+            
+            
 
             if (Input.GetMouseButtonDown(0))
             {
@@ -216,7 +261,7 @@ namespace CyberMonk.Game.Moonkey
         public virtual bool Float()
         {
             this._rigidbody.gravityScale = 0;
-            this._floatTime = 1.5f;
+            this._floatTime = this._settings.FloatTime;
             return true;
         }
 
@@ -225,8 +270,7 @@ namespace CyberMonk.Game.Moonkey
 
         public virtual void Jump()
         {
-            
-            this._rigidbody.AddForce(Vector2.up * this._settings.JumpForce);
+            this._rigidbody.velocity = Vector2.up * this._settings.JumpForce;
         }
 
 
@@ -265,6 +309,8 @@ namespace CyberMonk.Game.Moonkey
                 this._rigidbody.velocity = Vector2.zero;
             }
         }
+
+
 
         public void OnCollisionEnter2D(Collision2D collision)
         {

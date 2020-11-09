@@ -13,8 +13,15 @@ MonoBehaviour:
   m_Name: Moonkey Settings
   m_EditorClassIdentifier: 
   speed: 7
-  jumpForce: 500
-  dashSpeed: 100
+  jumpForce: 10
+  jumpTime: 1
+  dashSpeed: 50
   dashTime: 0.05
   dashCooldownTime: 0.62
   dashMaxCounter: 3
+  floatTime: 0.5
+  groundCheckRadius: 0
+  whatIsGround:
+    serializedVersion: 2
+    m_Bits: 0
+  inputBufferForFrames: 15

@@ -19,6 +19,9 @@ namespace CyberMonk.Game.Moonkey
         private float jumpForce;
 
         [SerializeField]
+        private float jumpTime;
+
+        [SerializeField]
         private float dashSpeed;
 
         [SerializeField]
@@ -40,13 +43,18 @@ namespace CyberMonk.Game.Moonkey
         [SerializeField]
         private LayerMask whatIsGround;
 
+        [SerializeField]
+        private int inputBufferForFrames;
+
         #endregion
 
         #region properties
 
         public float Speed => this.speed;
 
-        public float JumpForce => this.jumpForce; 
+        public float JumpForce => this.jumpForce;
+
+        public float JumpTime => this.jumpTime;
 
         public float DashSpeed => this.dashSpeed;
 
@@ -58,6 +66,8 @@ namespace CyberMonk.Game.Moonkey
             => this.dashMaxCounter;
 
         public float FloatTime => this.floatTime;
+
+        public int InputBufferForFrames => this.inputBufferForFrames;
 
        
        
