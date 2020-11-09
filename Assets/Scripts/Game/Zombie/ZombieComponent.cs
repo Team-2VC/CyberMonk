@@ -7,6 +7,17 @@ namespace CyberMonk.Game.Zombie
 {
 
     /// <summary>
+    /// The types of attack outcomes.
+    /// </summary>
+    public enum ZombieAttackedOutcome
+    {
+        OUTCOME_FAILED_UNKNOWN,
+        OUTCOME_FAILED_PLAYER_ATTACKING,
+        OUTCOME_FAILED_ZOMBIE_ATTACKING,
+        OUTCOME_SUCCESS
+    }
+
+    /// <summary>
     /// Structure that defines the zombie references.
     /// </summary>
     [System.Serializable]
@@ -75,16 +86,12 @@ namespace CyberMonk.Game.Zombie
         /// </summary>
         /// <param name="component">The monkey component trying to attack the zombie.</param>
         /// <returns>True if the zombie component is attacked, false otherwise.</returns>
-        public bool TryHandleAttack(Moonkey.MoonkeyComponent component)
+        public ZombieAttackedOutcome TryHandleAttack(Moonkey.MoonkeyComponent component)
         {
             if(component == null)
             {
-                return false;
+                return ZombieAttackedOutcome.OUTCOME_FAILED_UNKNOWN;
             }
-
-            // TODO: Add check for if player is already attacking a monkey.
-            // TODO: Add check if the zombie is already being attacked
-            // TODO: Other checks
 
             return this._controller.OnMoonkeyAttack(component);
         }

@@ -93,6 +93,7 @@ namespace CyberMonk.Game.Zombie.Target
         {
             if(Input.GetKeyDown(KeyCode.Space) && this.Active)
             {
+                // TODO: Send moonkey punch event.
                 this._pressedTime = System.DateTime.Now;
 
                 if(!this.BeatEntered)

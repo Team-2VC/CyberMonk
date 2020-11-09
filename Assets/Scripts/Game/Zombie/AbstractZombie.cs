@@ -322,7 +322,7 @@ namespace CyberMonk.Game.Zombie
         /// <summary>
         /// Called when all targets are deactivated.
         /// </summary>
-        public event System.Action OnTargetsDeactivated
+        public event System.Action MoonkeyFailedEvent
             = delegate { };
 
         #endregion
@@ -416,7 +416,7 @@ namespace CyberMonk.Game.Zombie
             {
                 // TODO: hook up the targets to the event and damage player.
                 Debug.Log("Damage the player & deactivate targets.");
-                this.OnTargetsDeactivated();
+                this.MoonkeyFailedEvent();
                 this.ResetTargets();
                 return;
             }
@@ -425,7 +425,7 @@ namespace CyberMonk.Game.Zombie
             {
                 // TODO: Hook up the targets to the event and damage player. 
                 Debug.Log("Damage the player & deactivate targets.");
-                this.OnTargetsDeactivated();
+                this.MoonkeyFailedEvent();
                 this.ResetTargets();
                 return;
             }
@@ -638,15 +638,17 @@ namespace CyberMonk.Game.Zombie
         /// </summary>
         /// <param name="component">The moonkey component reference.</param>
         /// <returns>True if the monkey was succesfully attacked, false otherwise.</returns>
-        public virtual bool OnMoonkeyAttack(Moonkey.MoonkeyComponent component)
+        public virtual ZombieAttackedOutcome OnMoonkeyAttack(Moonkey.MoonkeyComponent component)
         {
+            // TODO: Add check for player if its already attacking
+
             if(this.StateController.OpenForAttack)
             {
                 this.AttackedEvent(component);
-                return true;
+                return ZombieAttackedOutcome.OUTCOME_SUCCESS;
             }
 
-            return false;
+            return ZombieAttackedOutcome.OUTCOME_FAILED_ZOMBIE_ATTACKING;
         }
 
         #endregion
