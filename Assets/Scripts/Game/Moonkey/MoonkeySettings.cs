@@ -35,15 +35,6 @@ namespace CyberMonk.Game.Moonkey
         private int dashMaxCounter;
 
         [SerializeField]
-        private float floatTime;
-
-        [SerializeField]
-        private float groundCheckRadius;
-
-        [SerializeField]
-        private LayerMask whatIsGround;
-
-        [SerializeField]
         private int inputBufferForFrames;
 
         #endregion
@@ -62,10 +53,7 @@ namespace CyberMonk.Game.Moonkey
 
         public float DashCooldownTime => this.dashCooldownTime;
 
-        public int DashMaxCounter
-            => this.dashMaxCounter;
-
-        public float FloatTime => this.floatTime;
+        public int DashMaxCounter => this.dashMaxCounter;
 
         public int InputBufferForFrames => this.inputBufferForFrames;
 

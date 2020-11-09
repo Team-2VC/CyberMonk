@@ -74,9 +74,7 @@ namespace CyberMonk.Game.Moonkey
 
         private float _dashCooldownTime = 0f;
         private int _dashCounter = 0;
-
-        private float _floatTime = 0;
-        private bool _isFloating = false;
+        private Vector2 _lookDirection = Vector2.zero;
 
         
         private DashingData? _dashingData = null;
@@ -167,14 +165,9 @@ namespace CyberMonk.Game.Moonkey
             if (Input.GetMouseButtonDown(0))
             {
                 this._isDashing = this.Dash();
-                this._isFloating = this.Float();
             }
 
-            if (Input.GetKeyDown(KeyCode.S))
-            {
-                this._rigidbody.gravityScale = 1;
-                this._isFloating = false;
-            }
+            
         }
 
 
@@ -198,20 +191,11 @@ namespace CyberMonk.Game.Moonkey
                     // TODO: C# Event to stop dashing.
                     
                     this._rigidbody.velocity = Vector2.zero;
-                    this._isFloating = this.Float();
                     this._isDashing = false;
                 }
             }
 
-            if (this._isFloating)
-            {
-                this._floatTime -= Time.fixedDeltaTime;
-                if(this._floatTime <= 0)
-                {
-                    this._rigidbody.gravityScale = 1;
-                    this._isFloating = false;
-                }
-            }
+            
 
 
 
@@ -224,11 +208,13 @@ namespace CyberMonk.Game.Moonkey
         /// <param name="direction">Moves the monkey in the given direction.</param>
         public virtual void Move(Vector2 direction)
         {
-            if(this._isDashing && this._isFloating)
+            if(this._isDashing)
             {
                 return;
             }
+
             this._rigidbody.gravityScale = 1;
+            this._lookDirection = direction.normalized;
             this._rigidbody.velocity = new Vector2((direction.x * this._settings.Speed), this._rigidbody.velocity.y);
         }
 
@@ -238,32 +224,13 @@ namespace CyberMonk.Game.Moonkey
         /// <returns>True if the monkey successfully dashed, false otherwise.</returns>
         public virtual bool Dash()
         {
-            Debug.Log("Dashing");
-            Vector2 mousePos = Vector2.zero;
-            if(Camera.main != null)
-            {
-                mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            }
+            this._dashTime = this._settings.DashTime;
 
-            //v = d/t --> t = d/v time to dash 
-            this._dashTime = Vector2.Distance(mousePos, (Vector2)this._gameObject.transform.position)/this._settings.DashSpeed;
-
-            this._rigidbody.velocity = (mousePos - (Vector2)this._gameObject.transform.position).normalized * this._settings.DashSpeed;
+            this._rigidbody.velocity = this._lookDirection * this._settings.DashSpeed;
             
-            
-            return true;           
-  
+            return true;            
         }
 
-        public virtual bool Float()
-        {
-            this._rigidbody.gravityScale = 0;
-            this._floatTime = this._settings.FloatTime;
-            return true;
-        }
-
-        // TODO: Hold jump to jump higher.
-        // TODO: isGrounded Implementation
 
         public virtual void Jump()
         {
