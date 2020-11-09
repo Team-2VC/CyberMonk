@@ -100,9 +100,10 @@ namespace CyberMonk.Game.Music
 
             if (result != FMOD.RESULT.OK)
             {
-                Debug.LogError("Timeline Callback error: " + result);
+                return FMOD.RESULT.OK;
             }
-            else if (timelineInfoPtr != System.IntPtr.Zero)
+            
+            if (timelineInfoPtr != System.IntPtr.Zero)
             {
                 GCHandle timelineHandle = GCHandle.FromIntPtr(timelineInfoPtr);
                 FModTimelineData timelineInfo = (FModTimelineData)timelineHandle.Target;

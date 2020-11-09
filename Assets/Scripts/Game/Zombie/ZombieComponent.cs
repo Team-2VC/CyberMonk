@@ -16,6 +16,8 @@ namespace CyberMonk.Game.Zombie
         private Utils.References.IntegerReference beatCounter;
         [SerializeField]
         private Utils.Events.GameEvent beatDownEvent;
+        [SerializeField]
+        private Utils.References.FloatReference timeBetweenBeats;
 
         public int BeatCounter
             => this.beatCounter != null ? this.beatCounter.Value : 0;
@@ -24,6 +26,11 @@ namespace CyberMonk.Game.Zombie
         {
             set => this.beatDownEvent = value;
             get => this.beatDownEvent;
+        }
+
+        public float TimeBetweenBeats
+        {
+            get => this.timeBetweenBeats != null ? this.timeBetweenBeats.Value : 0f;
         }
     }
 

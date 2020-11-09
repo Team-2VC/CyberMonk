@@ -163,5 +163,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dde6e48e515041f48b592f593ed35ab3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  beatsActiveCounter: 5
-  beatDownEvent: {fileID: 11400000, guid: d73961cd309650a44b36f0f55ef2d599, type: 2}
+  references:
+    beatDownEvent: {fileID: 11400000, guid: d73961cd309650a44b36f0f55ef2d599, type: 2}
+    timeBetweenBeats:
+      constant: 0
+      constantValue: 0
+      variable: {fileID: 11400000, guid: 1748e5d4caabc1d4dba7d370d23968d3, type: 2}

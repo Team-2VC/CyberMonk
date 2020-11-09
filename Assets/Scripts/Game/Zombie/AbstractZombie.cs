@@ -91,7 +91,10 @@ namespace CyberMonk.Game.Zombie
             private AZombieController _parent;
             private GameObject _prefab;
             private Vector2 _spawnPosition;
+
             private int _targetIndex;
+
+            private TargetComponent _component;
 
             #endregion
 
@@ -106,6 +109,7 @@ namespace CyberMonk.Game.Zombie
                 this._prefab = prefab;
                 this._spawnPosition = position;
                 this._targetIndex = targetIndex;
+                this._component = null;
             }
 
             /// <summary>
@@ -129,6 +133,8 @@ namespace CyberMonk.Game.Zombie
                 {
                     component.SetWrapper(this);
                 }
+
+                this._component = component;
             }
 
             /// <summary>
@@ -137,9 +143,26 @@ namespace CyberMonk.Game.Zombie
             /// <param name="data">The data for why the target was deactivated.</param>
             public void OnDeactivated(DeactivationData data)
             {
-                Debug.Log(this.TargetIndex);
                 this._parent.TargetController.OnDeactivate(
                     this.TargetIndex, data);
+                
+                // Dereference the component.
+                if(this._component != null)
+                {
+                    this._component = null;
+                }
+            }
+
+            /// <summary>
+            /// Forces the target to be deactivated.
+            /// </summary>
+            public void ForceDeactivate()
+            {
+                if(this._component != null)
+                {
+                    this._component.ForceDeactivate();
+                    this._component = null;
+                }
             }
 
             #endregion
@@ -172,16 +195,6 @@ namespace CyberMonk.Game.Zombie
     /// </summary>
     public class ZombieTargetController
     {
-
-        #region events
-
-        /// <summary>
-        /// Called when all targets are deactivated.
-        /// </summary>
-        public event System.Action OnTargetsDeactivated
-            = delegate { };
-
-        #endregion
 
         /// <summary>
         /// Iterates through each target when the targets 
@@ -293,11 +306,27 @@ namespace CyberMonk.Game.Zombie
             /// </summary>
             public void Reset()
             {
+                // Deactivates each of the target wrappers.
+                foreach(ZombieTargetWrapper wrapper in this._targets)
+                {
+                    wrapper.ForceDeactivate();
+                }
+
                 this.currentTarget = -1;
             }
 
             #endregion
         }
+
+        #region events
+
+        /// <summary>
+        /// Called when all targets are deactivated.
+        /// </summary>
+        public event System.Action OnTargetsDeactivated
+            = delegate { };
+
+        #endregion
 
         #region fields
 
@@ -389,6 +418,7 @@ namespace CyberMonk.Game.Zombie
                 // TODO: hook up the targets to the event and damage player.
                 Debug.Log("Damage the player & deactivate targets.");
                 this.OnTargetsDeactivated();
+                this.ResetTargets();
                 return;
             }
 
@@ -397,11 +427,24 @@ namespace CyberMonk.Game.Zombie
                 // TODO: Hook up the targets to the event and damage player. 
                 Debug.Log("Damage the player & deactivate targets.");
                 this.OnTargetsDeactivated();
+                this.ResetTargets();
                 return;
             }
 
             // TODO: check if the target index is the last target 
             this._previousTargetClicked = targetIndex;
+        }
+
+        /// <summary>
+        /// Resets the targets for the zombie.
+        /// </summary>
+        private void ResetTargets()
+        {
+            this._currentTarget = null;
+            this._targetsActive = false;
+            this._previousTargetClicked = -1;
+
+            this._targetsIterator.Reset();
         }
 
         #endregion

@@ -20,22 +20,7 @@ namespace CyberMonk.Game.Zombie.Melee
 
         protected override void OnDownBeat()
         {
-
-            #region test_code
-
-            // TODO: Remove
-
-            if (this._controller.Component != null)
-            {
-                int beatCounter = this._controller.Component.References.BeatCounter;
-
-                if(beatCounter == 3 && !this._targetController.TargetsActive)
-                {
-                    this._targetController.TargetsActive = true;
-                }
-            }
-
-            #endregion
+            // TODO: implement the code for beats
         }
     }
 

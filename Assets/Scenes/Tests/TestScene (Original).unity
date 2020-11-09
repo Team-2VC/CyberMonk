@@ -360,6 +360,11 @@ MonoBehaviour:
     constant: 1
     constantValue: event:/Music
     variable: {fileID: 0}
+  timeBetweenBeats:
+    timeBetweenBeats:
+      constant: 0
+      constantValue: 0
+      variable: {fileID: 11400000, guid: 1748e5d4caabc1d4dba7d370d23968d3, type: 2}
 --- !u!1 &1610978604
 GameObject:
   m_ObjectHideFlags: 0
