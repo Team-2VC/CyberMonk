@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -405,8 +405,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1408278133}
   - component: {fileID: 1408278132}
-  - component: {fileID: 1408278131}
   - component: {fileID: 1408278134}
+  - component: {fileID: 1408278131}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -414,14 +414,20 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!81 &1408278131
-AudioListener:
+--- !u!114 &1408278131
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1408278130}
   m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86c6556701af9e04380698b89f691b6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attenuationObject: {fileID: 0}
+  ListenerNumber: -1
 --- !u!20 &1408278132
 Camera:
   m_ObjectHideFlags: 0
@@ -661,12 +667,12 @@ PrefabInstance:
     - target: {fileID: 1691702501673725080, guid: 79cfea9893fa8ac4788a28aabefbb859,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -6.65
+      value: -4.03
       objectReference: {fileID: 0}
     - target: {fileID: 1691702501673725080, guid: 79cfea9893fa8ac4788a28aabefbb859,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.37
+      value: -0.36
       objectReference: {fileID: 0}
     - target: {fileID: 1691702501673725080, guid: 79cfea9893fa8ac4788a28aabefbb859,
         type: 3}
