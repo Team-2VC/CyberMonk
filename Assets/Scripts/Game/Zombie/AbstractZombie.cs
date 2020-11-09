@@ -185,7 +185,6 @@ namespace CyberMonk.Game.Zombie
     public enum ZombieState
     {
         STATE_DANCING,
-        STATE_IDLE,
         STATE_ATTACKED,
         STATE_LAUNCHED
     }
@@ -455,12 +454,22 @@ namespace CyberMonk.Game.Zombie
     /// </summary>
     public abstract class AZombieStateController
     {
-        // TODO: Implementation.
-
         #region fields
 
         protected ZombieState _state;
         protected readonly AZombieController _controller;
+
+        #endregion
+
+        #region properties
+
+        /// <summary>
+        /// Determines whether the zombie is open for an attack.
+        /// </summary>
+        public abstract bool OpenForAttack
+        {
+            get;
+        }
 
         #endregion
 
@@ -469,7 +478,7 @@ namespace CyberMonk.Game.Zombie
         public AZombieStateController(AZombieController controller)
         {
             this._controller = controller;
-            this._state = ZombieState.STATE_IDLE;
+            this._state = ZombieState.STATE_DANCING;
         }
 
         #endregion
@@ -483,6 +492,7 @@ namespace CyberMonk.Game.Zombie
         {
             ZombieReferences references = this._controller.Component.References;
             references.BeatDownEvent += this.OnDownBeat;
+            this._controller.AttackedEvent += this.OnAttacked;
         }
 
         /// <summary>
@@ -492,12 +502,19 @@ namespace CyberMonk.Game.Zombie
         {
             ZombieReferences references = this._controller.Component.References;
             references.BeatDownEvent -= OnDownBeat;
+            this._controller.AttackedEvent -= this.OnAttacked;
         }
 
         /// <summary>
         /// Handles when a down beat event is applied.
         /// </summary>
         abstract protected void OnDownBeat();
+
+        /// <summary>
+        /// Called when the zombie is attacked.
+        /// </summary>
+        /// <param name="component">The moonkey component.</param>
+        abstract protected void OnAttacked(Moonkey.MoonkeyComponent component);
 
         #endregion
     }
@@ -559,6 +576,9 @@ namespace CyberMonk.Game.Zombie
     {
         #region fields
 
+        public event System.Action<Moonkey.MoonkeyComponent> AttackedEvent
+            = delegate { };
+
         private readonly ZombieComponent _component;
         private readonly ZombieType _type;
         private readonly ZombieTargetController _targetController;
@@ -611,6 +631,22 @@ namespace CyberMonk.Game.Zombie
         {
             this.StateController?.UnHookEvents();
             this.TargetController.UnHookEvents();
+        }
+
+        /// <summary>
+        /// Called when the moonkey component attacks this zombie.
+        /// </summary>
+        /// <param name="component">The moonkey component reference.</param>
+        /// <returns>True if the monkey was succesfully attacked, false otherwise.</returns>
+        public virtual bool OnMoonkeyAttack(Moonkey.MoonkeyComponent component)
+        {
+            if(this.StateController.OpenForAttack)
+            {
+                this.AttackedEvent(component);
+                return true;
+            }
+
+            return false;
         }
 
         #endregion

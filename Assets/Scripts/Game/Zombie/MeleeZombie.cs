@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using CyberMonk.Game.Moonkey;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,18 +11,60 @@ namespace CyberMonk.Game.Zombie.Melee
     public class MeleeZombieStateController : AZombieStateController
     {
 
+        #region fields
+
         private ZombieTargetController _targetController;
+        private int _spawnBeat;
+
+        #endregion
+
+        #region properties
+
+        public ZombieReferences? References
+            => this._controller?.Component.References;
+
+        public override bool OpenForAttack
+        {
+            get
+            {
+                if(this.References.HasValue)
+                {
+                    return this.References.Value.BeatCounter == this._spawnBeat;
+                }
+                return true;
+            }
+        }
+
+        #endregion
+
+        #region constructor
 
         public MeleeZombieStateController(MeleeZombieController controller)
             : base(controller) 
         {
             this._targetController = controller.TargetController;
+            this._spawnBeat = controller.Component.References.BeatCounter;
         }
+
+        #endregion
+
+        #region methods
 
         protected override void OnDownBeat()
         {
-            // TODO: implement the code for beats
+            if(this._state == ZombieState.STATE_ATTACKED
+                && !this._targetController.TargetsActive)
+            {
+                this._targetController.TargetsActive = true;
+            }
         }
+
+        protected override void OnAttacked(MoonkeyComponent component)
+        {
+            this._state = ZombieState.STATE_ATTACKED;
+        }
+
+        #endregion
     }
 
     /// <summary>

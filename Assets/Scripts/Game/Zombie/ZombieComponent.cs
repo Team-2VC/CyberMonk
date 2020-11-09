@@ -70,6 +70,26 @@ namespace CyberMonk.Game.Zombie
         }
 
         /// <summary>
+        /// Called to find out whether or not the monkey component
+        /// can attack the zombie.
+        /// </summary>
+        /// <param name="component">The monkey component trying to attack the zombie.</param>
+        /// <returns>True if the zombie component is attacked, false otherwise.</returns>
+        public bool TryHandleAttack(Moonkey.MoonkeyComponent component)
+        {
+            if(component == null)
+            {
+                return false;
+            }
+
+            // TODO: Add check for if player is already attacking a monkey.
+            // TODO: Add check if the zombie is already being attacked
+            // TODO: Other checks
+
+            return this._controller.OnMoonkeyAttack(component);
+        }
+
+        /// <summary>
         /// Called when the zombie component is enabled.
         /// </summary>
         private void OnEnable()
