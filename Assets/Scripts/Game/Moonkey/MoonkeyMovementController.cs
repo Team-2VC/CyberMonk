@@ -67,10 +67,8 @@ namespace CyberMonk.Game.Moonkey
         protected readonly Rigidbody2D _rigidbody;
         protected readonly MoonkeySettings _settings;
         protected readonly GameObject _gameObject;
-
-        protected readonly GameObject _groundCheck;
-
-        private Vector2 _lookDirection = Vector2.right;
+        
+     
         private float _dashTime = 0f;
         private bool _isDashing = false;
 
@@ -109,7 +107,7 @@ namespace CyberMonk.Game.Moonkey
 
             this._gameObject = controller.Component.gameObject;
             this._settings = settings;
-            this._groundCheck = controller.Component.GroundCheck;
+            
             
         }
 
@@ -122,17 +120,17 @@ namespace CyberMonk.Game.Moonkey
         /// </summary>
         public virtual void Update()
         {
-            // Buffer jump input so that it feels better to jump if they push early.
-           
+            
+            #region jump inputs
+
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 this._jumpPressed = true;
-                
                 this._jumpBuffer = this._settings.InputBufferForFrames;
-                
             }
 
-            if(this._jumpBuffer >= 0)
+            // Buffer jump input so that it feels better to jump if they push early.
+            if (this._jumpBuffer >= 0)
             {
                 
                 if (this._onGround && this._jumpPressed)
@@ -155,16 +153,16 @@ namespace CyberMonk.Game.Moonkey
                 {
                     this._isJumping = false;
                 }
-
-                
             }
 
             if (Input.GetKeyUp(KeyCode.Space))
             {
                 this._isJumping = false;
             }
-            
-            
+
+            #endregion 
+
+
 
             if (Input.GetMouseButtonDown(0))
             {
@@ -177,8 +175,8 @@ namespace CyberMonk.Game.Moonkey
                 this._rigidbody.gravityScale = 1;
                 this._isFloating = false;
             }
-
         }
+
 
         /// <summary>
         /// Updates the physics of the monkey.
@@ -231,7 +229,6 @@ namespace CyberMonk.Game.Moonkey
                 return;
             }
             this._rigidbody.gravityScale = 1;
-            this._lookDirection = new Vector2(direction.normalized.x, 0f);
             this._rigidbody.velocity = new Vector2((direction.x * this._settings.Speed), this._rigidbody.velocity.y);
         }
 
