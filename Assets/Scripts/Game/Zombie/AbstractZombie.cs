@@ -317,16 +317,6 @@ namespace CyberMonk.Game.Zombie
             #endregion
         }
 
-        #region events
-
-        /// <summary>
-        /// Called when all targets are deactivated.
-        /// </summary>
-        public event System.Action MoonkeyFailedEvent
-            = delegate { };
-
-        #endregion
-
         #region fields
 
         private bool _targetsActive = false;
@@ -416,8 +406,8 @@ namespace CyberMonk.Game.Zombie
             {
                 // TODO: hook up the targets to the event and damage player.
                 Debug.Log("Damage the player & deactivate targets.");
-                this.MoonkeyFailedEvent();
                 this.ResetTargets();
+                this.CallMoonkeyFailedTargets();
                 return;
             }
 
@@ -425,8 +415,8 @@ namespace CyberMonk.Game.Zombie
             {
                 // TODO: Hook up the targets to the event and damage player. 
                 Debug.Log("Damage the player & deactivate targets.");
-                this.MoonkeyFailedEvent();
                 this.ResetTargets();
+                this.CallMoonkeyFailedTargets();
                 return;
             }
 
@@ -444,6 +434,17 @@ namespace CyberMonk.Game.Zombie
             this._previousTargetClicked = -1;
 
             this._targetsIterator.Reset();
+        }
+
+        /// <summary>
+        /// Calls the monkey failed targets event.
+        /// </summary>
+        private void CallMoonkeyFailedTargets()
+        {
+            if (this.references.HasValue)
+            {
+                this.references.Value.FailedAttackEvent?.Call(this._controller.Component);
+            }
         }
 
         #endregion
@@ -638,17 +639,17 @@ namespace CyberMonk.Game.Zombie
         /// </summary>
         /// <param name="component">The moonkey component reference.</param>
         /// <returns>True if the monkey was succesfully attacked, false otherwise.</returns>
-        public virtual ZombieAttackedOutcome OnMoonkeyAttack(Moonkey.MoonkeyComponent component)
+        public virtual TryZombieAttackOutcome OnMoonkeyAttack(Moonkey.MoonkeyComponent component)
         {
             // TODO: Add check for player if its already attacking
 
             if(this.StateController.OpenForAttack)
             {
                 this.AttackedEvent(component);
-                return ZombieAttackedOutcome.OUTCOME_SUCCESS;
+                return TryZombieAttackOutcome.OUTCOME_SUCCESS;
             }
 
-            return ZombieAttackedOutcome.OUTCOME_FAILED_ZOMBIE_ATTACKING;
+            return TryZombieAttackOutcome.OUTCOME_FAILED_ZOMBIE_ATTACKING;
         }
 
         #endregion

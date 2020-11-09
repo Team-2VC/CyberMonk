@@ -10,7 +10,6 @@ namespace CyberMonk.Game.Zombie.Melee
     /// </summary>
     public class MeleeZombieStateController : AZombieStateController
     {
-
         #region fields
 
         private ZombieTargetController _targetController;
@@ -74,7 +73,6 @@ namespace CyberMonk.Game.Zombie.Melee
     /// </summary>
     public class MeleeZombieController : AZombieController
     {
-
         #region fields
 
         private readonly MeleeZombieStateController _stateController;

@@ -9,7 +9,7 @@ namespace CyberMonk.Game.Zombie
     /// <summary>
     /// The types of attack outcomes.
     /// </summary>
-    public enum ZombieAttackedOutcome
+    public enum TryZombieAttackOutcome
     {
         OUTCOME_FAILED_UNKNOWN,
         OUTCOME_FAILED_PLAYER_ATTACKING,
@@ -29,6 +29,8 @@ namespace CyberMonk.Game.Zombie
         private Utils.Events.GameEvent beatDownEvent;
         [SerializeField]
         private Utils.References.FloatReference timeBetweenBeats;
+        [SerializeField]
+        private Moonkey.Events.MoonkeyFailedAttackEvent failedAttackEvent;
 
         public int BeatCounter
             => this.beatCounter != null ? this.beatCounter.Value : 0;
@@ -37,6 +39,12 @@ namespace CyberMonk.Game.Zombie
         {
             set => this.beatDownEvent = value;
             get => this.beatDownEvent;
+        }
+
+        public Moonkey.Events.MoonkeyFailedAttackEvent FailedAttackEvent
+        {
+            set => this.failedAttackEvent = value;
+            get => this.failedAttackEvent;
         }
 
         public float TimeBetweenBeats
@@ -86,11 +94,11 @@ namespace CyberMonk.Game.Zombie
         /// </summary>
         /// <param name="component">The monkey component trying to attack the zombie.</param>
         /// <returns>True if the zombie component is attacked, false otherwise.</returns>
-        public ZombieAttackedOutcome TryHandleAttack(Moonkey.MoonkeyComponent component)
+        public TryZombieAttackOutcome TryHandleAttack(Moonkey.MoonkeyComponent component)
         {
             if(component == null)
             {
-                return ZombieAttackedOutcome.OUTCOME_FAILED_UNKNOWN;
+                return TryZombieAttackOutcome.OUTCOME_FAILED_UNKNOWN;
             }
 
             return this._controller.OnMoonkeyAttack(component);
