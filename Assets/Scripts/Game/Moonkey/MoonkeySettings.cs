@@ -19,6 +19,9 @@ namespace CyberMonk.Game.Moonkey
         private float jumpForce;
 
         [SerializeField]
+        private float jumpTime;
+
+        [SerializeField]
         private float dashSpeed;
 
         [SerializeField]
@@ -31,13 +34,18 @@ namespace CyberMonk.Game.Moonkey
         [Tooltip("The maximum number of times that the dash button could be spammed while in the air.")]
         private int dashMaxCounter;
 
+        [SerializeField]
+        private int inputBufferForFrames;
+
         #endregion
 
         #region properties
 
         public float Speed => this.speed;
 
-        public float JumpForce => this.jumpForce; 
+        public float JumpForce => this.jumpForce;
+
+        public float JumpTime => this.jumpTime;
 
         public float DashSpeed => this.dashSpeed;
 
@@ -45,8 +53,12 @@ namespace CyberMonk.Game.Moonkey
 
         public float DashCooldownTime => this.dashCooldownTime;
 
-        public int DashMaxCounter
-            => this.dashMaxCounter;
+        public int DashMaxCounter => this.dashMaxCounter;
+
+        public int InputBufferForFrames => this.inputBufferForFrames;
+
+       
+       
 
 
         #endregion

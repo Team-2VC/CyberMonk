@@ -66,17 +66,25 @@ namespace CyberMonk.Game.Moonkey
 
         protected readonly Rigidbody2D _rigidbody;
         protected readonly MoonkeySettings _settings;
-        protected GameObject _gameObject;
-
-        private Vector2 _lookDirection = Vector2.right;
+        protected readonly GameObject _gameObject;
+        
+     
         private float _dashTime = 0f;
         private bool _isDashing = false;
 
         private float _dashCooldownTime = 0f;
         private int _dashCounter = 0;
+        private Vector2 _lookDirection = Vector2.zero;
+
+        
         private DashingData? _dashingData = null;
 
         private bool _onGround = true;
+        private int _jumpBuffer = 0;
+        private bool _jumpPressed = false;
+        private bool _isJumping = false;
+        private float _jumpTimeCounter = 0;
+
 
         #endregion
 
@@ -97,6 +105,8 @@ namespace CyberMonk.Game.Moonkey
 
             this._gameObject = controller.Component.gameObject;
             this._settings = settings;
+            
+            
         }
 
         #endregion
@@ -108,44 +118,88 @@ namespace CyberMonk.Game.Moonkey
         /// </summary>
         public virtual void Update()
         {
+            
+            #region jump inputs
+
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                this.Jump();
+                this._jumpPressed = true;
+                this._jumpBuffer = this._settings.InputBufferForFrames;
             }
+
+            // Buffer jump input so that it feels better to jump if they push early.
+            if (this._jumpBuffer >= 0)
+            {
+                
+                if (this._onGround && this._jumpPressed)
+                {
+                    this.Jump();
+                    this._isJumping = true;
+                    this._jumpTimeCounter = this._settings.JumpTime;
+                    this._jumpPressed = false;
+                }
+                this._jumpBuffer -= 1;
+            }
+
+            if(this._isJumping && Input.GetKey(KeyCode.Space))
+            {
+                if(this._jumpTimeCounter > 0)
+                {
+                    this.Jump();
+                    this._jumpTimeCounter -= Time.deltaTime;
+                } else
+                {
+                    this._isJumping = false;
+                }
+            }
+
+            if (Input.GetKeyUp(KeyCode.Space))
+            {
+                this._isJumping = false;
+            }
+
+            #endregion 
+
+
 
             if (Input.GetMouseButtonDown(0))
             {
                 this._isDashing = this.Dash();
             }
 
-            if (this._isDashing)
-            {
-                this._dashTime -= Time.deltaTime;
-                if(this._dashTime <= 0)
-                {
-                    // Stops Dashing here
-                    // TODO: C# Event to stop dashing.
-                    this._rigidbody.velocity = Vector2.zero;
-                    this._isDashing = false;
-
-                }
-            }
             
         }
+
 
         /// <summary>
         /// Updates the physics of the monkey.
         /// </summary>
         public virtual void PhysicsUpdate()
         {
-           
-
             float horizontalAxis = Input.GetAxis("Horizontal");
             if (Mathf.Abs(horizontalAxis) > 0)
             {
                 this.Move(Vector2.right * horizontalAxis);
             }
-           
+
+            if (this._isDashing)
+            {
+                this._dashTime -= Time.fixedDeltaTime;
+                if (this._dashTime <= 0)
+                {
+                    // Stops Dashing here
+                    // TODO: C# Event to stop dashing.
+                    
+                    this._rigidbody.velocity = Vector2.zero;
+                    this._isDashing = false;
+                }
+            }
+
+            
+
+
+
+
         }
 
         /// <summary>
@@ -159,9 +213,9 @@ namespace CyberMonk.Game.Moonkey
                 return;
             }
 
-            this._lookDirection = new Vector2(direction.normalized.x, 0f);
-            this._rigidbody.velocity = direction * this._settings.Speed 
-                + new Vector2(0f, this._rigidbody.velocity.y);
+            this._rigidbody.gravityScale = 1;
+            this._lookDirection = direction.normalized;
+            this._rigidbody.velocity = new Vector2((direction.x * this._settings.Speed), this._rigidbody.velocity.y);
         }
 
         /// <summary>
@@ -170,26 +224,17 @@ namespace CyberMonk.Game.Moonkey
         /// <returns>True if the monkey successfully dashed, false otherwise.</returns>
         public virtual bool Dash()
         {
-            Debug.Log("Dashing");
-            Vector2 mousePos = Vector2.zero;
-            if(Camera.main != null)
-            {
-                mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            }
-
-            this._rigidbody.velocity = (mousePos - (Vector2)this._gameObject.transform.position).normalized * this._settings.DashSpeed;
             this._dashTime = this._settings.DashTime;
-            return true;           
-  
+
+            this._rigidbody.velocity = this._lookDirection * this._settings.DashSpeed;
+            
+            return true;            
         }
 
-        // TODO: Hold jump to jump higher.
-        // TODO: isGrounded Implementation
 
         public virtual void Jump()
         {
-            
-            this._rigidbody.AddForce(Vector2.up * this._settings.JumpForce);
+            this._rigidbody.velocity = Vector2.up * this._settings.JumpForce;
         }
 
 
@@ -229,8 +274,33 @@ namespace CyberMonk.Game.Moonkey
             }
         }
 
+
+
+        public void OnCollisionEnter2D(Collision2D collision)
+        {
+            Debug.Log("Collision Enter");
+            if(collision.gameObject.tag == "ground")
+            {
+                this._onGround = true;
+            }
+                
+        }
+
+        public void OnCollisionExit2D(Collision2D collision)
+        {
+
+            Debug.Log("Collision Exit");
+            if(collision.gameObject.tag == "ground")
+            {
+                this._onGround = false;
+            }
+            
+        }
+
         #endregion
 
+
+        
 
     }
 }

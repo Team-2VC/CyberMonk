@@ -16,12 +16,15 @@ namespace CyberMonk.Game.Moonkey
         
         [SerializeField]
         private MoonkeySettings settings;
+
+        
         
         private MoonkeyController _controller;
 
         #endregion
 
         #region properties
+
         public MoonkeyController Controller
             => this._controller;
 
@@ -51,6 +54,16 @@ namespace CyberMonk.Game.Moonkey
         private void FixedUpdate()
         {
             this._controller.PhysicsUpdate();
+        }
+
+        private void OnCollisionEnter2D(Collision2D collision)
+        {
+            this._controller.OnCollisionEnter2D(collision);
+        }
+
+        private void OnCollisionExit2D(Collision2D collision)
+        {
+            this._controller.OnCollisionExit2D(collision);
         }
 
 

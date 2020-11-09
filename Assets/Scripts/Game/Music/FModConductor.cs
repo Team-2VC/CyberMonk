@@ -46,6 +46,8 @@ namespace CyberMonk.Game.Music
         private void OnEnable()
         {
             this.LoadConductor();
+
+
         }
 
         /// <summary>
