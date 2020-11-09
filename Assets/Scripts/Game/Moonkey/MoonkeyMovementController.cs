@@ -66,7 +66,9 @@ namespace CyberMonk.Game.Moonkey
 
         protected readonly Rigidbody2D _rigidbody;
         protected readonly MoonkeySettings _settings;
-        protected GameObject _gameObject;
+        protected readonly GameObject _gameObject;
+
+        protected readonly GameObject _groundCheck;
 
         private Vector2 _lookDirection = Vector2.right;
         private float _dashTime = 0f;
@@ -74,6 +76,10 @@ namespace CyberMonk.Game.Moonkey
 
         private float _dashCooldownTime = 0f;
         private int _dashCounter = 0;
+
+        private float _floatTime = 0;
+        private bool _isFloating = false;
+
         private DashingData? _dashingData = null;
 
         private bool _onGround = true;
@@ -97,6 +103,7 @@ namespace CyberMonk.Game.Moonkey
 
             this._gameObject = controller.Component.gameObject;
             this._settings = settings;
+            this._groundCheck = controller.Component.GroundCheck;
         }
 
         #endregion
@@ -108,7 +115,8 @@ namespace CyberMonk.Game.Moonkey
         /// </summary>
         public virtual void Update()
         {
-            if (Input.GetKeyDown(KeyCode.Space))
+            
+            if (this._onGround && Input.GetKeyDown(KeyCode.Space))
             {
                 this.Jump();
             }
@@ -116,21 +124,15 @@ namespace CyberMonk.Game.Moonkey
             if (Input.GetMouseButtonDown(0))
             {
                 this._isDashing = this.Dash();
+                this._isFloating = this.Float();
             }
 
-            if (this._isDashing)
+            if (Input.GetKeyDown(KeyCode.S))
             {
-                this._dashTime -= Time.deltaTime;
-                if(this._dashTime <= 0)
-                {
-                    // Stops Dashing here
-                    // TODO: C# Event to stop dashing.
-                    this._rigidbody.velocity = Vector2.zero;
-                    this._isDashing = false;
-
-                }
+                this._rigidbody.gravityScale = 1;
+                this._isFloating = false;
             }
-            
+
         }
 
         /// <summary>
@@ -138,14 +140,39 @@ namespace CyberMonk.Game.Moonkey
         /// </summary>
         public virtual void PhysicsUpdate()
         {
-           
-
             float horizontalAxis = Input.GetAxis("Horizontal");
             if (Mathf.Abs(horizontalAxis) > 0)
             {
                 this.Move(Vector2.right * horizontalAxis);
             }
-           
+
+            if (this._isDashing)
+            {
+                this._dashTime -= Time.fixedDeltaTime;
+                if (this._dashTime <= 0)
+                {
+                    // Stops Dashing here
+                    // TODO: C# Event to stop dashing.
+                    
+                    this._rigidbody.velocity = Vector2.zero;
+                    this._isFloating = this.Float();
+                    this._isDashing = false;
+                }
+            }
+
+            if (this._isFloating)
+            {
+                this._floatTime -= Time.fixedDeltaTime;
+                if(this._floatTime <= 0)
+                {
+                    this._rigidbody.gravityScale = 1;
+                    this._isFloating = false;
+                }
+            }
+
+
+
+
         }
 
         /// <summary>
@@ -154,14 +181,13 @@ namespace CyberMonk.Game.Moonkey
         /// <param name="direction">Moves the monkey in the given direction.</param>
         public virtual void Move(Vector2 direction)
         {
-            if(this._isDashing)
+            if(this._isDashing && this._isFloating)
             {
                 return;
             }
-
+            this._rigidbody.gravityScale = 1;
             this._lookDirection = new Vector2(direction.normalized.x, 0f);
-            this._rigidbody.velocity = direction * this._settings.Speed 
-                + new Vector2(0f, this._rigidbody.velocity.y);
+            this._rigidbody.velocity = new Vector2((direction.x * this._settings.Speed), this._rigidbody.velocity.y);
         }
 
         /// <summary>
@@ -177,10 +203,21 @@ namespace CyberMonk.Game.Moonkey
                 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             }
 
+            //v = d/t --> t = d/v time to dash 
+            this._dashTime = Vector2.Distance(mousePos, (Vector2)this._gameObject.transform.position)/this._settings.DashSpeed;
+
             this._rigidbody.velocity = (mousePos - (Vector2)this._gameObject.transform.position).normalized * this._settings.DashSpeed;
-            this._dashTime = this._settings.DashTime;
+            
+            
             return true;           
   
+        }
+
+        public virtual bool Float()
+        {
+            this._rigidbody.gravityScale = 0;
+            this._floatTime = 1.5f;
+            return true;
         }
 
         // TODO: Hold jump to jump higher.
@@ -229,8 +266,31 @@ namespace CyberMonk.Game.Moonkey
             }
         }
 
+        public void OnCollisionEnter2D(Collision2D collision)
+        {
+            Debug.Log("Collision Enter");
+            if(collision.gameObject.tag == "ground")
+            {
+                this._onGround = true;
+            }
+                
+        }
+
+        public void OnCollisionExit2D(Collision2D collision)
+        {
+
+            Debug.Log("Collision Exit");
+            if(collision.gameObject.tag == "ground")
+            {
+                this._onGround = false;
+            }
+            
+        }
+
         #endregion
 
+
+        
 
     }
 }

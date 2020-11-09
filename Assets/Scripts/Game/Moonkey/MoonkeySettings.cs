@@ -31,6 +31,15 @@ namespace CyberMonk.Game.Moonkey
         [Tooltip("The maximum number of times that the dash button could be spammed while in the air.")]
         private int dashMaxCounter;
 
+        [SerializeField]
+        private float floatTime;
+
+        [SerializeField]
+        private float groundCheckRadius;
+
+        [SerializeField]
+        private LayerMask whatIsGround;
+
         #endregion
 
         #region properties
@@ -47,6 +56,11 @@ namespace CyberMonk.Game.Moonkey
 
         public int DashMaxCounter
             => this.dashMaxCounter;
+
+        public float FloatTime => this.floatTime;
+
+       
+       
 
 
         #endregion
