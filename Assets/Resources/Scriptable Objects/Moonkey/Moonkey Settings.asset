@@ -14,14 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 7
   jumpForce: 10
-  jumpTime: 1
+  jumpTime: 0.3
   dashSpeed: 50
-  dashTime: 0.05
+  dashTime: 0.1
   dashCooldownTime: 0.62
   dashMaxCounter: 3
-  floatTime: 0.5
-  groundCheckRadius: 0
-  whatIsGround:
-    serializedVersion: 2
-    m_Bits: 0
   inputBufferForFrames: 15

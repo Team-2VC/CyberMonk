@@ -85,8 +85,8 @@ namespace CyberMonk.Game.Moonkey
         private bool _isJumping = false;
         private float _jumpTimeCounter = 0;
 
-
         #endregion
+
 
         #region properties
 
@@ -105,6 +105,9 @@ namespace CyberMonk.Game.Moonkey
 
             this._gameObject = controller.Component.gameObject;
             this._settings = settings;
+
+            this._dashCounter = this._settings.DashMaxCounter;
+            this._dashCooldownTime = this._settings.DashCooldownTime;
             
             
         }
@@ -160,11 +163,21 @@ namespace CyberMonk.Game.Moonkey
 
             #endregion 
 
+            if(this._dashCounter < this._settings.DashMaxCounter)
+            {
+                this._dashCooldownTime -= Time.deltaTime;
+                if(this._dashCooldownTime <= 0)
+                {
+                    this._dashCounter += 1;
+                    this._dashCooldownTime = this._settings.DashCooldownTime;
+                }
+            }
 
-
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButtonDown(0) && CanDash())
             {
                 this._isDashing = this.Dash();
+                this._dashCounter -= 1; 
+                
             }
 
             
@@ -194,12 +207,6 @@ namespace CyberMonk.Game.Moonkey
                     this._isDashing = false;
                 }
             }
-
-            
-
-
-
-
         }
 
         /// <summary>
@@ -244,17 +251,11 @@ namespace CyberMonk.Game.Moonkey
         /// <returns>True if the monkey can dash, false otherwise.</returns>
         protected bool CanDash()
         {
-            if(this._dashCounter > this._settings.DashMaxCounter)
+            if(this._dashCounter > 0)
             {
-                return false;
+                return true;
             }
-
-            if(this._dashCooldownTime <= this._settings.DashCooldownTime && this.Dashing)
-            {
-                return false;
-            }
-
-            return true;
+            return false;
         }
 
         /// <summary>
