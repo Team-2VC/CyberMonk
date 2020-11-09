@@ -60,7 +60,7 @@ namespace CyberMonk.Game.Moonkey
         /// </summary>
         private void OnEnable()
         {
-            this._controller.HookEvents();
+            this._controller?.HookEvents();
         }
 
         /// <summary>
@@ -68,7 +68,7 @@ namespace CyberMonk.Game.Moonkey
         /// </summary>
         private void OnDisable()
         {
-            this._controller.UnhookEvents();
+            this._controller?.UnhookEvents();
         }
 
         /// <summary>

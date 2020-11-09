@@ -47,12 +47,11 @@ namespace CyberMonk.Game.Moonkey
 
         public MoonkeyController(MoonkeyComponent component, MoonkeySettings settings )
         {
-            Debug.Log("constructing controller class");
             this._component = component;
             this._settings = settings;
             this._movementController = new MoonkeyMovementController(this, settings);
             this._attackController = new MoonkeyAttackController(this);
-
+            this._stateController = new MoonkeyStateController(this);
         }
 
         #endregion
@@ -65,7 +64,7 @@ namespace CyberMonk.Game.Moonkey
         /// </summary>
         public void HookEvents()
         {
-            this._stateController.HookEvents();
+            this._stateController?.HookEvents();
         }
 
         /// <summary>
@@ -73,7 +72,7 @@ namespace CyberMonk.Game.Moonkey
         /// </summary>
         public void UnhookEvents()
         {
-            this._stateController.UnHookEvents();
+            this._stateController?.UnHookEvents();
         }
 
         /// <summary>
