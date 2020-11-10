@@ -13,39 +13,40 @@ namespace CyberMonk.Game.Moonkey
         #region fields
 
         [SerializeField]
-        private float speed;
+        private float movementSpeed = default;
 
         [SerializeField]
-        private float jumpForce;
+        private float jumpForce = default;
+
+        [SerializeField, Tooltip("Represents the amount of time the player can use to boost their jump.")]
+        private float maxJumpBoostTime = default;
 
         [SerializeField]
-        private float jumpTime;
+        private float dashSpeed = default;
 
         [SerializeField]
-        private float dashSpeed;
+        private float dashTime = default;
 
         [SerializeField]
-        private float dashTime;
-
-        [SerializeField]
-        private float dashCooldownTime;
+        private float dashCooldownTime = default;
 
         [SerializeField, Range(1, 10)]
         [Tooltip("The maximum number of times that the dash button could be spammed while in the air.")]
-        private int dashMaxCounter;
+        private int dashMaxCounter = default;
 
         [SerializeField]
-        private int inputBufferForFrames;
+        private int inputBufferForFrames = default;
 
         #endregion
 
         #region properties
 
-        public float Speed => this.speed;
+        public float Speed => this.movementSpeed;
 
         public float JumpForce => this.jumpForce;
 
-        public float JumpTime => this.jumpTime;
+        public float MaxJumpBoostTime
+            => this.maxJumpBoostTime;
 
         public float DashSpeed => this.dashSpeed;
 
@@ -56,9 +57,6 @@ namespace CyberMonk.Game.Moonkey
         public int DashMaxCounter => this.dashMaxCounter;
 
         public int InputBufferForFrames => this.inputBufferForFrames;
-
-       
-       
 
 
         #endregion

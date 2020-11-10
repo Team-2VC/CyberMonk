@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -265,6 +265,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   settings: {fileID: 11400000, guid: b36cd13a165a8e84aa0977501028a220, type: 2}
+  references:
+    attackFinishedEvent: {fileID: 11400000, guid: e5243558e8135144a974cb0629343659,
+      type: 2}
 --- !u!1 &945356714
 GameObject:
   m_ObjectHideFlags: 0
@@ -672,7 +675,7 @@ PrefabInstance:
     - target: {fileID: 1691702501673725080, guid: 79cfea9893fa8ac4788a28aabefbb859,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.36
+      value: -2.46
       objectReference: {fileID: 0}
     - target: {fileID: 1691702501673725080, guid: 79cfea9893fa8ac4788a28aabefbb859,
         type: 3}
@@ -724,5 +727,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: ZombieTest
       objectReference: {fileID: 0}
+    - target: {fileID: 1691702501673725083, guid: 79cfea9893fa8ac4788a28aabefbb859,
+        type: 3}
+      propertyPath: references.attackFinishedEvent
+      value: 
+      objectReference: {fileID: 11400000, guid: e5243558e8135144a974cb0629343659,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 79cfea9893fa8ac4788a28aabefbb859, type: 3}

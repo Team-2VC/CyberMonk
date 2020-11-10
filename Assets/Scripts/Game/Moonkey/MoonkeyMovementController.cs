@@ -10,53 +10,8 @@ namespace CyberMonk.Game.Moonkey
 {
 
     /// <summary>
-    /// Contains the data for dashing.
+    /// Handles the moonkey movement.
     /// </summary>
-    public struct DashingData
-    {
-        private Vector2 finalPosition;
-        
-        private float lowestDistance;
-
-        public Vector2 FinalPosition
-            => this.finalPosition;
-
-        public DashingData(Vector2 initalPosition, Vector2 lookDirection, float distance)
-        {
-            this.finalPosition = new Vector2(
-                initalPosition.x + (lookDirection.x * distance), initalPosition.y);
-            
-            this.lowestDistance = float.MaxValue;
-        }
-
-        /// <summary>
-        /// Updates the position of the data.
-        /// </summary>
-        /// <param name="currentPosition">The current position.</param>
-        /// <param name="direction">The jump direction.</param>
-        /// <param name="speed">The speed of the monkey.</param>
-        /// <returns>True if it has reached the final position, false otherwise.</returns>
-        public bool UpdatePosition(Vector2 currentPosition, Vector2 direction, float speed)
-        {
-            Vector2 nextTranslation = direction * speed * Time.deltaTime;
-            Vector2 nextPosition = (Vector2)currentPosition + nextTranslation;
-
-            float distance = Vector2.Distance(nextPosition, this.finalPosition);
-
-            if(distance < this.lowestDistance)
-            {
-                this.lowestDistance = distance;
-            }
-
-            if(distance > this.lowestDistance)
-            {
-                return true;
-            }
-
-            return false;
-        }
-    }
-
     public class MoonkeyMovementController
     {
         #region fields
@@ -67,30 +22,57 @@ namespace CyberMonk.Game.Moonkey
         private MoonkeyController _controller;
         
         private float _dashTime = 0f;
-        private bool _isDashing = false;
-
         private float _dashCooldownTime = 0f;
         private int _dashCounter = 0;
+
         private Vector2 _lookDirection = Vector2.right;
 
-        
-        private bool _onGround = true;
         private int _jumpBuffer = 0;
-        private bool _jumpPressed = false;
-        private bool _isJumping = false;
-        private float _jumpTimeCounter = 0;
+        // The time for the jump boost.
+        private float _jumpBoostTimeCounter = 0f;
+
+        private bool _onGround = true;
 
         #endregion
 
         #region properties
 
+        // TODO: Reference user input.
+        protected bool JumpPressed
+            => Input.GetKeyDown(KeyCode.Space);
+
+        // TODO: Reference user input.
+        protected bool JumpBoostPressed
+            => Input.GetKey(KeyCode.Space);
+
+        // TODO: Reference user input.
+        protected bool DashPressed
+            => Input.GetMouseButtonDown(0);
+
+        /// <summary>
+        /// Determines whether the moonkey's jump can be boosted.
+        /// </summary>
+        protected bool BoostJump
+            => this._jumpBoostTimeCounter > 0f && this.JumpBoostPressed;
+
         public bool Dashing 
-            => this._isDashing;
+            => this._dashTime > 0f;
+
+        /// <summary>
+        /// Determines whether the monkey is on the ground.
+        /// </summary>
+        public bool OnGround
+            => this._onGround;
 
         #endregion
 
         #region constructor
-
+        
+        /// <summary>
+        /// The Moonkey movement controller.
+        /// </summary>
+        /// <param name="controller">The moonkey controller reference.</param>
+        /// <param name="settings">The moonkey settings.</param>
         public MoonkeyMovementController(MoonkeyController controller, MoonkeySettings settings)
         {
             this._controller = controller;
@@ -111,14 +93,19 @@ namespace CyberMonk.Game.Moonkey
             this._controller.AttackBeginEvent += this.OnAttackBegin;
         }
 
-        public void UnhookEvents()
+        public void UnHookEvents()
         {
             this._controller.AttackBeginEvent -= this.OnAttackBegin;
         }
 
         private void OnAttackBegin(Zombie.ZombieComponent component)
         {
+            Debug.Log("Moonkey begins attacking - MoonkeyMovementController");
             // TODO: Force the monkey to stop dashing.
+            if(this.Dashing)
+            {
+                this.ForceStopDashing();
+            }
         }
 
         /// <summary>
@@ -126,50 +113,52 @@ namespace CyberMonk.Game.Moonkey
         /// </summary>
         public virtual void Update()
         {
-            this.HandleJumping();
+            this.HandleJumpingInput();
             this.HandleDashing();
         }
 
         /// <summary>
-        /// Handles the jumping.
+        /// Handles the jumping input.
         /// </summary>
-        private void HandleJumping()
+        private void HandleJumpingInput()
         {
-            if (Input.GetKeyDown(KeyCode.Space))
+            if(this.JumpPressed)
             {
-                this._jumpPressed = true;
                 this._jumpBuffer = this._settings.InputBufferForFrames;
             }
 
-            // Buffer jump input so that it feels better to jump if they push early.
-            if (this._jumpBuffer >= 0)
+            if(this._onGround)
             {
-                if (this._onGround && this._jumpPressed)
-                {
-                    this.Jump();
-                    this._isJumping = true;
-                    this._jumpTimeCounter = this._settings.JumpTime;
-                    this._jumpPressed = false;
-                }
-                this._jumpBuffer -= 1;
+                this.DecrementJumpBuffer();
+                return;
             }
 
-            if (this._isJumping && Input.GetKey(KeyCode.Space))
+            if(this._jumpBoostTimeCounter > 0f)
             {
-                if (this._jumpTimeCounter > 0)
+                this._jumpBoostTimeCounter -= Time.deltaTime;
+
+                if(this._jumpBoostTimeCounter <= 0f)
                 {
-                    this.Jump();
-                    this._jumpTimeCounter -= Time.deltaTime;
-                }
-                else
-                {
-                    this._isJumping = false;
+                    this._jumpBoostTimeCounter = 0f;
                 }
             }
 
-            if (Input.GetKeyUp(KeyCode.Space))
+            this.DecrementJumpBuffer();
+        }
+
+        /// <summary>
+        /// Decrements the jump buffer.
+        /// </summary>
+        private void DecrementJumpBuffer()
+        {
+            if(this._jumpBuffer > 0)
             {
-                this._isJumping = false;
+                this._jumpBuffer--;
+
+                if(this._jumpBuffer <= 0)
+                {
+                    this._jumpBuffer = 0;
+                }
             }
         }
 
@@ -183,15 +172,14 @@ namespace CyberMonk.Game.Moonkey
                 this._dashCooldownTime -= Time.deltaTime;
                 if (this._dashCooldownTime <= 0)
                 {
-                    this._dashCounter += 1;
+                    this._dashCounter++;
                     this._dashCooldownTime = this._settings.DashCooldownTime;
                 }
             }
 
-            if (Input.GetMouseButtonDown(0) && this.CanDash())
+            if (this.DashPressed && this.CanDash())
             {
-                this._isDashing = this.Dash();
-                this._dashCounter -= 1;
+                this.Dash();
             }
         }
 
@@ -206,9 +194,22 @@ namespace CyberMonk.Game.Moonkey
                 this.Move(Vector2.right * horizontalAxis);
             }
 
-            if (this._isDashing)
+            // Handles the jumping.
+            if(this.CanJump())
+            {
+                this.Jump();
+            }
+            // Applies a jump boost if the moonkey isn't on ground.
+            else if (this.BoostJump && !this._onGround)
+            {
+                // Applies a jump boost.
+                this.ApplyJumpBoost();
+            }
+
+            if (this.Dashing)
             {
                 this._dashTime -= Time.fixedDeltaTime;
+                
                 if (this._dashTime <= 0)
                 {
                     // Stops Dashing here
@@ -225,7 +226,6 @@ namespace CyberMonk.Game.Moonkey
         {
             this._dashTime = 0f;
             this._rigidbody.velocity = Vector2.zero;
-            this._isDashing = false;
         }
 
         /// <summary>
@@ -234,34 +234,42 @@ namespace CyberMonk.Game.Moonkey
         /// <param name="direction">Moves the monkey in the given direction.</param>
         public virtual void Move(Vector2 direction)
         {
-            if(this._isDashing)
+            if(this.Dashing)
             {
                 return;
             }
 
-            this._rigidbody.gravityScale = 1;
             this._lookDirection = direction.normalized;
             this._rigidbody.velocity = new Vector2((direction.x * this._settings.Speed), this._rigidbody.velocity.y);
         }
 
         /// <summary>
-        /// Called to make the moonkey dash.
+        /// Determines whether the Moonkey can jump.
         /// </summary>
-        /// <returns>True if the monkey successfully dashed, false otherwise.</returns>
-        public virtual bool Dash()
+        /// <returns>True if the monkey can jump, false otherwise.</returns>
+        protected bool CanJump()
         {
-            this._dashTime = this._settings.DashTime;
-            this._rigidbody.velocity = this._lookDirection * this._settings.DashSpeed;
-            return true;            
+            return (this._jumpBuffer > 0 || this.JumpPressed) && this._onGround;
         }
-
 
         /// <summary>
         /// Forces the player to jump.
         /// </summary>
         public virtual void Jump()
         {
-            this._rigidbody.velocity = Vector2.up * this._settings.JumpForce;
+            this._jumpBoostTimeCounter = this._settings.MaxJumpBoostTime;
+            Vector2 currentVelocity = this._rigidbody.velocity;
+            this._rigidbody.velocity = new Vector2(currentVelocity.x, this._settings.JumpForce);
+        }
+
+        /// <summary>
+        /// Applies a jump boost to the player.
+        /// </summary>
+        protected virtual void ApplyJumpBoost()
+        {
+            // TODO: Possibly add a jump boost force variable?
+            Vector2 currentVelocity = this._rigidbody.velocity;
+            this._rigidbody.velocity = new Vector2(currentVelocity.x, this._settings.JumpForce);
         }
 
         /// <summary>
@@ -278,18 +286,36 @@ namespace CyberMonk.Game.Moonkey
             return false;
         }
 
+        /// <summary>
+        /// Called to make the moonkey dash.
+        /// </summary>
+        /// <returns>True if the monkey successfully dashed, false otherwise.</returns>
+        public virtual void Dash()
+        {
+            this._dashTime = this._settings.DashTime;
+            this._rigidbody.velocity = this._lookDirection * this._settings.DashSpeed;
+            this._dashCounter--;
+        }
+
+        /// <summary>
+        /// Called when the moonkey has entered a collision.
+        /// </summary>
+        /// <param name="collision">The collision entered.</param>
         public void OnCollisionEnter2D(Collision2D collision)
         {
-            Debug.Log("Collision Enter");
             if(collision.gameObject.tag == "ground")
             {
                 this._onGround = true;
+                // TODO: landing event
             }
         }
 
+        /// <summary>
+        /// Called when the moonkey has exited a collision.
+        /// </summary>
+        /// <param name="collision">The collision exited.</param>
         public void OnCollisionExit2D(Collision2D collision)
         {
-            Debug.Log("Collision Exit");
             if(collision.gameObject.tag == "ground")
             {
                 this._onGround = false;
@@ -297,9 +323,5 @@ namespace CyberMonk.Game.Moonkey
         }
 
         #endregion
-
-
-        
-
     }
 }

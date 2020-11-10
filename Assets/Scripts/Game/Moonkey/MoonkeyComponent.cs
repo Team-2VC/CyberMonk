@@ -8,6 +8,28 @@ namespace CyberMonk.Game.Moonkey
 {
 
     /// <summary>
+    /// The list of moonkey references.
+    /// </summary>
+    [System.Serializable]
+    public struct MoonkeyReferences
+    {
+        [SerializeField]
+        private Events.MoonkeyAttackEvent attackFinishedEvent;
+
+        public Events.MoonkeyAttackEvent AttackFinishedEvent
+        {
+            get => this.attackFinishedEvent;
+            set
+            {
+                if(this.attackFinishedEvent != null)
+                {
+                    this.attackFinishedEvent = value;
+                }
+            }
+        }
+    }
+
+    /// <summary>
     /// Moonkey Component Monobehaviour
     /// </summary>
     [RequireComponent(typeof(Rigidbody2D), typeof(Collider2D))]
@@ -17,6 +39,8 @@ namespace CyberMonk.Game.Moonkey
         
         [SerializeField]
         private MoonkeySettings settings;
+        [SerializeField]
+        private MoonkeyReferences references;
 
         private MoonkeyController _controller;
 
@@ -26,6 +50,9 @@ namespace CyberMonk.Game.Moonkey
 
         public MoonkeyController Controller
             => this._controller;
+
+        public MoonkeyReferences References
+            => this.references;
 
         #endregion
 

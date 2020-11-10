@@ -15,6 +15,9 @@ namespace CyberMonk.Game.Moonkey
 
         public event System.Action<ZombieComponent> AttackBeginEvent
             = delegate { };
+
+        public event System.Action<ZombieComponent, AttackOutcome> AttackFinishedEvent
+            = delegate { };
         
         private readonly MoonkeyComponent _component;
         private readonly MoonkeySettings _settings;
@@ -64,7 +67,16 @@ namespace CyberMonk.Game.Moonkey
         /// </summary>
         public void HookEvents()
         {
+            MoonkeyReferences? references = this.Component?.References;
+            if (references.HasValue)
+            {
+                MoonkeyReferences @ref = references.Value;
+                @ref.AttackFinishedEvent += this.OnAttack;
+            }
+
             this._stateController?.HookEvents();
+            this._movementController?.HookEvents();
+            this._attackController?.HookEvents();
         }
 
         /// <summary>
@@ -72,7 +84,16 @@ namespace CyberMonk.Game.Moonkey
         /// </summary>
         public void UnhookEvents()
         {
+            MoonkeyReferences? references = this.Component?.References;
+            if (references.HasValue)
+            {
+                MoonkeyReferences @ref = references.Value;
+                @ref.AttackFinishedEvent -= this.OnAttack;
+            }
+
             this._stateController?.UnHookEvents();
+            this._movementController?.UnHookEvents();
+            this._attackController?.UnHookEvents();
         }
 
         /// <summary>
@@ -85,11 +106,34 @@ namespace CyberMonk.Game.Moonkey
         }
 
         /// <summary>
+        /// Called when the moonkey failed to complete its attack sequence.
+        /// </summary>
+        /// <param name="moonkey">The monkey component.</param>
+        /// <param name="component">The zombie component we are calling.</param>
+        /// <param name="outcome">The attack outcome.</param>
+        private void OnAttack(MoonkeyComponent moonkey, Zombie.ZombieComponent component, AttackOutcome outcome)
+        {
+            // Don't do anything if the attacked zombie isn't equivalent to the current zombie
+            // we are attacking.
+            if(moonkey == null || this.Component != moonkey)
+            {
+                return;
+            }
+
+            this.AttackFinishedEvent(component, outcome);
+        }
+
+        /// <summary>
         /// Updates the monkey.
         /// </summary>
         public void Update()
         {
-            this._movementController?.Update();
+            // Updates the movement of the monkey only if the monkey is in a moving state.
+            if(this._stateController.State == MoonkeyState.STATE_MOVING)
+            {
+                this._movementController?.Update();
+            }
+
             this._attackController?.Update();
         }
 
@@ -98,7 +142,11 @@ namespace CyberMonk.Game.Moonkey
         /// </summary>
         public void PhysicsUpdate()
         {
-            this._movementController?.PhysicsUpdate();
+            // Updates the movement of the monkey only if the monkey is in a moving state.
+            if (this._stateController.State == MoonkeyState.STATE_MOVING)
+            {
+                this._movementController?.PhysicsUpdate();
+            }
         }
         
         /// <summary>

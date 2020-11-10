@@ -189,6 +189,12 @@ namespace CyberMonk.Game.Zombie
         STATE_LAUNCHED
     }
 
+    public enum AttackOutcome
+    {
+        OUTCOME_FAILED,
+        OUTCOME_SUCCESS
+    }
+
     /// <summary>
     /// Controls how the targets are handled for each zombie.
     /// </summary>
@@ -209,6 +215,26 @@ namespace CyberMonk.Game.Zombie
             private int currentTarget;
 
             private AZombieController _parent;
+
+            #endregion
+
+            #region properties
+
+            /// <summary>
+            /// Gets the last target in the iterator.
+            /// </summary>
+            public Target.ZombieTargetWrapper Last
+            {
+                get
+                {
+                    if(this._targets.Count <= 0)
+                    {
+                        return null;
+                    }
+
+                    return this._targets[this._targets.Count - 1];
+                }
+            }
 
             #endregion
 
@@ -319,6 +345,9 @@ namespace CyberMonk.Game.Zombie
 
         #region fields
 
+        public event System.Action<AttackOutcome> AttackEndEvent
+            = delegate { };
+
         private bool _targetsActive = false;
         private TargetsIterator _targetsIterator;
 
@@ -420,7 +449,12 @@ namespace CyberMonk.Game.Zombie
                 return;
             }
 
-            // TODO: check if the target index is the last target 
+            if(this._targetsIterator.Last != null && this._targetsIterator.Last.TargetIndex == targetIndex)
+            {
+                this.CallMoonkeyFinishAttack();
+                return;
+            }
+
             this._previousTargetClicked = targetIndex;
         }
 
@@ -441,10 +475,15 @@ namespace CyberMonk.Game.Zombie
         /// </summary>
         private void CallMoonkeyFailedTargets()
         {
-            if (this.references.HasValue)
-            {
-                this.references.Value.FailedAttackEvent?.Call(this._controller.Component);
-            }
+            this.AttackEndEvent(AttackOutcome.OUTCOME_FAILED);
+        }
+
+        /// <summary>
+        /// Calls the moonkey finish attack event.
+        /// </summary>
+        private void CallMoonkeyFinishAttack()
+        {
+            this.AttackEndEvent(AttackOutcome.OUTCOME_SUCCESS);
         }
 
         #endregion
@@ -494,6 +533,7 @@ namespace CyberMonk.Game.Zombie
             ZombieReferences references = this._controller.Component.References;
             references.BeatDownEvent += this.OnDownBeat;
             this._controller.AttackedEvent += this.OnAttacked;
+            this._controller.AttackEndEvent += this.OnAttackEnd;
         }
 
         /// <summary>
@@ -504,6 +544,7 @@ namespace CyberMonk.Game.Zombie
             ZombieReferences references = this._controller.Component.References;
             references.BeatDownEvent -= OnDownBeat;
             this._controller.AttackedEvent -= this.OnAttacked;
+            this._controller.AttackEndEvent -= this.OnAttackEnd;
         }
 
         /// <summary>
@@ -516,6 +557,12 @@ namespace CyberMonk.Game.Zombie
         /// </summary>
         /// <param name="component">The moonkey component.</param>
         abstract protected void OnAttacked(Moonkey.MoonkeyComponent component);
+
+        /// <summary>
+        /// Called when the attack has ended.
+        /// </summary>
+        /// <param name="outcome">The attack outcome.</param>
+        abstract protected void OnAttackEnd(AttackOutcome outcome);
 
         #endregion
     }
@@ -579,6 +626,12 @@ namespace CyberMonk.Game.Zombie
 
         public event System.Action<Moonkey.MoonkeyComponent> AttackedEvent
             = delegate { };
+
+        public event System.Action<AttackOutcome> AttackEndEvent
+        {
+            add => this._targetController.AttackEndEvent += value;
+            remove => this._targetController.AttackEndEvent -= value;
+        }
 
         private readonly ZombieComponent _component;
         private readonly ZombieType _type;

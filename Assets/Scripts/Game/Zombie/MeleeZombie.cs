@@ -15,6 +15,8 @@ namespace CyberMonk.Game.Zombie.Melee
         private ZombieTargetController _targetController;
         private int _attackBeat, _spawnBeat;
 
+        private MoonkeyComponent _attacker = null;
+
         #endregion
 
         #region properties
@@ -62,7 +64,39 @@ namespace CyberMonk.Game.Zombie.Melee
 
         protected override void OnAttacked(MoonkeyComponent component)
         {
+            if(this._attacker == null)
+            {
+                this._attacker = component;
+            }
+
             this._state = ZombieState.STATE_ATTACKED;
+        }
+
+        protected override void OnAttackEnd(AttackOutcome outcome)
+        {
+            if(outcome == AttackOutcome.OUTCOME_FAILED)
+            {
+                if(this.References.HasValue)
+                {
+                    this.References.Value.AttackFinishedEvent?.Call(this._attacker, this._controller.Component, outcome);
+                }
+
+                this._attacker = null;
+                this._state = ZombieState.STATE_DANCING;
+                return;
+            }
+            
+            if (this.References.HasValue)
+            {
+                this.References.Value.AttackFinishedEvent?.Call(this._attacker, this._controller.Component, outcome);
+            }
+
+            this._attacker = null;
+            this._state = ZombieState.STATE_LAUNCHED;
+ 
+            // TODO: event where the zombie is launched
+            // For now it just destroys the object
+            GameObject.Destroy(this._controller.Component.gameObject);
         }
 
         #endregion

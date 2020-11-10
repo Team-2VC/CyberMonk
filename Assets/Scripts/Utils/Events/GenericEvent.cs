@@ -11,7 +11,7 @@ namespace CyberMonk.Utils.Events
     public class GenericEvent<T> : ScriptableObject
     {
 
-        private event System.Action<T> gameEvent
+        protected event System.Action<T> gameEvent
             = delegate { };
 
         /// <summary>

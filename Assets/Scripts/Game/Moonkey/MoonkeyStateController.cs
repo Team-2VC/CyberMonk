@@ -9,7 +9,7 @@ namespace CyberMonk.Game.Moonkey
     /// <summary>
     /// The Monkey State.
     /// </summary>
-    public enum MonkeyState
+    public enum MoonkeyState
     {
         STATE_MOVING,
         STATE_ATTACKING,
@@ -25,14 +25,14 @@ namespace CyberMonk.Game.Moonkey
 
         #region fields
 
-        private MonkeyState _state;
+        private MoonkeyState _state;
         private MoonkeyController _controller;
 
         #endregion
 
         #region properties
 
-        public MonkeyState State
+        public MoonkeyState State
             => this._state;
 
         #endregion
@@ -54,6 +54,7 @@ namespace CyberMonk.Game.Moonkey
         public void HookEvents()
         {
             this._controller.AttackBeginEvent += this.OnBeginAttack;
+            this._controller.AttackFinishedEvent += this.OnFinishedAttack;
         }
 
         /// <summary>
@@ -62,6 +63,7 @@ namespace CyberMonk.Game.Moonkey
         public void UnHookEvents()
         {
             this._controller.AttackBeginEvent -= this.OnBeginAttack;
+            this._controller.AttackFinishedEvent -= this.OnFinishedAttack;
         }
 
         /// <summary>
@@ -71,7 +73,19 @@ namespace CyberMonk.Game.Moonkey
         private void OnBeginAttack(Zombie.ZombieComponent component)
         {
             // TODO: 
-            this._state = MonkeyState.STATE_ATTACKING;
+            this._state = MoonkeyState.STATE_ATTACKING;
+        }
+
+        /// <summary>
+        /// Called when the attack has failed.
+        /// </summary>
+        /// <param name="component">The zombie component.</param>
+        /// <param name="outcome">The attack outcome.</param>
+        private void OnFinishedAttack(Zombie.ZombieComponent component, Zombie.AttackOutcome outcome)
+        {
+            // TODO: damage the health & state based on outcome.
+
+            this._state = MoonkeyState.STATE_MOVING;
         }
 
         #endregion

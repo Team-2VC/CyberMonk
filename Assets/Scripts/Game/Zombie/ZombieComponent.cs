@@ -28,7 +28,7 @@ namespace CyberMonk.Game.Zombie
         [SerializeField]
         private Utils.Events.GameEvent beatDownEvent;
         [SerializeField]
-        private Moonkey.Events.MoonkeyFailedAttackEvent failedAttackEvent;
+        private Moonkey.Events.MoonkeyAttackEvent attackFinishedEvent;
 
         public int BeatCounter
             => this.beatCounter != null ? this.beatCounter.Value : 0;
@@ -39,10 +39,10 @@ namespace CyberMonk.Game.Zombie
             get => this.beatDownEvent;
         }
 
-        public Moonkey.Events.MoonkeyFailedAttackEvent FailedAttackEvent
+        public Moonkey.Events.MoonkeyAttackEvent AttackFinishedEvent
         {
-            set => this.failedAttackEvent = value;
-            get => this.failedAttackEvent;
+            set => this.attackFinishedEvent = value;
+            get => this.attackFinishedEvent;
         }
     }
 
