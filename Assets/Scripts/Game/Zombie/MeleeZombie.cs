@@ -72,7 +72,7 @@ namespace CyberMonk.Game.Zombie.Melee
             this._state = ZombieState.STATE_ATTACKED;
         }
 
-        protected override void OnAttackEnd(AttackOutcome outcome)
+        protected override void OnAttack(AttackOutcome outcome)
         {
             if(outcome == AttackOutcome.OUTCOME_FAILED)
             {
@@ -83,6 +83,16 @@ namespace CyberMonk.Game.Zombie.Melee
 
                 this._attacker = null;
                 this._state = ZombieState.STATE_DANCING;
+                return;
+            }
+
+            if(outcome == AttackOutcome.OUTCOME_NORMAL)
+            {
+                if (this.References.HasValue)
+                {
+                    this.References.Value.AttackFinishedEvent?.Call(this._attacker, this._controller.Component, outcome);
+                }
+
                 return;
             }
             

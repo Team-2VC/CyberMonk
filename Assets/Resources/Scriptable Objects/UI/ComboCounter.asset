@@ -9,14 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2020adf1779913047bdf0e435e9edc9d, type: 3}
-  m_Name: Moonkey Settings
+  m_Script: {fileID: 11500000, guid: 7e5c6aad60e8fa94baba340c38fab2f8, type: 3}
+  m_Name: ComboCounter
   m_EditorClassIdentifier: 
-  movementSpeed: 7
-  jumpForce: 10
-  maxJumpBoostTime: 0.3
-  dashSpeed: 50
-  dashTime: 0.1
-  dashCooldownTime: 1
-  dashMaxCounter: 2
-  inputBufferForFrames: 11
+  value: 2

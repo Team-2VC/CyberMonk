@@ -16,6 +16,15 @@ namespace CyberMonk.Game.Moonkey
         [SerializeField]
         private Events.MoonkeyAttackEvent attackFinishedEvent;
 
+        [SerializeField]
+        private Utils.References.IntegerReference comboCounter;
+
+        [SerializeField]
+        private Utils.References.IntegerReference comboMultiplier;
+
+        [SerializeField]
+        private Utils.References.IntegerReference totalScore;
+
         public Events.MoonkeyAttackEvent AttackFinishedEvent
         {
             get => this.attackFinishedEvent;
@@ -24,6 +33,44 @@ namespace CyberMonk.Game.Moonkey
                 if(this.attackFinishedEvent != null)
                 {
                     this.attackFinishedEvent = value;
+                }
+            }
+        }
+        
+
+        // TODO: When null this thing makes the whole Unity unusable.
+        public int ComboCounter
+        {
+            get => this.comboCounter != null ? this.comboCounter.Value : 0;
+            set
+            {
+                if(this.comboCounter != null)
+                {
+                    this.comboCounter.Value = value;
+                }
+            }
+        }
+
+        public int ComboMultiplier
+        {
+            get => this.comboMultiplier != null ? this.comboMultiplier.Value : 0;
+            set
+            {
+                if (this.comboMultiplier != null)
+                {
+                    this.comboMultiplier.Value = value;
+                }
+            }
+        }
+
+        public int TotalScore
+        {
+            get => this.totalScore != null ? this.totalScore.Value : 0;
+            set
+            {
+                if (this.totalScore != null)
+                {
+                    this.totalScore.Value = value;
                 }
             }
         }

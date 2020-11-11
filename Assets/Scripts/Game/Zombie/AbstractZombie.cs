@@ -346,7 +346,7 @@ namespace CyberMonk.Game.Zombie
 
         #region fields
 
-        public event System.Action<AttackOutcome> AttackEndEvent
+        public event System.Action<AttackOutcome> AttackEvent
             = delegate { };
 
         private bool _targetsActive = false;
@@ -457,6 +457,10 @@ namespace CyberMonk.Game.Zombie
             }
 
             this._previousTargetClicked = targetIndex;
+
+            this.AttackEvent(AttackOutcome.OUTCOME_NORMAL);
+
+
         }
 
         /// <summary>
@@ -476,7 +480,7 @@ namespace CyberMonk.Game.Zombie
         /// </summary>
         private void CallMoonkeyFailedTargets()
         {
-            this.AttackEndEvent(AttackOutcome.OUTCOME_FAILED);
+            this.AttackEvent(AttackOutcome.OUTCOME_FAILED);
         }
 
         /// <summary>
@@ -484,7 +488,7 @@ namespace CyberMonk.Game.Zombie
         /// </summary>
         private void CallMoonkeyFinishAttack()
         {
-            this.AttackEndEvent(AttackOutcome.OUTCOME_SUCCESS);
+            this.AttackEvent(AttackOutcome.OUTCOME_SUCCESS);
         }
 
         #endregion
@@ -534,7 +538,7 @@ namespace CyberMonk.Game.Zombie
             ZombieReferences references = this._controller.Component.References;
             references.BeatDownEvent += this.OnDownBeat;
             this._controller.AttackedEvent += this.OnAttacked;
-            this._controller.AttackEndEvent += this.OnAttackEnd;
+            this._controller.AttackEndEvent += this.OnAttack;
         }
 
         /// <summary>
@@ -545,7 +549,7 @@ namespace CyberMonk.Game.Zombie
             ZombieReferences references = this._controller.Component.References;
             references.BeatDownEvent -= OnDownBeat;
             this._controller.AttackedEvent -= this.OnAttacked;
-            this._controller.AttackEndEvent -= this.OnAttackEnd;
+            this._controller.AttackEndEvent -= this.OnAttack;
         }
 
         /// <summary>
@@ -563,7 +567,7 @@ namespace CyberMonk.Game.Zombie
         /// Called when the attack has ended.
         /// </summary>
         /// <param name="outcome">The attack outcome.</param>
-        abstract protected void OnAttackEnd(AttackOutcome outcome);
+        abstract protected void OnAttack(AttackOutcome outcome);
 
         #endregion
     }
@@ -630,8 +634,8 @@ namespace CyberMonk.Game.Zombie
 
         public event System.Action<AttackOutcome> AttackEndEvent
         {
-            add => this._targetController.AttackEndEvent += value;
-            remove => this._targetController.AttackEndEvent -= value;
+            add => this._targetController.AttackEvent += value;
+            remove => this._targetController.AttackEvent -= value;
         }
 
         private readonly ZombieComponent _component;

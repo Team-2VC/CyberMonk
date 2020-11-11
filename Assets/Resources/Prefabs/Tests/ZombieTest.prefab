@@ -150,5 +150,5 @@ MonoBehaviour:
       constantValue: 0
       variable: {fileID: 11400000, guid: d50f134e000ce614b8873ed998976472, type: 2}
     beatDownEvent: {fileID: 11400000, guid: d73961cd309650a44b36f0f55ef2d599, type: 2}
-    failedAttackEvent: {fileID: 11400000, guid: f3c922b8f566fee44b47e0a161721f47,
+    attackFinishedEvent: {fileID: 11400000, guid: e5243558e8135144a974cb0629343659,
       type: 2}

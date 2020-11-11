@@ -12,6 +12,7 @@ namespace CyberMonk.Game.Moonkey
 
         private MoonkeyController _controller;
         private Zombie.ZombieComponent _attackedZombieComponent = null;
+        private MoonkeyReferences _references;
 
         #endregion
 
@@ -27,6 +28,8 @@ namespace CyberMonk.Game.Moonkey
         public MoonkeyAttackController(MoonkeyController controller)
         {
             this._controller = controller;
+            this._references = controller.Component.References;
+            
         }
 
         #endregion
@@ -39,7 +42,7 @@ namespace CyberMonk.Game.Moonkey
         public virtual void HookEvents()
         {
             this._controller.AttackBeginEvent += this.OnBeginAttack;
-            this._controller.AttackFinishedEvent += this.OnAttackFinished;
+            this._controller.AttackFinishedEvent += this.OnAttack;
         }
 
         /// <summary>
@@ -48,7 +51,7 @@ namespace CyberMonk.Game.Moonkey
         public virtual void UnHookEvents()
         {
             this._controller.AttackBeginEvent -= this.OnBeginAttack;
-            this._controller.AttackFinishedEvent -= this.OnAttackFinished;
+            this._controller.AttackFinishedEvent -= this.OnAttack;
         }
 
         public virtual void Update() { }
@@ -77,9 +80,28 @@ namespace CyberMonk.Game.Moonkey
         /// </summary>
         /// <param name="zombieComponent">The zombie failed attack event.</param>
         /// <param name="outcome">The zombie attack outcome.</param>
-        private void OnAttackFinished(Zombie.ZombieComponent component, Zombie.AttackOutcome outcome)
+        private void OnAttack(Zombie.ZombieComponent component, Zombie.AttackOutcome outcome)
         {
-            this._attackedZombieComponent = null;
+            
+            if(outcome == Zombie.AttackOutcome.OUTCOME_FAILED)
+            {
+                this._attackedZombieComponent = null;
+                this._references.ComboCounter = 0;
+                this._references.ComboMultiplier = 1;
+            } else if(outcome == Zombie.AttackOutcome.OUTCOME_SUCCESS)
+            {
+                this._references.ComboMultiplier *= 2;
+                this._attackedZombieComponent = null;
+            } else if(outcome == Zombie.AttackOutcome.OUTCOME_NORMAL)
+            {
+                this._references.ComboCounter += 1;
+                this._references.TotalScore += 100 * this._references.ComboMultiplier;
+                
+            }
+
+            Debug.Log(this._references.ComboCounter);
+
+
         }
 
         public virtual void OnTriggerExit2D(Collider2D collider) { }
