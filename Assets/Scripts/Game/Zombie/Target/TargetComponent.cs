@@ -91,9 +91,11 @@ namespace CyberMonk.Game.Zombie.Target
         /// </summary>
         private void OnMouseOver()
         {
-            if(Input.GetKeyDown(KeyCode.Space) && this.Active)
+            if(Input.GetKeyDown(KeyCode.W) && this.Active)
             {
                 // TODO: Send moonkey punch event.
+                // TODO: Combo event.
+
                 this._pressedTime = System.DateTime.Now;
 
                 if(!this.BeatEntered)
@@ -166,6 +168,7 @@ namespace CyberMonk.Game.Zombie.Target
         private void OnPressed(System.TimeSpan timeDifference)
         {
             float difference = (float)timeDifference.Milliseconds / 1000f;
+            Debug.Log(difference);
 
             DeactivationData data = new DeactivationData(
                 DeactivationReason.REASON_PLAYER_HIT, difference);

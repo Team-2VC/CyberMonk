@@ -84,6 +84,8 @@ namespace CyberMonk.Game.Moonkey
 
         public virtual void OnTriggerExit2D(Collider2D collider) { }
 
+
+
         #endregion
     }
 }
