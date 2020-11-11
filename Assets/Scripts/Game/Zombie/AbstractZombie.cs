@@ -192,7 +192,8 @@ namespace CyberMonk.Game.Zombie
     public enum AttackOutcome
     {
         OUTCOME_FAILED,
-        OUTCOME_SUCCESS
+        OUTCOME_SUCCESS,
+        OUTCOME_NORMAL // Determines whether the attack was a normal attack
     }
 
     /// <summary>
@@ -408,7 +409,7 @@ namespace CyberMonk.Game.Zombie
         public virtual void UnHookEvents()
         {
             ZombieReferences reference = this.references.Value;
-            reference.BeatDownEvent += this.OnDownBeat;
+            reference.BeatDownEvent -= this.OnDownBeat;
         }
 
         /// <summary>
