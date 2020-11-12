@@ -21,13 +21,7 @@ namespace CyberMonk.Utils.References
         private bool constant;
         [SerializeField]
         [Tooltip("The constant value if the given reference is a constant value.")]
-        private T constantValue;
-
-        private T _original = default;
-        private bool _hasBeenSet = false;
-
-        public event System.Action<T> ChangedValueEvent
-            = delegate { };
+        protected T constantValue;
 
         #endregion
 
@@ -55,16 +49,9 @@ namespace CyberMonk.Utils.References
             {
                 if (this.constant)
                 {
-                    this.SetOriginal(this.constantValue);
                     return;
                 }
 
-                if (this.DidChange(this.ReferenceValue, value))
-                {
-                    this.CallChangeValueEvent(value);
-                }
-
-                this.SetOriginal(this.ReferenceValue);
                 this.ReferenceValue = value;
             }
         }
@@ -80,44 +67,9 @@ namespace CyberMonk.Utils.References
         #region methods
 
         /// <summary>
-        /// Sets the original value for safe keeping.
-        /// </summary>
-        /// <param name="original">The original value.</param>
-        private void SetOriginal(T original)
-        {
-            if (this._hasBeenSet)
-            {
-                return;
-            }
-
-            this._original = original;
-            this._hasBeenSet = true;
-        }
-
-        /// <summary>
         /// Resets the reference value.
         /// </summary>
-        public void Reset()
-        {
-            this.Value = this._original;
-        }
-
-        /// <summary>
-        /// Determines if the value does change.
-        /// </summary>
-        /// <param name="prev">The previous value</param>
-        /// <param name="next">The next value</param>
-        /// <returns>True if the value changed, false otherwise.</returns>
-        abstract protected bool DidChange(T prev, T next);
-
-        /// <summary>
-        /// Calls the change value event.
-        /// </summary>
-        /// <param name="v">The value.</param>
-        protected virtual void CallChangeValueEvent(T v)
-        {
-            this.ChangedValueEvent(v);
-        }
+        abstract public void Reset();
 
         #endregion
     }
@@ -143,17 +95,26 @@ namespace CyberMonk.Utils.References
         /// </summary>
         protected override float ReferenceValue
         {
-            get => this.variable.Value;
-            set => this.variable.Value = value;
+            get => this.variable != null ? this.variable.Value : this.constantValue;
+            set
+            {
+                if(this.variable != null)
+                {
+                    this.variable.Value = value;
+                }
+            }
         }
 
         #endregion
 
         #region methods
 
-        protected override bool DidChange(float prev, float next)
+        /// <summary>
+        /// Resets the variable.
+        /// </summary>
+        public override void Reset()
         {
-            return prev != next;
+            this.variable?.Reset();
         }
 
         #endregion
@@ -177,17 +138,26 @@ namespace CyberMonk.Utils.References
 
         protected override int ReferenceValue
         {
-            get => variable.Value;
-            set => variable.Value = value;
+            get => this.variable != null ? this.variable.Value : this.constantValue;
+            set
+            {
+                if (this.variable != null)
+                {
+                    this.variable.Value = value;
+                }
+            }
         }
 
         #endregion
 
         #region methods
 
-        protected override bool DidChange(int prev, int next)
+        /// <summary>
+        /// Resets the variable.
+        /// </summary>
+        public override void Reset()
         {
-            return prev != next;
+            this.variable?.Reset();
         }
 
         #endregion
@@ -210,17 +180,26 @@ namespace CyberMonk.Utils.References
 
         protected override bool ReferenceValue
         {
-            get => variable.Value;
-            set => variable.Value = value;
+            get => this.variable != null ? this.variable.Value : this.constantValue;
+            set
+            {
+                if (this.variable != null)
+                {
+                    this.variable.Value = value;
+                }
+            }
         }
 
         #endregion
 
         #region methods
 
-        protected override bool DidChange(bool prev, bool next)
+        /// <summary>
+        /// Resets the variable.
+        /// </summary>
+        public override void Reset()
         {
-            return prev != next;
+            this.variable?.Reset();
         }
 
         #endregion
@@ -244,17 +223,26 @@ namespace CyberMonk.Utils.References
 
         protected override string ReferenceValue
         {
-            get => variable.Value;
-            set => variable.Value = value;
+            get => this.variable != null ? this.variable.Value : this.constantValue;
+            set
+            {
+                if (this.variable != null)
+                {
+                    this.variable.Value = value;
+                }
+            }
         }
 
         #endregion
 
         #region methods
 
-        protected override bool DidChange(string prev, string next)
+        /// <summary>
+        /// Resets the variable.
+        /// </summary>
+        public override void Reset()
         {
-            return prev != next;
+            this.variable?.Reset();
         }
 
         #endregion
@@ -277,17 +265,26 @@ namespace CyberMonk.Utils.References
 
         protected override Vector2 ReferenceValue
         {
-            get => variable.Value;
-            set => variable.Value = value;
+            get => this.variable != null ? this.variable.Value : this.constantValue;
+            set
+            {
+                if (this.variable != null)
+                {
+                    this.variable.Value = value;
+                }
+            }
         }
 
         #endregion
 
         #region methods
 
-        protected override bool DidChange(Vector2 prev, Vector2 next)
+        /// <summary>
+        /// Resets the variable.
+        /// </summary>
+        public override void Reset()
         {
-            return prev != next;
+            this.variable?.Reset();
         }
 
         #endregion

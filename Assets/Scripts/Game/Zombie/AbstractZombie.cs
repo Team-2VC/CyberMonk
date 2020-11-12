@@ -495,6 +495,63 @@ namespace CyberMonk.Game.Zombie
     }
 
     /// <summary>
+    /// The abstract class that handles the movement of the zombie.
+    /// </summary>
+    public abstract class AZombieMovementController
+    {
+
+        #region fields
+ 
+        private AZombieController _controller;
+
+        #endregion
+
+        #region properties
+
+        #endregion
+
+        #region constructor
+
+        public AZombieMovementController(AZombieController controller)
+        {
+            this._controller = controller;
+        }
+
+        #endregion
+
+        #region methods
+
+        /// <summary>
+        /// Hooks the events.
+        /// </summary>
+        public virtual void HookEvents()
+        {
+            // TODO: hook up an attack end event.
+        }
+
+        /// <summary>
+        /// Unhooks the events.
+        /// </summary>
+        public virtual void UnHookEvents()
+        {
+            // Todo: Unhook up an attack end event.
+        }
+
+        /// <summary>
+        /// Updates the movement of the zombie, called
+        /// in the Update function.
+        /// </summary>
+        abstract protected void UpdateMovement();
+
+        /// <summary>
+        /// Used to launch the zombie.
+        /// </summary>
+        abstract protected void Launch();
+
+        #endregion
+    }
+
+    /// <summary>
     /// The abstract class that handles the state of the zombies.
     /// </summary>
     public abstract class AZombieStateController
@@ -515,6 +572,9 @@ namespace CyberMonk.Game.Zombie
         {
             get;
         }
+
+        public ZombieState State
+            => this._state;
 
         #endregion
 
@@ -654,6 +714,11 @@ namespace CyberMonk.Game.Zombie
             get;
         }
 
+        public abstract AZombieMovementController MovementController
+        {
+            get;
+        }
+
         public ZombieComponent Component => this._component;
 
         public ZombieType Type => this._type;
@@ -680,7 +745,8 @@ namespace CyberMonk.Game.Zombie
         public virtual void HookEvents()
         {
             this.StateController?.HookEvents();
-            this.TargetController.HookEvents();
+            this.TargetController?.HookEvents();
+            this.MovementController?.HookEvents();
         }
 
         /// <summary>
@@ -690,6 +756,7 @@ namespace CyberMonk.Game.Zombie
         {
             this.StateController?.UnHookEvents();
             this.TargetController.UnHookEvents();
+            this.MovementController?.UnHookEvents();
         }
 
         /// <summary>

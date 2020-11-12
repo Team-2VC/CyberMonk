@@ -15,6 +15,11 @@ namespace CyberMonk.Utils.Variables
 
         [SerializeField]
         private T value;
+        [SerializeField]
+        private T originalValue;
+
+        public event System.Action<T> ChangedValueEvent
+            = delegate { };
 
         #endregion
 
@@ -23,7 +28,26 @@ namespace CyberMonk.Utils.Variables
         public T Value
         {
             get => this.value;
-            set => this.value = value;
+            set
+            {
+                if(!this.value.Equals(value))
+                {
+                    this.ChangedValueEvent(value);
+                }
+                this.value = value;
+            }
+        }
+
+        #endregion
+
+        #region methods
+
+        /// <summary>
+        /// Resets the value to its original.
+        /// </summary>
+        public void Reset()
+        {
+            this.value = originalValue;
         }
 
         #endregion

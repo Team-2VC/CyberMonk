@@ -6,6 +6,25 @@ using UnityEngine;
 namespace CyberMonk.Game.Zombie.Melee
 {
     /// <summary>
+    /// Handles the melee zombie movement controller.
+    /// </summary>
+    public class MeleeZombieMovementController : AZombieMovementController
+    {
+        public MeleeZombieMovementController(MeleeZombieController controller)
+            : base(controller) { }
+
+        protected override void Launch()
+        {
+            // TODO: Implement
+        }
+
+        protected override void UpdateMovement()
+        {
+            // TODO: Update movement
+        }
+    }
+
+    /// <summary>
     /// The melee zombie state controller.
     /// </summary>
     public class MeleeZombieStateController : AZombieStateController
@@ -121,12 +140,17 @@ namespace CyberMonk.Game.Zombie.Melee
 
         private readonly MeleeZombieStateController _stateController;
 
+        private readonly MeleeZombieMovementController _movementController;
+
         #endregion
 
         #region properties
 
         public override AZombieStateController StateController
             => this._stateController;
+
+        public override AZombieMovementController MovementController 
+            => this._movementController;
 
         #endregion
 
@@ -136,6 +160,7 @@ namespace CyberMonk.Game.Zombie.Melee
             : base(component, settings)
         {
             this._stateController = new MeleeZombieStateController(this);
+            this._movementController = new MeleeZombieMovementController(this);
         }
 
         #endregion
