@@ -82,22 +82,26 @@ namespace CyberMonk.Game.Moonkey
         /// <param name="outcome">The zombie attack outcome.</param>
         private void OnAttack(Zombie.ZombieComponent component, Zombie.AttackOutcome outcome)
         {
-            switch (outcome)
+            
+            if(outcome == Zombie.AttackOutcome.OUTCOME_FAILED)
             {
-                case Zombie.AttackOutcome.OUTCOME_FAILED:
-                    this._attackedZombieComponent = null;
-                    this._references.ComboCounter = 0;
-                    this._references.ComboMultiplier = 1;
-                    break;
-                case Zombie.AttackOutcome.OUTCOME_SUCCESS:
-                    this._attackedZombieComponent = null;
-                    this._references.ComboMultiplier *= 2;
-                    break;
-                case Zombie.AttackOutcome.OUTCOME_NORMAL:
-                    this._references.ComboCounter += 1;
-                    this._references.TotalScore += 100 * this._references.ComboMultiplier;
-                    break;
+                this._attackedZombieComponent = null;
+                this._references.ComboCounter = 0;
+                this._references.ComboMultiplier = 1;
+            } else if(outcome == Zombie.AttackOutcome.OUTCOME_SUCCESS)
+            {
+                this._references.ComboMultiplier *= 2;
+                this._attackedZombieComponent = null;
+            } else if(outcome == Zombie.AttackOutcome.OUTCOME_NORMAL)
+            {
+                this._references.ComboCounter += 1;
+                this._references.TotalScore += 100 * this._references.ComboMultiplier;
+                
             }
+
+            Debug.Log(this._references.ComboCounter);
+
+
         }
 
         public virtual void OnTriggerExit2D(Collider2D collider) { }
