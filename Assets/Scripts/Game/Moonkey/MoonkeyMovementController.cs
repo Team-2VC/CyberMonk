@@ -28,10 +28,17 @@ namespace CyberMonk.Game.Moonkey
         private Vector2 _lookDirection = Vector2.right;
 
         private int _jumpBuffer = 0;
-        // The time for the jump boost.
         private float _jumpBoostTimeCounter = 0f;
-
+        
         private bool _onGround = true;
+        private float _offGroundTime = 0f;
+
+        public event System.Action JumpEvent
+            = delegate { };
+        public event System.Action LandEvent
+            = delegate { };
+        public event System.Action DashEvent
+            = delegate { };
 
         #endregion
 
@@ -63,6 +70,15 @@ namespace CyberMonk.Game.Moonkey
         /// </summary>
         public bool OnGround
             => this._onGround;
+
+        public bool Idle
+            => this._onGround && this._rigidbody.velocity.x == 0f;
+
+        public bool Moving
+            => this._onGround && this._rigidbody.velocity.x != 0f && !this.Dashing;
+
+        public float LookDirection
+            => this._lookDirection.x;
 
         #endregion
 
@@ -115,6 +131,11 @@ namespace CyberMonk.Game.Moonkey
         {
             this.HandleJumpingInput();
             this.HandleDashing();
+
+            if(!this.OnGround)
+            {
+                this._offGroundTime += Time.deltaTime;
+            }
         }
 
         /// <summary>
@@ -239,7 +260,8 @@ namespace CyberMonk.Game.Moonkey
                 return;
             }
 
-            this._lookDirection = direction.normalized;
+            Vector2 newDirection = direction.normalized;
+            this._lookDirection = newDirection;
             this._rigidbody.velocity = new Vector2((direction.x * this._settings.Speed), this._rigidbody.velocity.y);
         }
 
@@ -257,6 +279,12 @@ namespace CyberMonk.Game.Moonkey
         /// </summary>
         public virtual void Jump()
         {
+            // Ensures that the jump event is called once.
+            if (this._jumpBoostTimeCounter <= 0f)
+            {
+                this.JumpEvent();
+            }
+
             this._jumpBoostTimeCounter = this._settings.MaxJumpBoostTime;
             Vector2 currentVelocity = this._rigidbody.velocity;
             this._rigidbody.velocity = new Vector2(currentVelocity.x, this._settings.JumpForce);
@@ -295,6 +323,8 @@ namespace CyberMonk.Game.Moonkey
             this._dashTime = this._settings.DashTime;
             this._rigidbody.velocity = this._lookDirection * this._settings.DashSpeed;
             this._dashCounter--;
+
+            this.DashEvent();
         }
 
         /// <summary>
@@ -305,8 +335,14 @@ namespace CyberMonk.Game.Moonkey
         {
             if(collision.gameObject.tag == "ground")
             {
+                // TODO: Make 0.5f serialized
+                if(!this.OnGround && this._offGroundTime >= 0.5f)
+                {
+                    this.LandEvent();
+                }
+
+                this._offGroundTime = 0f;
                 this._onGround = true;
-                // TODO: landing event
             }
         }
 

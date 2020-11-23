@@ -20,3 +20,4 @@ MonoBehaviour:
   dashCooldownTime: 1
   dashMaxCounter: 2
   inputBufferForFrames: 11
+  animatorController: {fileID: 9100000, guid: ce049101895a74b4e904107fe4e1505b, type: 2}

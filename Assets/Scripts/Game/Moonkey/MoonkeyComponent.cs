@@ -76,10 +76,26 @@ namespace CyberMonk.Game.Moonkey
         }
     }
 
+    [System.Serializable]
+    public struct MoonkeyProperties
+    {
+        [SerializeField]
+        private Animator graphicsAnimator;
+
+        [SerializeField]
+        private SpriteRenderer graphicsSpriteRenderer;
+
+        public Animator GraphicsAnimator
+            => this.graphicsAnimator;
+
+        public SpriteRenderer GraphicsSpriteRenderer
+            => this.graphicsSpriteRenderer;
+    }
+
     /// <summary>
     /// Moonkey Component Monobehaviour
     /// </summary>
-    [RequireComponent(typeof(Rigidbody2D), typeof(Collider2D))]
+    [RequireComponent(typeof(Rigidbody2D))]
     public class MoonkeyComponent : MonoBehaviour
     {
         #region fields
@@ -88,6 +104,8 @@ namespace CyberMonk.Game.Moonkey
         private MoonkeySettings settings;
         [SerializeField]
         private MoonkeyReferences references;
+        [SerializeField]
+        private MoonkeyProperties properties;
 
         private MoonkeyController _controller;
 
@@ -100,6 +118,9 @@ namespace CyberMonk.Game.Moonkey
 
         public MoonkeyReferences References
             => this.references;
+
+        public MoonkeyProperties Properties
+            => this.properties;
 
         #endregion
 

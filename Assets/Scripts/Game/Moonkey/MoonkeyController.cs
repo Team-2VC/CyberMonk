@@ -18,12 +18,31 @@ namespace CyberMonk.Game.Moonkey
 
         public event System.Action<ZombieComponent, AttackOutcome> AttackFinishedEvent
             = delegate { };
+
+        public event System.Action JumpEvent
+        {
+            add => this._movementController.JumpEvent += value;
+            remove => this._movementController.JumpEvent -= value;
+        }
+
+        public event System.Action LandEvent
+        {
+            add => this._movementController.LandEvent += value;
+            remove => this._movementController.LandEvent -= value;
+        }
+
+        public event System.Action DashEvent
+        {
+            add => this._movementController.DashEvent += value;
+            remove => this._movementController.DashEvent -= value;
+        }
         
         private readonly MoonkeyComponent _component;
         private readonly MoonkeySettings _settings;
         private readonly MoonkeyMovementController _movementController;
         private readonly MoonkeyAttackController _attackController;
         private readonly MoonkeyStateController _stateController;
+        private readonly MoonkeyAnimationController _animationController;
 
         #endregion
 
@@ -48,13 +67,14 @@ namespace CyberMonk.Game.Moonkey
 
         #region constructor
 
-        public MoonkeyController(MoonkeyComponent component, MoonkeySettings settings )
+        public MoonkeyController(MoonkeyComponent component, MoonkeySettings settings)
         {
             this._component = component;
             this._settings = settings;
             this._movementController = new MoonkeyMovementController(this, settings);
             this._attackController = new MoonkeyAttackController(this);
             this._stateController = new MoonkeyStateController(this);
+            this._animationController = new MoonkeyAnimationController(this, settings.AnimatorController);
         }
 
         #endregion
@@ -77,6 +97,7 @@ namespace CyberMonk.Game.Moonkey
             this._stateController?.HookEvents();
             this._movementController?.HookEvents();
             this._attackController?.HookEvents();
+            this._animationController?.HookEvents();
         }
 
         /// <summary>
@@ -94,6 +115,7 @@ namespace CyberMonk.Game.Moonkey
             this._stateController?.UnHookEvents();
             this._movementController?.UnHookEvents();
             this._attackController?.UnHookEvents();
+            this._animationController?.UnhookEvents();
         }
 
         /// <summary>
@@ -135,6 +157,7 @@ namespace CyberMonk.Game.Moonkey
             }
 
             this._attackController?.Update();
+            this._animationController?.Update();
         }
 
         /// <summary>
