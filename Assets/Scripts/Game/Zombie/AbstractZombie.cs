@@ -527,6 +527,9 @@ namespace CyberMonk.Game.Zombie
         public virtual void HookEvents()
         {
             // TODO: hook up an attack end event.
+
+            this._controller.AttackedEvent += this.OnAttackBegin;
+            this._controller.AttackEvent += this.OnAttack;
         }
 
         /// <summary>
@@ -534,19 +537,28 @@ namespace CyberMonk.Game.Zombie
         /// </summary>
         public virtual void UnHookEvents()
         {
-            // Todo: Unhook up an attack end event.
+            this._controller.AttackedEvent -= this.OnAttackBegin;
+            this._controller.AttackEvent += this.OnAttack;
         }
+
+        /// <summary>
+        /// Updates the physics of the zombie, used to update movement.
+        /// </summary>
+        public void PhysicsUpdate()
+        {
+            // TODO: Implement paused.
+            this.UpdateMovement();
+        }
+
+        abstract protected void OnAttackBegin(Moonkey.MoonkeyComponent attacker);
+
+        abstract protected void OnAttack(AttackOutcome outcome);
 
         /// <summary>
         /// Updates the movement of the zombie, called
         /// in the Update function.
         /// </summary>
         abstract protected void UpdateMovement();
-
-        /// <summary>
-        /// Used to launch the zombie.
-        /// </summary>
-        abstract protected void Launch();
 
         #endregion
     }
@@ -598,7 +610,7 @@ namespace CyberMonk.Game.Zombie
             ZombieReferences references = this._controller.Component.References;
             references.BeatDownEvent += this.OnDownBeat;
             this._controller.AttackedEvent += this.OnAttacked;
-            this._controller.AttackEndEvent += this.OnAttack;
+            this._controller.AttackEvent += this.OnAttack;
         }
 
         /// <summary>
@@ -609,7 +621,7 @@ namespace CyberMonk.Game.Zombie
             ZombieReferences references = this._controller.Component.References;
             references.BeatDownEvent -= OnDownBeat;
             this._controller.AttackedEvent -= this.OnAttacked;
-            this._controller.AttackEndEvent -= this.OnAttack;
+            this._controller.AttackEvent -= this.OnAttack;
         }
 
         /// <summary>
@@ -692,7 +704,7 @@ namespace CyberMonk.Game.Zombie
         public event System.Action<Moonkey.MoonkeyComponent> AttackedEvent
             = delegate { };
 
-        public event System.Action<AttackOutcome> AttackEndEvent
+        public event System.Action<AttackOutcome> AttackEvent
         {
             add => this._targetController.AttackEvent += value;
             remove => this._targetController.AttackEvent -= value;
@@ -757,6 +769,14 @@ namespace CyberMonk.Game.Zombie
             this.StateController?.UnHookEvents();
             this.TargetController.UnHookEvents();
             this.MovementController?.UnHookEvents();
+        }
+
+        /// <summary>
+        /// Updates the physics of the zombie.
+        /// </summary>
+        public virtual void PhysicsUpdate()
+        {
+            this.MovementController?.PhysicsUpdate();
         }
 
         /// <summary>

@@ -12,6 +12,8 @@ namespace CyberMonk.Game.Moonkey
     public class MoonkeyAnimationController
     {
 
+        #region fields
+
         private readonly MoonkeyController _controller;
         private readonly Animator _animator;
         private readonly SpriteRenderer _renderer;
@@ -19,6 +21,10 @@ namespace CyberMonk.Game.Moonkey
         private MoonkeyMovementController _movementController;
 
         private bool _prevMoving = false;
+
+        #endregion
+
+        #region constructor
 
         public MoonkeyAnimationController(MoonkeyController controller, RuntimeAnimatorController animatorController)
         {
@@ -32,6 +38,10 @@ namespace CyberMonk.Game.Moonkey
 
             this._renderer = properties.GraphicsSpriteRenderer;
         }
+
+        #endregion
+
+        #region methods
 
         public virtual void HookEvents()
         {
@@ -104,5 +114,7 @@ namespace CyberMonk.Game.Moonkey
             // TODO: Implementation.
             Debug.Log("Moonkey landed.");
         }
+
+        #endregion
     }
 }

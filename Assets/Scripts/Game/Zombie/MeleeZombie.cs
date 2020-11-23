@@ -10,17 +10,62 @@ namespace CyberMonk.Game.Zombie.Melee
     /// </summary>
     public class MeleeZombieMovementController : AZombieMovementController
     {
-        public MeleeZombieMovementController(MeleeZombieController controller)
-            : base(controller) { }
 
-        protected override void Launch()
+        private Rigidbody2D _rigidbody;
+        private Transform _transform;
+
+        private MeleeZombieStateController _stateController;
+        
+        private MoonkeyComponent _targetMoonkey = null;
+
+        protected bool HasTarget
+            => this._targetMoonkey != null;
+
+        public MeleeZombieMovementController(MeleeZombieController controller)
+            : base(controller) 
         {
-            // TODO: Implement
+            this._stateController = (MeleeZombieStateController)controller.StateController;
+            this._rigidbody = controller.Component.GetComponent<Rigidbody2D>();
+            this._transform = controller.Component.transform;
         }
 
         protected override void UpdateMovement()
         {
-            // TODO: Update movement
+            if(!this.HasTarget)
+            {
+                // TODO: Movement.
+
+                this.SearchForTarget();
+                Debug.Log(this._targetMoonkey);
+                return;
+            }
+        }
+
+        private void SearchForTarget()
+        {
+            // TODO: Implementation.
+
+            this._targetMoonkey = Moonkey.MoonkeyHolder.GetClosestMoonkey(this._transform.position,
+            (Moonkey.MoonkeyComponent a, Moonkey.MoonkeyComponent b) =>
+            {
+                // TODO: Implement lambda filter.
+                return false;
+            });
+        }
+
+        private void Launch()
+        {
+            // TODO: Implement
+        }
+
+        protected override void OnAttackBegin(MoonkeyComponent attacker)
+        {
+            // TODO: Implementation
+        }
+
+        protected override void OnAttack(AttackOutcome outcome)
+        {
+            // TODO: Implementation
         }
     }
 

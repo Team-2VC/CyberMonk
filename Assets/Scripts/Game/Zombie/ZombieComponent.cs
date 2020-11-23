@@ -98,6 +98,11 @@ namespace CyberMonk.Game.Zombie
             return this._controller.OnMoonkeyAttack(component);
         }
 
+        private void FixedUpdate()
+        {
+            this._controller?.PhysicsUpdate();
+        }
+
         /// <summary>
         /// Called when the zombie component is enabled.
         /// </summary>

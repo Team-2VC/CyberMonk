@@ -15,15 +15,13 @@ namespace CyberMonk.Game.Moonkey
     {
         [SerializeField]
         private Events.MoonkeyAttackEvent attackFinishedEvent;
-
         [SerializeField]
         private Utils.References.IntegerReference comboCounter;
-
         [SerializeField]
         private Utils.References.IntegerReference comboMultiplier;
-
         [SerializeField]
         private Utils.References.IntegerReference totalScore;
+
 
         public Events.MoonkeyAttackEvent AttackFinishedEvent
         {
@@ -132,6 +130,7 @@ namespace CyberMonk.Game.Moonkey
         private void Awake()
         {
             this._controller = new MoonkeyController(this, settings);
+            MoonkeyHolder.Add(this);
         }
 
         /// <summary>
@@ -164,6 +163,15 @@ namespace CyberMonk.Game.Moonkey
         private void OnDisable()
         {
             this._controller?.UnhookEvents();
+        }
+
+        /// <summary>
+        /// Called when the moonkey is destroyed.
+        /// </summary>
+        private void OnDestroy()
+        {
+            // Removes this from the moonkey holder.
+            MoonkeyHolder.Remove(this);
         }
 
         /// <summary>
