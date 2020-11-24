@@ -99,12 +99,9 @@ namespace CyberMonk.Game.Moonkey
             {
                 this._references.ComboCounter += 1;
                 this._references.TotalScore += 100 * this._references.ComboMultiplier;
-                
             }
 
             Debug.Log(this._references.ComboCounter);
-
-
         }
 
         public virtual void OnTriggerExit2D(Collider2D collider) { }

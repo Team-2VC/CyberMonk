@@ -44,6 +44,10 @@ namespace CyberMonk.Game.Zombie.Melee
         private void SearchForTarget()
         {
             // TODO: Implementation.
+            if(this._transform == null)
+            {
+                return;
+            }
 
             MoonkeyComponent matchedTarget = Moonkey.MoonkeyHolder.GetClosestMoonkey(this._transform.position,
             (Moonkey.MoonkeyComponent a, Moonkey.MoonkeyComponent b) =>
@@ -60,6 +64,11 @@ namespace CyberMonk.Game.Zombie.Melee
 
         protected override void OnDownBeat()
         {
+            if(this._transform == null)
+            {
+                return;
+            }
+
             ZombieReferences references = this._controller.Component.References;
             int beatDown = references.BeatCounter;
 
