@@ -30,8 +30,14 @@ namespace CyberMonk.Game.Zombie
         [SerializeField]
         private Moonkey.Events.MoonkeyAttackEvent attackFinishedEvent;
 
+        [SerializeField, Range(0.1f, 100f)]
+        private float _damageAmount;
+
         public int BeatCounter
             => this.beatCounter != null ? this.beatCounter.Value : 0;
+
+        public float DamageAmount
+            => this._damageAmount;
 
         public Utils.Events.GameEvent BeatDownEvent
         {

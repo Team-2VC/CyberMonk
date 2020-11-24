@@ -7,6 +7,39 @@ using UnityEngine;
 namespace CyberMonk.Game.Moonkey 
 {
     /// <summary>
+    /// The Moonkey health class.
+    /// </summary>
+    public class MoonkeyHealth
+    {
+        public event System.Action<float> HealthChangedEvent
+            = delegate { };
+
+        private float _healthAmount = 0f;
+        private float _maxHealth;
+
+        public float HealthAmount
+            => this._healthAmount;
+
+        public MoonkeyHealth(MoonkeyHealthSettings healthSettings)
+        {
+            this._maxHealth = this._healthAmount = healthSettings.MaxHealth;
+        }
+
+        public void ModHealth(float moddedAmount)
+        {
+            float newHealth = this._healthAmount + moddedAmount;
+            
+            if(newHealth <= 0)
+            {
+                moddedAmount = -this._healthAmount;
+            }
+
+            this._healthAmount += moddedAmount;
+            this.HealthChangedEvent(moddedAmount);
+        }
+    }
+
+    /// <summary>
     /// The Monkey Controller class definition.
     /// </summary>
     public class MoonkeyController
@@ -16,8 +49,17 @@ namespace CyberMonk.Game.Moonkey
         public event System.Action<ZombieComponent> AttackBeginEvent
             = delegate { };
 
+        public event System.Action MoonkeyKilledEvent
+        {
+            add => this._stateController.MoonkeyKilledEvent += value;
+            remove => this._stateController.MoonkeyKilledEvent -= value;
+        }
+
         public event System.Action<ZombieComponent, AttackOutcome> AttackFinishedEvent
-            = delegate { };
+        {
+            add => this._stateController.AttackFinishedEvent += value;
+            remove => this._stateController.AttackFinishedEvent -= value;
+        }
 
         public event System.Action JumpEvent
         {
@@ -43,6 +85,7 @@ namespace CyberMonk.Game.Moonkey
         private readonly MoonkeyAttackController _attackController;
         private readonly MoonkeyStateController _stateController;
         private readonly MoonkeyAnimationController _animationController;
+        private MoonkeyHealth _health;
 
         #endregion
 
@@ -63,6 +106,9 @@ namespace CyberMonk.Game.Moonkey
         public virtual MoonkeyStateController StateController
             => this._stateController;
 
+        public float Health
+            => this._health.HealthAmount;
+
         public bool IsAtttacking
             => this._attackController.AttackedZombie != null;
 
@@ -78,6 +124,8 @@ namespace CyberMonk.Game.Moonkey
             this._attackController = new MoonkeyAttackController(this);
             this._stateController = new MoonkeyStateController(this);
             this._animationController = new MoonkeyAnimationController(this, settings.AnimatorController);
+
+            this._health = new MoonkeyHealth(settings.HealthSettings);
         }
 
         #endregion
@@ -125,13 +173,14 @@ namespace CyberMonk.Game.Moonkey
         /// Called when the zombie component has begun an attack.
         /// </summary>
         /// <param name="component">The zombie component.</param>
+        /// <param name="tryAttackOutcome">The attack outcome.</param>
         public void OnBeginAttack(Zombie.ZombieComponent component)
         {
             this.AttackBeginEvent(component);
         }
 
         /// <summary>
-        /// Called when the moonkey failed to complete its attack sequence.
+        /// Called when the moonkey has completed an attack, etc...
         /// </summary>
         /// <param name="moonkey">The monkey component.</param>
         /// <param name="component">The zombie component we are calling.</param>
@@ -145,7 +194,33 @@ namespace CyberMonk.Game.Moonkey
                 return;
             }
 
-            this.AttackFinishedEvent(component, outcome);
+            this.StateController.OnAttackFinished(component, outcome);
+        }
+
+        /// <summary>
+        /// Damages the moonkey by the damage amount.
+        /// </summary>
+        /// <param name="damageAmount">The damage amount.</param>
+        /// <returns>true if the moonkey should be killed, false otherwise.</returns>
+        public bool Damage(float damageAmount)
+        {
+            this._health.ModHealth(-damageAmount);
+
+            if(this.Health <= 0f)
+            {
+                this.Kill();
+                return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Kills the moonkey.
+        /// </summary>
+        private void Kill()
+        {
+            this._stateController.Kill();
         }
 
         /// <summary>

@@ -41,7 +41,6 @@ namespace CyberMonk.Game.Moonkey
         /// </summary>
         public virtual void HookEvents()
         {
-            this._controller.AttackBeginEvent += this.OnBeginAttack;
             this._controller.AttackFinishedEvent += this.OnAttack;
         }
 
@@ -50,7 +49,6 @@ namespace CyberMonk.Game.Moonkey
         /// </summary>
         public virtual void UnHookEvents()
         {
-            this._controller.AttackBeginEvent -= this.OnBeginAttack;
             this._controller.AttackFinishedEvent -= this.OnAttack;
         }
 
@@ -61,18 +59,34 @@ namespace CyberMonk.Game.Moonkey
             if (this._controller.MovementController.Dashing)
             {
                 Zombie.ZombieComponent component = collider.GetComponent<Zombie.ZombieComponent>();
-                Zombie.TryZombieAttackOutcome? outcome = component?.TryHandleAttack(this._controller.Component);
-                // TODO: Check the outcome.
+                
+                if(component != null)
+                {
+                    Zombie.TryZombieAttackOutcome outcome = component.TryHandleAttack(this._controller.Component);
+                    this.OnBeginAttack(component, outcome);
+                }
             }
         }
 
         /// <summary>
-        /// Called when the attack has begun.
+        /// Called when the player has attempted to begin an attack.
         /// </summary>
         /// <param name="attackedComponent">The zombie component we are attacking.</param>
-        private void OnBeginAttack(Zombie.ZombieComponent attackedComponent)
+        /// <param name="outcome">The outcome of the attemped zombie attack.</param>
+        private void OnBeginAttack(Zombie.ZombieComponent attackedComponent, Zombie.TryZombieAttackOutcome outcome)
         {
-            this._attackedZombieComponent = attackedComponent;
+            switch (outcome)
+            {
+                case Zombie.TryZombieAttackOutcome.OUTCOME_SUCCESS:
+                    this._controller.OnBeginAttack(attackedComponent);
+                    this._attackedZombieComponent = attackedComponent;
+                    break;
+                case Zombie.TryZombieAttackOutcome.OUTCOME_FAILED_ZOMBIE_ATTACKING:
+                    // TODO: Damage the player.
+                    this._controller.MovementController.ForceStopDashing();
+                    this._controller.Damage(attackedComponent.References.DamageAmount);
+                    break;
+            }
         }
 
         /// <summary>
@@ -82,7 +96,6 @@ namespace CyberMonk.Game.Moonkey
         /// <param name="outcome">The zombie attack outcome.</param>
         private void OnAttack(Zombie.ZombieComponent component, Zombie.AttackOutcome outcome)
         {
-            
             if(outcome == Zombie.AttackOutcome.OUTCOME_FAILED)
             {
                 this._attackedZombieComponent = null;
@@ -100,8 +113,6 @@ namespace CyberMonk.Game.Moonkey
                 this._references.ComboCounter += 1;
                 this._references.TotalScore += 100 * this._references.ComboMultiplier;
             }
-
-            Debug.Log(this._references.ComboCounter);
         }
 
         public virtual void OnTriggerExit2D(Collider2D collider) { }

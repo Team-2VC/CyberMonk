@@ -153,6 +153,7 @@ MonoBehaviour:
     beatDownEvent: {fileID: 11400000, guid: d73961cd309650a44b36f0f55ef2d599, type: 2}
     attackFinishedEvent: {fileID: 11400000, guid: e5243558e8135144a974cb0629343659,
       type: 2}
+    _damageAmount: 27.1
 --- !u!1 &3570411962664731798
 GameObject:
   m_ObjectHideFlags: 0

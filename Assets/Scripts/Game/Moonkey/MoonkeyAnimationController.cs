@@ -50,6 +50,7 @@ namespace CyberMonk.Game.Moonkey
             this._controller.DashEvent += this.OnDash;
             this._controller.JumpEvent += this.OnJump;
             this._controller.LandEvent += this.OnLand;
+            this._controller.MoonkeyKilledEvent += this.OnKilled;
         }
 
         public virtual void UnhookEvents()
@@ -59,6 +60,7 @@ namespace CyberMonk.Game.Moonkey
             this._controller.DashEvent -= this.OnDash;
             this._controller.JumpEvent -= this.OnJump;
             this._controller.LandEvent -= this.OnLand;
+            this._controller.MoonkeyKilledEvent -= this.OnKilled;
         }
 
         public virtual void Update()
@@ -121,6 +123,14 @@ namespace CyberMonk.Game.Moonkey
         {
             // TODO: Implementation.
             Debug.Log("Moonkey landed.");
+        }
+
+        /// <summary>
+        /// Called when the moonkey was killed.
+        /// </summary>
+        private void OnKilled()
+        {
+            // TODO: start death animation, once death animation is finished, call on death event
         }
 
         #endregion

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 
 namespace CyberMonk.Game.Moonkey
 {
@@ -32,6 +33,12 @@ namespace CyberMonk.Game.Moonkey
 
         #region properties
 
+        public event System.Action<Zombie.ZombieComponent, Zombie.AttackOutcome> AttackFinishedEvent
+            = delegate { };
+
+        public event System.Action MoonkeyKilledEvent
+            = delegate { };
+
         public MoonkeyState State
             => this._state;
 
@@ -54,7 +61,6 @@ namespace CyberMonk.Game.Moonkey
         public void HookEvents()
         {
             this._controller.AttackBeginEvent += this.OnBeginAttack;
-            this._controller.AttackFinishedEvent += this.OnFinishedAttack;
         }
 
         /// <summary>
@@ -63,7 +69,6 @@ namespace CyberMonk.Game.Moonkey
         public void UnHookEvents()
         {
             this._controller.AttackBeginEvent -= this.OnBeginAttack;
-            this._controller.AttackFinishedEvent -= this.OnFinishedAttack;
         }
 
         /// <summary>
@@ -77,15 +82,44 @@ namespace CyberMonk.Game.Moonkey
         }
 
         /// <summary>
+        /// Kills the moonkey.
+        /// </summary>
+        public void Kill()
+        {
+            if(this._state >= MoonkeyState.STATE_DYING)
+            {
+                return;
+            }
+
+            this._state = MoonkeyState.STATE_DYING;
+            this.MoonkeyKilledEvent();
+            
+            // TODO: Remove this;
+            GameObject.Destroy(this._controller.Component.gameObject);
+        }
+
+        /// <summary>
         /// Called when the attack has failed.
         /// </summary>
         /// <param name="component">The zombie component.</param>
         /// <param name="outcome">The attack outcome.</param>
-        private void OnFinishedAttack(Zombie.ZombieComponent component, Zombie.AttackOutcome outcome)
+        public void OnAttackFinished(Zombie.ZombieComponent component, Zombie.AttackOutcome outcome)
         {
-            // TODO: damage the health & state based on outcome.
+            if(outcome == Zombie.AttackOutcome.OUTCOME_FAILED)
+            {
+                if(this._controller.Damage(component.References.DamageAmount))
+                {
+                    return;
+                }
+            }
 
-            this._state = MoonkeyState.STATE_MOVING;
+            // TODO: Change
+            if(outcome != Zombie.AttackOutcome.OUTCOME_NORMAL)
+            {
+                this._state = MoonkeyState.STATE_MOVING;
+            }
+
+            this.AttackFinishedEvent(component, outcome);
         }
 
         #endregion

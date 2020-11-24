@@ -17,9 +17,9 @@ namespace CyberMonk.Game.Moonkey
         #region fields
 
         protected readonly Rigidbody2D _rigidbody;
-        protected readonly MoonkeySettings _settings;
 
         private MoonkeyController _controller;
+        private readonly MoonkeyMovementSettings _movementSettings;
         
         private float _dashTime = 0f;
         private float _dashCooldownTime = 0f;
@@ -94,10 +94,10 @@ namespace CyberMonk.Game.Moonkey
             this._controller = controller;
             this._rigidbody = controller.Component.GetComponent<Rigidbody2D>();
 
-            this._settings = settings;
+            this._movementSettings = settings.MovementSettings;
 
-            this._dashCounter = this._settings.DashMaxCounter;
-            this._dashCooldownTime = this._settings.DashCooldownTime;
+            this._dashCounter = this._movementSettings.DashMaxCounter;
+            this._dashCooldownTime = this._movementSettings.DashCooldownTime;
         }
 
         #endregion
@@ -145,7 +145,7 @@ namespace CyberMonk.Game.Moonkey
         {
             if(this.JumpPressed)
             {
-                this._jumpBuffer = this._settings.InputBufferForFrames;
+                this._jumpBuffer = this._movementSettings.InputBufferForFrames;
             }
 
             if(this._onGround)
@@ -188,13 +188,13 @@ namespace CyberMonk.Game.Moonkey
         /// </summary>
         private void HandleDashing()
         {
-            if (this._dashCounter < this._settings.DashMaxCounter)
+            if (this._dashCounter < this._movementSettings.DashMaxCounter)
             {
                 this._dashCooldownTime -= Time.deltaTime;
                 if (this._dashCooldownTime <= 0)
                 {
                     this._dashCounter++;
-                    this._dashCooldownTime = this._settings.DashCooldownTime;
+                    this._dashCooldownTime = this._movementSettings.DashCooldownTime;
                 }
             }
 
@@ -243,7 +243,7 @@ namespace CyberMonk.Game.Moonkey
         /// <summary>
         /// Forces the moonkey to stop dashing.
         /// </summary>
-        private void ForceStopDashing()
+        public void ForceStopDashing()
         {
             this._dashTime = 0f;
             this._rigidbody.velocity = Vector2.zero;
@@ -262,7 +262,7 @@ namespace CyberMonk.Game.Moonkey
 
             Vector2 newDirection = direction.normalized;
             this._lookDirection = newDirection;
-            this._rigidbody.velocity = new Vector2((direction.x * this._settings.Speed), this._rigidbody.velocity.y);
+            this._rigidbody.velocity = new Vector2((direction.x * this._movementSettings.MovementSpeed), this._rigidbody.velocity.y);
         }
 
         /// <summary>
@@ -285,9 +285,9 @@ namespace CyberMonk.Game.Moonkey
                 this.JumpEvent();
             }
 
-            this._jumpBoostTimeCounter = this._settings.MaxJumpBoostTime;
+            this._jumpBoostTimeCounter = this._movementSettings.MaxJumpBoostTime;
             Vector2 currentVelocity = this._rigidbody.velocity;
-            this._rigidbody.velocity = new Vector2(currentVelocity.x, this._settings.JumpForce);
+            this._rigidbody.velocity = new Vector2(currentVelocity.x, this._movementSettings.JumpForce);
         }
 
         /// <summary>
@@ -297,7 +297,7 @@ namespace CyberMonk.Game.Moonkey
         {
             // TODO: Possibly add a jump boost force variable?
             Vector2 currentVelocity = this._rigidbody.velocity;
-            this._rigidbody.velocity = new Vector2(currentVelocity.x, this._settings.JumpForce);
+            this._rigidbody.velocity = new Vector2(currentVelocity.x, this._movementSettings.JumpForce);
         }
 
         /// <summary>
@@ -320,8 +320,8 @@ namespace CyberMonk.Game.Moonkey
         /// <returns>True if the monkey successfully dashed, false otherwise.</returns>
         public virtual void Dash()
         {
-            this._dashTime = this._settings.DashTime;
-            this._rigidbody.velocity = this._lookDirection * this._settings.DashSpeed;
+            this._dashTime = this._movementSettings.DashTime;
+            this._rigidbody.velocity = this._lookDirection * this._movementSettings.DashSpeed;
             this._dashCounter--;
 
             this.DashEvent();

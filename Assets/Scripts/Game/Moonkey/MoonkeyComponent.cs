@@ -178,15 +178,6 @@ namespace CyberMonk.Game.Moonkey
         }
 
         /// <summary>
-        /// Called when the moonkey begins an attack.
-        /// </summary>
-        /// <param name="component">The zombie component we are attacking.</param>
-        public void OnBeginAttack(Zombie.ZombieComponent component)
-        {
-            this._controller.OnBeginAttack(component);
-        }
-
-        /// <summary>
         /// Called when the monkey controler collides with another collision.
         /// </summary>
         /// <param name="collision">The collision.</param>
