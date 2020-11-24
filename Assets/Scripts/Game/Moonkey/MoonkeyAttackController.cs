@@ -88,11 +88,14 @@ namespace CyberMonk.Game.Moonkey
                 this._attackedZombieComponent = null;
                 this._references.ComboCounter = 0;
                 this._references.ComboMultiplier = 1;
-            } else if(outcome == Zombie.AttackOutcome.OUTCOME_SUCCESS)
+            } 
+            else if(outcome == Zombie.AttackOutcome.OUTCOME_SUCCESS)
             {
                 this._references.ComboMultiplier *= 2;
+                this._references.ComboCounter++;
                 this._attackedZombieComponent = null;
-            } else if(outcome == Zombie.AttackOutcome.OUTCOME_NORMAL)
+            } 
+            else if(outcome == Zombie.AttackOutcome.OUTCOME_NORMAL)
             {
                 this._references.ComboCounter += 1;
                 this._references.TotalScore += 100 * this._references.ComboMultiplier;
