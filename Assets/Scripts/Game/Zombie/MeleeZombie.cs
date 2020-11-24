@@ -13,6 +13,7 @@ namespace CyberMonk.Game.Zombie.Melee
 
         private Rigidbody2D _rigidbody;
         private Transform _transform;
+        private ZombieMovementData _movementData;
 
         private MeleeZombieStateController _stateController;
         
@@ -21,12 +22,14 @@ namespace CyberMonk.Game.Zombie.Melee
         protected bool HasTarget
             => this._targetMoonkey != null;
 
-        public MeleeZombieMovementController(MeleeZombieController controller)
+
+        public MeleeZombieMovementController(MeleeZombieController controller, ZombieMovementData data)
             : base(controller) 
         {
             this._stateController = (MeleeZombieStateController)controller.StateController;
             this._rigidbody = controller.Component.GetComponent<Rigidbody2D>();
             this._transform = controller.Component.transform;
+            this._movementData = data;
         }
 
         protected override void UpdateMovement()
@@ -34,10 +37,7 @@ namespace CyberMonk.Game.Zombie.Melee
             if(!this.HasTarget)
             {
                 // TODO: Movement.
-
                 this.SearchForTarget();
-                Debug.Log(this._targetMoonkey);
-                return;
             }
         }
 
@@ -45,12 +45,42 @@ namespace CyberMonk.Game.Zombie.Melee
         {
             // TODO: Implementation.
 
-            this._targetMoonkey = Moonkey.MoonkeyHolder.GetClosestMoonkey(this._transform.position,
+            MoonkeyComponent matchedTarget = Moonkey.MoonkeyHolder.GetClosestMoonkey(this._transform.position,
             (Moonkey.MoonkeyComponent a, Moonkey.MoonkeyComponent b) =>
             {
                 // TODO: Implement lambda filter.
                 return false;
             });
+
+            if(this._targetMoonkey != matchedTarget)
+            {
+                this._targetMoonkey = matchedTarget;
+            }
+        }
+
+        protected override void OnDownBeat()
+        {
+            ZombieReferences references = this._controller.Component.References;
+            int beatDown = references.BeatCounter;
+
+            if (this.HasTarget && beatDown % 2 == 0)
+            {
+                if(this._targetMoonkey.IsAttacking)
+                {
+                    this.SearchForTarget();
+                    return;
+                }
+
+                AZombieStateController stateController = this._controller.StateController;
+                if(stateController.State != ZombieState.STATE_DANCING)
+                {
+                    return;
+                }
+
+                Vector2 movementDirection = this._targetMoonkey.transform.position - this._transform.position;
+                movementDirection.y = 0f;
+                this._rigidbody.AddForce(movementDirection.normalized * this._movementData.SpeedForce, ForceMode2D.Impulse);
+            }
         }
 
         private void Launch()
@@ -67,6 +97,7 @@ namespace CyberMonk.Game.Zombie.Melee
         {
             // TODO: Implementation
         }
+
     }
 
     /// <summary>
@@ -205,7 +236,7 @@ namespace CyberMonk.Game.Zombie.Melee
             : base(component, settings)
         {
             this._stateController = new MeleeZombieStateController(this);
-            this._movementController = new MeleeZombieMovementController(this);
+            this._movementController = new MeleeZombieMovementController(this, settings.MovementData);
         }
 
         #endregion

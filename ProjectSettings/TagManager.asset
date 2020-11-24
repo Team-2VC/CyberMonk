@@ -15,9 +15,9 @@ TagManager:
   - UI
   - 
   - 
-  - 
-  - 
-  - 
+  - IgnoreMoonkeyCollisions
+  - Ground
+  - Moonkey
   - 
   - 
   - 

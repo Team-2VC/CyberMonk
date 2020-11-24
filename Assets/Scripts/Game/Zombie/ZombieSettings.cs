@@ -5,6 +5,16 @@ using UnityEngine;
 namespace CyberMonk.Game.Zombie
 {
 
+    [System.Serializable]
+    public struct ZombieMovementData
+    {
+        [SerializeField]
+        private float speedForce;
+
+        public float SpeedForce
+            => this.speedForce;
+    }
+
     /// <summary>
     /// The Zombie Settings.
     /// </summary>
@@ -18,6 +28,8 @@ namespace CyberMonk.Game.Zombie
 
         [SerializeField]
         private Target.ZombieTargetsData targetsData;
+        [SerializeField]
+        private ZombieMovementData movementData;
 
         #endregion
 
@@ -27,6 +39,9 @@ namespace CyberMonk.Game.Zombie
 
         public Target.ZombieTargetsData TargetsData
             => this.targetsData;
+
+        public ZombieMovementData MovementData
+            => this.movementData;
 
         #endregion
     }

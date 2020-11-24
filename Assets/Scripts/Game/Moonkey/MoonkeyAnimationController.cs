@@ -63,7 +63,17 @@ namespace CyberMonk.Game.Moonkey
 
         public virtual void Update()
         {
+            this.UpdateLookDirection();
             this.UpdateMovingAnimator();
+        }
+
+        /// <summary>
+        /// Updates the look direction.
+        /// </summary>
+        private void UpdateLookDirection()
+        {
+            int lookDirection = (int)Mathf.RoundToInt(this._movementController.LookDirection);
+            this._renderer.flipX = lookDirection == -1;
         }
 
         /// <summary>
@@ -74,8 +84,6 @@ namespace CyberMonk.Game.Moonkey
             if (this._movementController.Moving)
             {
                 this._animator.Play("moonkey walk persp");
-                int lookDirection = (int)Mathf.RoundToInt(this._movementController.LookDirection);
-                this._renderer.flipX = lookDirection == -1;
                 this._prevMoving = this._movementController.Moving;
                 return;
             }

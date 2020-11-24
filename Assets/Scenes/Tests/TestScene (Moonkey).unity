@@ -132,7 +132,7 @@ GameObject:
   - component: {fileID: 90707018}
   - component: {fileID: 90707020}
   - component: {fileID: 90707019}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -228,8 +228,8 @@ GameObject:
   - component: {fileID: 287808373}
   - component: {fileID: 287808372}
   - component: {fileID: 287808371}
-  m_Layer: 0
-  m_Name: Ground (1)
+  m_Layer: 9
+  m_Name: Ground
   m_TagString: ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -620,7 +620,7 @@ GameObject:
   - component: {fileID: 945356715}
   - component: {fileID: 945356716}
   - component: {fileID: 945356717}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Ground
   m_TagString: ground
   m_Icon: {fileID: 0}
@@ -931,7 +931,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1408278130}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.4100003, y: -2.5200002, z: -10}
+  m_LocalPosition: {x: -3.4100006, y: -2.5200002, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1081,7 +1081,7 @@ GameObject:
   - component: {fileID: 1622884705}
   - component: {fileID: 1622884707}
   - component: {fileID: 1622884706}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: GFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1453,7 +1453,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1921047507}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.4100003, y: -2.5200002, z: -10}
+  m_LocalPosition: {x: -3.4100006, y: -2.5200002, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 716498390}
@@ -1471,7 +1471,7 @@ GameObject:
   - component: {fileID: 1958231253}
   - component: {fileID: 1958231254}
   - component: {fileID: 1958231255}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Moonkey
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1611,6 +1611,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1705071016, guid: 79cfea9893fa8ac4788a28aabefbb859, type: 3}
+      propertyPath: m_Constraints
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1705071016, guid: 79cfea9893fa8ac4788a28aabefbb859, type: 3}
+      propertyPath: m_LinearDrag
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 1691702501673725080, guid: 79cfea9893fa8ac4788a28aabefbb859,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1670,6 +1678,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ZombieTest
+      objectReference: {fileID: 0}
+    - target: {fileID: 3570411962664731798, guid: 79cfea9893fa8ac4788a28aabefbb859,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 79cfea9893fa8ac4788a28aabefbb859, type: 3}

@@ -496,13 +496,17 @@ namespace CyberMonk.Game.Zombie
 
     /// <summary>
     /// The abstract class that handles the movement of the zombie.
+    /// Checklist:
+    /// - Zombies need to be in x amount of range to move to the player.
+    /// - While targeted player is attacking, search for a new target (if there one)
+    /// - Move every other beat towards the player if in range.
     /// </summary>
     public abstract class AZombieMovementController
     {
 
         #region fields
  
-        private AZombieController _controller;
+        protected AZombieController _controller;
 
         #endregion
 
@@ -527,6 +531,8 @@ namespace CyberMonk.Game.Zombie
         public virtual void HookEvents()
         {
             // TODO: hook up an attack end event.
+            ZombieReferences references = this._controller.Component.References;
+            references.BeatDownEvent += this.OnDownBeat;
 
             this._controller.AttackedEvent += this.OnAttackBegin;
             this._controller.AttackEvent += this.OnAttack;
@@ -537,6 +543,9 @@ namespace CyberMonk.Game.Zombie
         /// </summary>
         public virtual void UnHookEvents()
         {
+            ZombieReferences references = this._controller.Component.References;
+            references.BeatDownEvent += this.OnDownBeat;
+
             this._controller.AttackedEvent -= this.OnAttackBegin;
             this._controller.AttackEvent += this.OnAttack;
         }
@@ -553,6 +562,8 @@ namespace CyberMonk.Game.Zombie
         abstract protected void OnAttackBegin(Moonkey.MoonkeyComponent attacker);
 
         abstract protected void OnAttack(AttackOutcome outcome);
+
+        abstract protected void OnDownBeat();
 
         /// <summary>
         /// Updates the movement of the zombie, called
@@ -733,7 +744,8 @@ namespace CyberMonk.Game.Zombie
 
         public ZombieComponent Component => this._component;
 
-        public ZombieType Type => this._type;
+        public ZombieType Type 
+            => this._type;
 
         #endregion
 

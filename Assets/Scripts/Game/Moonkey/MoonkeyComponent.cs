@@ -120,6 +120,9 @@ namespace CyberMonk.Game.Moonkey
         public MoonkeyProperties Properties
             => this.properties;
 
+        public bool IsAttacking
+            => this._controller.IsAtttacking;
+
         #endregion
 
         #region methods

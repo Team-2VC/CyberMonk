@@ -63,6 +63,9 @@ namespace CyberMonk.Game.Moonkey
         public virtual MoonkeyStateController StateController
             => this._stateController;
 
+        public bool IsAtttacking
+            => this._attackController.AttackedZombie != null;
+
         #endregion
 
         #region constructor
