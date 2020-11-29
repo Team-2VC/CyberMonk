@@ -28,6 +28,8 @@ namespace CyberMonk.Game.Zombie
         [SerializeField]
         private Utils.Events.GameEvent beatDownEvent;
         [SerializeField]
+        private Utils.Events.GameEvent zombieDeathEvent;
+        [SerializeField]
         private Moonkey.Events.MoonkeyAttackEvent attackFinishedEvent;
 
         [SerializeField, Range(0.1f, 100f)]
@@ -49,6 +51,11 @@ namespace CyberMonk.Game.Zombie
         {
             set => this.attackFinishedEvent = value;
             get => this.attackFinishedEvent;
+        }
+
+        public Utils.Events.GameEvent ZombieDeathEvent
+        {
+            get => this.zombieDeathEvent;
         }
     }
 
@@ -86,6 +93,7 @@ namespace CyberMonk.Game.Zombie
         private void Awake() 
         {
             this._controller = AZombieController.Create(this, settings);
+            ZombieHolder.Add(this);
         }
 
         /// <summary>
@@ -123,6 +131,14 @@ namespace CyberMonk.Game.Zombie
         private void OnDisable()
         {
             this._controller?.UnHookEvents();
+        }
+
+        /// <summary>
+        /// Called when the zombie component is destroyed.
+        /// </summary>
+        private void OnDestroy()
+        {
+            ZombieHolder.Remove(this);
         }
 
         #endregion

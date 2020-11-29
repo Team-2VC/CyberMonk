@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7e5c6aad60e8fa94baba340c38fab2f8, type: 3}
-  m_Name: ComboMultiplier
+  m_Name: ZombieSpawnPerWave
   m_EditorClassIdentifier: 
-  value: 2
-  originalValue: 1
+  value: 0
+  originalValue: 0

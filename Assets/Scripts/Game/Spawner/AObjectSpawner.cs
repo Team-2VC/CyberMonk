@@ -35,12 +35,7 @@ namespace CyberMonk.Game.Spawner
         #region fields
 
         [SerializeField]
-        [Tooltip("Represents the spawner cooldown until we want a spawner to start working after game starts")]
-        private float delayAfterGameStarted;
-        [SerializeField]
         private Utils.References.BooleanReference paused;
-
-        private float _delayAfterGameStarted = 0f;
 
         #endregion
 
@@ -69,18 +64,13 @@ namespace CyberMonk.Game.Spawner
         {
             get
             {
-                return this._delayAfterGameStarted <= 0f && !this.paused.Value;
+                return !this.paused.Value;
             }
         }
 
         #endregion
 
         #region methods
-
-        private void Start()
-        {
-            this._delayAfterGameStarted = this.delayAfterGameStarted;
-        }
 
         protected virtual void HookEvents() { }
 
@@ -115,17 +105,6 @@ namespace CyberMonk.Game.Spawner
             if (!this.paused.Value)
             {
                 this.OnUpdate();
-
-                // Updates the delay after the game started.
-                if (this._delayAfterGameStarted > 0)
-                {
-                    this._delayAfterGameStarted -= Time.deltaTime;
-
-                    if (this._delayAfterGameStarted <= 0f)
-                    {
-                        this._delayAfterGameStarted = 0f;
-                    }
-                }
             }
 
             if (!this.CanSpawn)

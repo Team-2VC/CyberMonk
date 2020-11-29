@@ -136,6 +136,24 @@ namespace CyberMonk.Utils.References
 
         #region properties
 
+        public event System.Action<int> ChangedValueEvent
+        {
+            add
+            {
+                if(this.variable != null)
+                {
+                    this.variable.ChangedValueEvent += value;
+                }
+            }
+            remove
+            {
+                if(this.variable != null)
+                {
+                    this.variable.ChangedValueEvent -= value;
+                }
+            }
+        }
+
         protected override int ReferenceValue
         {
             get => this.variable != null ? this.variable.Value : this.constantValue;
@@ -177,6 +195,24 @@ namespace CyberMonk.Utils.References
         #endregion
 
         #region properties
+
+        public event System.Action<bool> ChangedValueEvent
+        {
+            add
+            {
+                if (this.variable != null)
+                {
+                    this.variable.ChangedValueEvent += value;
+                }
+            }
+            remove
+            {
+                if (this.variable != null)
+                {
+                    this.variable.ChangedValueEvent -= value;
+                }
+            }
+        }
 
         protected override bool ReferenceValue
         {
@@ -221,6 +257,25 @@ namespace CyberMonk.Utils.References
 
         #region propreties
 
+        public event System.Action<string> ChangedValueEvent
+        {
+            add
+            {
+                if (this.variable != null)
+                {
+                    this.variable.ChangedValueEvent += value;
+                }
+            }
+            remove
+            {
+                if (this.variable != null)
+                {
+                    this.variable.ChangedValueEvent -= value;
+                }
+            }
+        }
+
+
         protected override string ReferenceValue
         {
             get => this.variable != null ? this.variable.Value : this.constantValue;
@@ -262,6 +317,25 @@ namespace CyberMonk.Utils.References
         #endregion
 
         #region properties
+
+        public event System.Action<Vector2> ChangedValueEvent
+        {
+            add
+            {
+                if (this.variable != null)
+                {
+                    this.variable.ChangedValueEvent += value;
+                }
+            }
+            remove
+            {
+                if (this.variable != null)
+                {
+                    this.variable.ChangedValueEvent -= value;
+                }
+            }
+        }
+
 
         protected override Vector2 ReferenceValue
         {

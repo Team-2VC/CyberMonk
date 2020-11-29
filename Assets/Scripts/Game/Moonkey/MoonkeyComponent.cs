@@ -22,7 +22,6 @@ namespace CyberMonk.Game.Moonkey
         [SerializeField]
         private Utils.References.IntegerReference totalScore;
 
-
         public Events.MoonkeyAttackEvent AttackFinishedEvent
         {
             get => this.attackFinishedEvent;

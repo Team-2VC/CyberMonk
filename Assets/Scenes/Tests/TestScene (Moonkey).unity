@@ -573,11 +573,10 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1408278130}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.4100003, y: -2.5200002, z: -10}
+  m_LocalPosition: {x: -3.4100006, y: -2.5200002, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 1608361083}
-  - {fileID: 1498951185}
+  - {fileID: 1957887491}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -739,10 +738,10 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1498951184}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 18, y: 0, z: 10}
+  m_LocalPosition: {x: -18, y: 0, z: 10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 1408278133}
+  m_Father: {fileID: 1957887491}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1498951186
@@ -757,18 +756,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b8fb896512be2a48a5963903dc1094a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  delayAfterGameStarted: 0
   paused:
     constant: 1
     constantValue: 0
     variable: {fileID: 0}
   spawnerInfo:
+    waveStartEvent: {fileID: 11400000, guid: e8aac05ab4bb4bf45a9c89fdce7a98fc, type: 2}
+    waveEndEvent: {fileID: 11400000, guid: 8e2af33d41a75224d993f7e72ec5c61a, type: 2}
     zombiesToSpawn:
       constant: 0
       constantValue: 0
       variable: {fileID: 11400000, guid: 35b6a558d6283504ea8c5779e22c2467, type: 2}
-    minSpawnSeconds: 17
-    spawnSecondsDifference: 20
+    minSpawnSeconds: 8.3
+    spawnSecondsDifference: 17.8
     spawnerData: {fileID: 11400000, guid: 2041097cf5ced0d43ab5fcc977d2ae41, type: 2}
 --- !u!1 &1608361082
 GameObject:
@@ -798,7 +798,7 @@ Transform:
   m_LocalPosition: {x: 18, y: 0, z: 10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 1408278133}
+  m_Father: {fileID: 1957887491}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1608361084
@@ -813,18 +813,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b8fb896512be2a48a5963903dc1094a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  delayAfterGameStarted: 0
   paused:
     constant: 1
     constantValue: 0
     variable: {fileID: 0}
   spawnerInfo:
+    waveStartEvent: {fileID: 11400000, guid: e8aac05ab4bb4bf45a9c89fdce7a98fc, type: 2}
+    waveEndEvent: {fileID: 11400000, guid: 8e2af33d41a75224d993f7e72ec5c61a, type: 2}
     zombiesToSpawn:
       constant: 0
       constantValue: 0
       variable: {fileID: 11400000, guid: 35b6a558d6283504ea8c5779e22c2467, type: 2}
-    minSpawnSeconds: 17
-    spawnSecondsDifference: 20
+    minSpawnSeconds: 12.43
+    spawnSecondsDifference: 15.8
     spawnerData: {fileID: 11400000, guid: 2041097cf5ced0d43ab5fcc977d2ae41, type: 2}
 --- !u!1 &1664327158
 GameObject:
@@ -975,13 +976,74 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1921047507}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.4100003, y: -2.5200002, z: -10}
+  m_LocalPosition: {x: -3.4100006, y: -2.5200002, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 716498390}
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1957887490
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1957887491}
+  - component: {fileID: 1957887492}
+  m_Layer: 0
+  m_Name: WaveManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1957887491
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1957887490}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 1608361083}
+  - {fileID: 1498951185}
+  m_Father: {fileID: 1408278133}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1957887492
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1957887490}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e062cb6436f6f644d844d3b6d837678d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  values:
+    startNumberZombies: 5
+    delayBetweenWaves: 10.5
+  events:
+    waveStartEvent: {fileID: 11400000, guid: e8aac05ab4bb4bf45a9c89fdce7a98fc, type: 2}
+    waveEndEvent: {fileID: 11400000, guid: 8e2af33d41a75224d993f7e72ec5c61a, type: 2}
+    zombieDeathEvent: {fileID: 11400000, guid: 5c1cb58f3ea5afb40b87bae535fd1d02, type: 2}
+  references:
+    zombiesSpawnedPerWave:
+      constant: 0
+      constantValue: 0
+      variable: {fileID: 11400000, guid: 35b6a558d6283504ea8c5779e22c2467, type: 2}
+    currentWave:
+      constant: 0
+      constantValue: 0
+      variable: {fileID: 11400000, guid: 08f7d0380be4cd545b04b74108183459, type: 2}
 --- !u!4 &1958231253 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4245225831426242232, guid: 051128727cb65ed4f801ca4651b0f7b3,
@@ -1064,6 +1126,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4800162600086771617, guid: 507a1cf35a9d6c14bb793ed4892f6e1c,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4800162600086771618, guid: 507a1cf35a9d6c14bb793ed4892f6e1c,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1243,5 +1310,29 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7250241122266481763, guid: 1595317a3f537d44586be336c63e842a,
+        type: 3}
+      propertyPath: references.currentWave.variable
+      value: 
+      objectReference: {fileID: 11400000, guid: 08f7d0380be4cd545b04b74108183459,
+        type: 2}
+    - target: {fileID: 7250241122266481763, guid: 1595317a3f537d44586be336c63e842a,
+        type: 3}
+      propertyPath: references.totalScore.variable
+      value: 
+      objectReference: {fileID: 11400000, guid: 0b79c29b996e7874482d29b799ae9b4d,
+        type: 2}
+    - target: {fileID: 7250241122266481763, guid: 1595317a3f537d44586be336c63e842a,
+        type: 3}
+      propertyPath: references.comboMultiplier.variable
+      value: 
+      objectReference: {fileID: 11400000, guid: c7df1a7311f273f49ab09022a40f8a3c,
+        type: 2}
+    - target: {fileID: 7250241122266481763, guid: 1595317a3f537d44586be336c63e842a,
+        type: 3}
+      propertyPath: references.comboCounter.variable
+      value: 
+      objectReference: {fileID: 11400000, guid: 203ec7fcdd833a046b0b839ed1b02879,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1595317a3f537d44586be336c63e842a, type: 3}

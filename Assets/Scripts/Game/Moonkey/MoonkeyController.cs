@@ -78,6 +78,12 @@ namespace CyberMonk.Game.Moonkey
             add => this._movementController.DashEvent += value;
             remove => this._movementController.DashEvent -= value;
         }
+
+        public event System.Action<float> HealthChangedEvent
+        {
+            add => this._health.HealthChangedEvent += value;
+            remove => this._health.HealthChangedEvent -= value;
+        }
         
         private readonly MoonkeyComponent _component;
         private readonly MoonkeySettings _settings;

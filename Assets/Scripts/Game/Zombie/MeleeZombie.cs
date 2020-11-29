@@ -207,8 +207,24 @@ namespace CyberMonk.Game.Zombie.Melee
 
             this._attacker = null;
             this._state = ZombieState.STATE_LAUNCHED;
- 
-            // TODO: event where the zombie is launched
+
+            // TODO: Call a localized event that calls the launched event.
+            // TODO: Remove onDeath
+
+            this.OnDeath();
+        }
+
+        /// <summary>
+        /// Called when the zombie has died.
+        /// </summary>
+        private void OnDeath()
+        {
+            // Calls the zombie death event.
+            if(this.References.HasValue)
+            {
+                this.References.Value.ZombieDeathEvent?.Call();
+            }
+
             // For now it just destroys the object
             GameObject.Destroy(this._controller.Component.gameObject);
         }
