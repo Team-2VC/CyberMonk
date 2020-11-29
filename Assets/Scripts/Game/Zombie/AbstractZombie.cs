@@ -437,7 +437,7 @@ namespace CyberMonk.Game.Zombie
                 // TODO: hook up the targets to the event and damage player.
                 Debug.Log("Damage the player & deactivate targets.");
                 this.ResetTargets();
-                this.CallMoonkeyFailedTargets();
+                this.AttackEvent(AttackOutcome.OUTCOME_FAILED);
                 return;
             }
 
@@ -446,21 +446,18 @@ namespace CyberMonk.Game.Zombie
                 // TODO: Hook up the targets to the event and damage player. 
                 Debug.Log("Damage the player & deactivate targets.");
                 this.ResetTargets();
-                this.CallMoonkeyFailedTargets();
+                this.AttackEvent(AttackOutcome.OUTCOME_FAILED);
                 return;
             }
 
             if(this._targetsIterator.Last != null && this._targetsIterator.Last.TargetIndex == targetIndex)
             {
-                this.CallMoonkeyFinishAttack();
+                this.AttackEvent(AttackOutcome.OUTCOME_SUCCESS);
                 return;
             }
 
             this._previousTargetClicked = targetIndex;
-
             this.AttackEvent(AttackOutcome.OUTCOME_NORMAL);
-
-
         }
 
         /// <summary>
@@ -473,22 +470,6 @@ namespace CyberMonk.Game.Zombie
             this._previousTargetClicked = -1;
 
             this._targetsIterator.Reset();
-        }
-
-        /// <summary>
-        /// Calls the monkey failed targets event.
-        /// </summary>
-        private void CallMoonkeyFailedTargets()
-        {
-            this.AttackEvent(AttackOutcome.OUTCOME_FAILED);
-        }
-
-        /// <summary>
-        /// Calls the moonkey finish attack event.
-        /// </summary>
-        private void CallMoonkeyFinishAttack()
-        {
-            this.AttackEvent(AttackOutcome.OUTCOME_SUCCESS);
         }
 
         #endregion

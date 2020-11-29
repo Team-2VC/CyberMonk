@@ -90,6 +90,25 @@ namespace CyberMonk.Utils.References
 
         #region properties
 
+        public event System.Action<float> ChangedValueEvent
+        {
+            add
+            {
+                if (this.variable != null)
+                {
+                    this.variable.ChangedValueEvent += value;
+                }
+            }
+            remove
+            {
+                if (this.variable != null)
+                {
+                    this.variable.ChangedValueEvent -= value;
+                }
+            }
+        }
+
+
         /// <summary>
         /// The Reference value definition.
         /// </summary>

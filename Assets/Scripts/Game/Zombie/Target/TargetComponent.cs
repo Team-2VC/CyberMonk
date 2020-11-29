@@ -110,8 +110,10 @@ namespace CyberMonk.Game.Zombie.Target
                 // TODO: Combo event.
                 
                 this.OnPressedExact();
+
                 if(!this.BeatEntered)
                 {
+                    // this is early
                     return;
                 }
 
@@ -133,6 +135,8 @@ namespace CyberMonk.Game.Zombie.Target
         /// </summary>
         private void OnBeatDown()
         {
+            // todo: reimplement
+
             if(this.Active)
             {
                 this._beatsActive++;
