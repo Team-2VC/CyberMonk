@@ -61,6 +61,8 @@ namespace CyberMonk.Game
        
         private void Awake()
         {
+            Time.timeScale = 1f;
+
             this.references.Reset();
         }
 
