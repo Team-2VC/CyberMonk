@@ -43,18 +43,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 416fcf1f516aa574095da5dc77c78728, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _defaultComboCount: 0
-  _defaultComboMultiplier: 1
-  _defaultTotalScore: 0
-  _comboCounter:
-    constant: 0
-    constantValue: 0
-    variable: {fileID: 11400000, guid: 203ec7fcdd833a046b0b839ed1b02879, type: 2}
-  _comboMultiplier:
-    constant: 0
-    constantValue: 0
-    variable: {fileID: 11400000, guid: c7df1a7311f273f49ab09022a40f8a3c, type: 2}
-  _totalScore:
-    constant: 0
-    constantValue: 0
-    variable: {fileID: 11400000, guid: 0b79c29b996e7874482d29b799ae9b4d, type: 2}
+  references:
+    comboCounter:
+      constant: 0
+      constantValue: 0
+      variable: {fileID: 11400000, guid: 203ec7fcdd833a046b0b839ed1b02879, type: 2}
+    comboMultiplier:
+      constant: 0
+      constantValue: 0
+      variable: {fileID: 11400000, guid: c7df1a7311f273f49ab09022a40f8a3c, type: 2}
+    totalScore:
+      constant: 0
+      constantValue: 0
+      variable: {fileID: 11400000, guid: 0b79c29b996e7874482d29b799ae9b4d, type: 2}
+    currentWave:
+      constant: 0
+      constantValue: 0
+      variable: {fileID: 11400000, guid: 08f7d0380be4cd545b04b74108183459, type: 2}
+    paused:
+      constant: 0
+      constantValue: 0
+      variable: {fileID: 11400000, guid: 5c56c2f61d47f904389d3447591fe5f8, type: 2}
+    pausedGUIPrefab: {fileID: 8978451174797670443, guid: ae50cd022f5ce4540b6d09dfd231dfac,
+      type: 3}
