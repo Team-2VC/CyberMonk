@@ -7,54 +7,55 @@ namespace CyberMonk.Game.Lights
 {
 
     
-
+    [RequireComponent(typeof(Animator))]
     public class LightFlash : MonoBehaviour
     {
 
+        #region fields
+
         [SerializeField]
         private Utils.References.IntegerReference beatCounter;
-
         [SerializeField]
         private Utils.Events.GameEvent beatDownEvent;
+        [SerializeField, Range(1, 100)]
+        private float randomizationPercentage = 33;
 
-        [SerializeField]
-        private bool upBeat = true;
+        private Animator _animator;
 
-        private Animator animator;
+        #endregion
+
+        #region methods
 
         private void Start()
         {
-            animator = this.GetComponent<Animator>();
+            _animator = this.GetComponent<Animator>();
         }
 
         private void OnEnable()
         {
-            HookEvent();
+            if (this.beatDownEvent != null)
+            {
+                this.beatDownEvent += this.OnDownBeat;
+            }
         }
 
         private void OnDisable()
         {
-            UnhookEvent();
-        }
-
-        private void HookEvent()
-        {
-            this.beatDownEvent += this.OnDownBeat;  
-        }
-
-        private void UnhookEvent()
-        {
-            this.beatDownEvent -= this.OnDownBeat;
+            if(this.beatDownEvent != null)
+            {
+                this.beatDownEvent -= this.OnDownBeat;
+            }
         }
 
         private void OnDownBeat()
         {
-            if(Random.Range(0, 3) == 1)
-                this.animator.Play("Flash");
-            
-            
+            float randomized = Random.Range(1, 100);
+            if(randomized <= this.randomizationPercentage)
+            {
+                this._animator.Play("Flash");
+            }
         }
 
-
+        #endregion
     }
 }
