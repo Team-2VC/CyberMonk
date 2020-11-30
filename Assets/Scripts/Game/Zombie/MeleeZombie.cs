@@ -157,7 +157,7 @@ namespace CyberMonk.Game.Zombie.Melee
 
         #region methods
 
-        protected override void OnDownBeat()
+        protected override void OnBeat()
         {
             if(this._state == ZombieState.STATE_ATTACKED
                 && !this._targetController.TargetsActive)

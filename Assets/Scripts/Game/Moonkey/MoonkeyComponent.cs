@@ -21,6 +21,9 @@ namespace CyberMonk.Game.Moonkey
         private Utils.References.IntegerReference comboMultiplier;
         [SerializeField]
         private Utils.References.IntegerReference totalScore;
+        [SerializeField]
+        private Utils.References.BooleanReference paused;
+
 
         public Events.MoonkeyAttackEvent AttackFinishedEvent
         {
@@ -71,6 +74,9 @@ namespace CyberMonk.Game.Moonkey
                 }
             }
         }
+
+        public bool Paused
+            => this.paused.Value;
     }
 
     [System.Serializable]
@@ -140,6 +146,11 @@ namespace CyberMonk.Game.Moonkey
         /// </summary>
         private void Update()
         {
+            if(this.references.Paused)
+            {
+                return;
+            }
+
             this._controller.Update();
         }
 
@@ -148,6 +159,11 @@ namespace CyberMonk.Game.Moonkey
         /// </summary>
         private void FixedUpdate()
         {
+            if(this.references.Paused)
+            {
+                return;
+            }
+
             this._controller.PhysicsUpdate();
         }
 
@@ -182,6 +198,11 @@ namespace CyberMonk.Game.Moonkey
         /// <param name="collision">The collision.</param>
         private void OnCollisionEnter2D(Collision2D collision)
         {
+            if(this.references.Paused)
+            {
+                return;
+            }
+
             this._controller.OnCollisionEnter2D(collision);
         }
 
@@ -191,6 +212,11 @@ namespace CyberMonk.Game.Moonkey
         /// <param name="collision">The collision.</param>
         private void OnCollisionExit2D(Collision2D collision)
         {
+            if(this.references.Paused)
+            {
+                return;
+            }
+
             this._controller.OnCollisionExit2D(collision);
         }
 
@@ -200,6 +226,11 @@ namespace CyberMonk.Game.Moonkey
         /// <param name="collider">The collision.</param>
         private void OnTriggerEnter2D(Collider2D collider)
         {
+            if(this.references.Paused)
+            {
+                return;
+            }
+
             this._controller.OnTriggerEnter2D(collider);
         }
 
@@ -209,6 +240,11 @@ namespace CyberMonk.Game.Moonkey
         /// <param name="collider">The collision.</param>
         private void OnTriggerExit2D(Collider2D collider)
         {
+            if(this.references.Paused)
+            {
+                return;
+            }
+
             this._controller.OnTriggerExit2D(collider);
         }
 

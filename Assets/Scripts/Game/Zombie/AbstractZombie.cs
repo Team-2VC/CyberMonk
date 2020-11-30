@@ -417,7 +417,7 @@ namespace CyberMonk.Game.Zombie
         /// </summary>
         private void OnDownBeat()
         {
-            if(this._targetsActive)
+            if (this._targetsActive)
             {
                 // TODO: Test
                 this._currentTarget = this._targetsIterator.Next();
@@ -611,15 +611,23 @@ namespace CyberMonk.Game.Zombie
         public virtual void UnHookEvents()
         {
             ZombieReferences references = this._controller.Component.References;
-            references.BeatDownEvent -= OnDownBeat;
+            references.BeatDownEvent -= this.OnDownBeat;
             this._controller.AttackedEvent -= this.OnAttacked;
             this._controller.AttackEvent -= this.OnAttack;
         }
 
         /// <summary>
+        /// Called when the beat goes down.
+        /// </summary>
+        private void OnDownBeat()
+        {
+            this.OnBeat();
+        }
+
+        /// <summary>
         /// Handles when a down beat event is applied.
         /// </summary>
-        abstract protected void OnDownBeat();
+        abstract protected void OnBeat();
 
         /// <summary>
         /// Called when the zombie is attacked.

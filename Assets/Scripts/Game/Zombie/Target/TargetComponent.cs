@@ -41,8 +41,8 @@ namespace CyberMonk.Game.Zombie.Target
 
         private bool _active = false;
 
-        private System.DateTime? _beatTime = null;
-        private System.DateTime? _pressedTime = null;
+        private float? _beatTime = null;
+        private float? _pressedTime = null;
 
         private ZombieTargetWrapper _parentWrapper;
 
@@ -123,12 +123,11 @@ namespace CyberMonk.Game.Zombie.Target
         private void OnBeatDown()
         {
             // todo: reimplement
-
             if(this.Active)
             {
                 if (!this._beatTime.HasValue)
                 {
-                    this._beatTime = System.DateTime.Now;
+                    this._beatTime = Time.time;
                 }
 
                 this._beatsActive++;
@@ -150,7 +149,7 @@ namespace CyberMonk.Game.Zombie.Target
                 return;
             }
 
-            this._pressedTime = System.DateTime.Now;
+            this._pressedTime = Time.time;
             
             // Sets the renderer as disabled.
             if(this._renderer != null)
@@ -158,8 +157,7 @@ namespace CyberMonk.Game.Zombie.Target
                 this._renderer.enabled = false;
             }
 
-            System.TimeSpan span = this._pressedTime.Value.Subtract(this._beatTime.Value);
-            this.Deactivate(DeactivationReason.REASON_PLAYER_HIT, span);
+            this.Deactivate(DeactivationReason.REASON_PLAYER_HIT, this._pressedTime.Value - this._beatTime.Value);
         }
 
         /// <summary>
@@ -171,10 +169,9 @@ namespace CyberMonk.Game.Zombie.Target
         {
             DeactivationData data;
             
-            if(dat is System.TimeSpan)
+            if(dat is float)
             {
-                float difference = ((System.TimeSpan)dat).Milliseconds / 1000f;
-                data = new DeactivationData(reason, difference);
+                data = new DeactivationData(reason, (float)dat);
             }
             else
             {

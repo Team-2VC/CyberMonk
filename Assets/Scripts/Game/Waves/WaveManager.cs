@@ -66,6 +66,8 @@ namespace CyberMonk.Game.Waves
         private Utils.References.IntegerReference zombiesSpawnedPerWave;
         [SerializeField]
         private Utils.References.IntegerReference currentWave;
+        [SerializeField]
+        private Utils.References.BooleanReference paused;
 
         public int ZombiesSpawnedPerWave
         {
@@ -77,6 +79,11 @@ namespace CyberMonk.Game.Waves
         {
             get => this.currentWave.Value;
             set => this.currentWave.Value = value;
+        }
+
+        public bool Paused
+        {
+            get => this.paused.Value;
         }
     }
 
@@ -120,6 +127,11 @@ namespace CyberMonk.Game.Waves
         /// </summary>
         private void Update()
         {
+            if(this.references.Paused)
+            {
+                return;
+            }
+
             if(this.IsInWaveCooldown)
             {
                 this._delayBetweenWaves -= Time.deltaTime;

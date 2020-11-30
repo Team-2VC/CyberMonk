@@ -28,6 +28,8 @@ namespace CyberMonk.Game.Music
         private Utils.References.IntegerReference beatCounter;
         [SerializeField]
         private Utils.References.StringReference musicPath;
+        [SerializeField]
+        private Utils.References.BooleanReference paused;
 
         private FModTimelineData timelineData;
         
@@ -46,8 +48,7 @@ namespace CyberMonk.Game.Music
         private void OnEnable()
         {
             this.LoadConductor();
-
-
+            this.paused.ChangedValueEvent += this.OnPaused;
         }
 
         /// <summary>
@@ -56,6 +57,12 @@ namespace CyberMonk.Game.Music
         private void OnDisable()
         {
             this.StopConductor();
+            this.paused.ChangedValueEvent -= this.OnPaused;
+        }
+
+        private void OnPaused(bool paused)
+        {
+            this.eventInstance.setPaused(paused);
         }
 
         /// <summary>
@@ -105,7 +112,7 @@ namespace CyberMonk.Game.Music
                 return FMOD.RESULT.OK;
             }
             
-            if (timelineInfoPtr != System.IntPtr.Zero)
+            if (timelineInfoPtr != System.IntPtr.Zero && !this.paused.Value)
             {
                 GCHandle timelineHandle = GCHandle.FromIntPtr(timelineInfoPtr);
                 FModTimelineData timelineInfo = (FModTimelineData)timelineHandle.Target;

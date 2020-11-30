@@ -651,6 +651,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5213678832027362866, guid: bd0db0649d0d5904db176a86c74a050e,
+        type: 3}
+      propertyPath: paused.variable
+      value: 
+      objectReference: {fileID: 11400000, guid: 5c56c2f61d47f904389d3447591fe5f8,
+        type: 2}
     - target: {fileID: 5213678832027362868, guid: bd0db0649d0d5904db176a86c74a050e,
         type: 3}
       propertyPath: m_Name
@@ -757,9 +763,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   paused:
-    constant: 1
+    constant: 0
     constantValue: 0
-    variable: {fileID: 0}
+    variable: {fileID: 11400000, guid: 5c56c2f61d47f904389d3447591fe5f8, type: 2}
   spawnerInfo:
     waveStartEvent: {fileID: 11400000, guid: e8aac05ab4bb4bf45a9c89fdce7a98fc, type: 2}
     waveEndEvent: {fileID: 11400000, guid: 8e2af33d41a75224d993f7e72ec5c61a, type: 2}
@@ -814,9 +820,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   paused:
-    constant: 1
+    constant: 0
     constantValue: 0
-    variable: {fileID: 0}
+    variable: {fileID: 11400000, guid: 5c56c2f61d47f904389d3447591fe5f8, type: 2}
   spawnerInfo:
     waveStartEvent: {fileID: 11400000, guid: e8aac05ab4bb4bf45a9c89fdce7a98fc, type: 2}
     waveEndEvent: {fileID: 11400000, guid: 8e2af33d41a75224d993f7e72ec5c61a, type: 2}
@@ -1045,6 +1051,10 @@ MonoBehaviour:
       constant: 0
       constantValue: 0
       variable: {fileID: 11400000, guid: 08f7d0380be4cd545b04b74108183459, type: 2}
+    paused:
+      constant: 0
+      constantValue: 0
+      variable: {fileID: 11400000, guid: 5c56c2f61d47f904389d3447591fe5f8, type: 2}
 --- !u!4 &1958231253 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4245225831426242232, guid: 051128727cb65ed4f801ca4651b0f7b3,
@@ -1118,6 +1128,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: Moonkey
       objectReference: {fileID: 0}
+    - target: {fileID: 4245225831426242234, guid: 051128727cb65ed4f801ca4651b0f7b3,
+        type: 3}
+      propertyPath: references.paused.variable
+      value: 
+      objectReference: {fileID: 11400000, guid: 5c56c2f61d47f904389d3447591fe5f8,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 051128727cb65ed4f801ca4651b0f7b3, type: 3}
 --- !u!1001 &4800162599154766704
@@ -1335,5 +1351,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 203ec7fcdd833a046b0b839ed1b02879,
         type: 2}
+    - target: {fileID: 7250241122266481763, guid: 1595317a3f537d44586be336c63e842a,
+        type: 3}
+      propertyPath: references.paused.variable
+      value: 
+      objectReference: {fileID: 11400000, guid: 5c56c2f61d47f904389d3447591fe5f8,
+        type: 2}
+    - target: {fileID: 7250241122266481763, guid: 1595317a3f537d44586be336c63e842a,
+        type: 3}
+      propertyPath: references.pausedGUIPrefab
+      value: 
+      objectReference: {fileID: 8978451174797670443, guid: ae50cd022f5ce4540b6d09dfd231dfac,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1595317a3f537d44586be336c63e842a, type: 3}

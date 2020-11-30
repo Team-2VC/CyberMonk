@@ -31,6 +31,8 @@ namespace CyberMonk.Game.Zombie
         private Utils.Events.GameEvent zombieDeathEvent;
         [SerializeField]
         private Moonkey.Events.MoonkeyAttackEvent attackFinishedEvent;
+        [SerializeField]
+        private Utils.References.BooleanReference paused;
 
         [SerializeField, Range(0.1f, 100f)]
         private float _damageAmount;
@@ -57,6 +59,11 @@ namespace CyberMonk.Game.Zombie
         {
             get => this.zombieDeathEvent;
         }
+
+        public bool Paused
+        {
+            get => this.paused.Value;
+        }
     }
 
     /// <summary>
@@ -77,6 +84,7 @@ namespace CyberMonk.Game.Zombie
         #endregion
 
         #region properties
+        
         public ZombieReferences References
             => this.references;
 
