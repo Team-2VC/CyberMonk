@@ -23,4 +23,6 @@ MonoBehaviour:
     randomizeTargetOrder: 1
   movementData:
     speedForce: 20
-    launchForce: 111.17
+    launchData:
+      launchHeight: 14
+      launchDuration: 0.9

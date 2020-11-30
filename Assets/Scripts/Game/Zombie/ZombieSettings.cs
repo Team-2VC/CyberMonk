@@ -8,16 +8,32 @@ namespace CyberMonk.Game.Zombie
     [System.Serializable]
     public struct ZombieMovementData
     {
+
+        [System.Serializable]
+        public struct ZombieLaunchData
+        {
+            [SerializeField]
+            private float launchHeight;
+            [SerializeField]
+            private float launchDuration;
+
+            public float LaunchHeight
+                => this.launchHeight;
+
+            public float LaunchDuration
+                => this.launchDuration;
+        }
+
         [SerializeField]
         private float speedForce;
         [SerializeField]
-        private float launchForce;
+        private ZombieLaunchData launchData;
 
         public float SpeedForce
             => this.speedForce;
 
-        public float LaunchForce
-            => this.launchForce;
+        public ZombieLaunchData LaunchData
+            => this.launchData;
     }
 
     /// <summary>

@@ -485,21 +485,34 @@ namespace CyberMonk.Game.Zombie
         private Rigidbody2D _rigidbody;
 
         private Vector2 _startPosition;
+        private Vector2 _centerPosition;
+        private Vector2 _endPosition;
 
-        private bool _completed = false;
+        private ZombieMovementData.ZombieLaunchData _launchData;
+        private float _currentLaunchDuration = 0f;
 
         public bool Completed
-            => this._completed;
+            => this._currentLaunchDuration >= this._launchData.LaunchDuration;
 
-        // TODO: Get the launch duration.
         public float LaunchDuration
-            => 0.0f;
+            => this._currentLaunchDuration;
 
-        public ZombieLaunchController(AZombieMovementController parent)
+        protected float DurationPercentage
+            => this._currentLaunchDuration / this._launchData.LaunchDuration;
+
+        public ZombieLaunchController(AZombieMovementController parent, ZombieMovementData.ZombieLaunchData launchData)
         {
             this._parent = parent;
             this._rigidbody = parent.Rigidbody;
             this._startPosition = parent.Controller.Component.transform.position;
+            this._endPosition = parent.Controller.Component.References.MoonPosition;
+            this._launchData = launchData;
+
+            // Calculates the middle position.
+            Vector2 midPosition = new Vector2();
+            midPosition.y += launchData.LaunchHeight;
+            midPosition.x = (this._startPosition.x + this._endPosition.x / 2.0f);
+            this._centerPosition = midPosition;
         }
 
         /// <summary>
@@ -509,7 +522,8 @@ namespace CyberMonk.Game.Zombie
         {
             if(!this.Completed)
             {
-                // TODO: Update Movement;
+                this._currentLaunchDuration += Time.fixedDeltaTime;
+                this._rigidbody.MovePosition(this.BezierCurve(this.DurationPercentage));
             }
         }
 
@@ -520,12 +534,8 @@ namespace CyberMonk.Game.Zombie
         /// <returns>The point where to travel to.</returns>
         private Vector2 BezierCurve(float travelPercentage)
         {
-            // TODO: Get the mid & endpoints.
-            Vector2 midPoint = Vector2.zero;
-            Vector2 endPoint = Vector2.zero;
-
-            Vector2 rayAB = Vector2.Lerp(this._startPosition, midPoint, travelPercentage);
-            Vector2 rayBC = Vector2.Lerp(midPoint, endPoint, travelPercentage);
+            Vector2 rayAB = Vector2.Lerp(this._startPosition, this._centerPosition, travelPercentage);
+            Vector2 rayBC = Vector2.Lerp(this._centerPosition, this._endPosition, travelPercentage);
 
             return Vector2.Lerp(rayAB, rayBC, travelPercentage);
         }
@@ -544,9 +554,13 @@ namespace CyberMonk.Game.Zombie
     {
 
         #region fields
+
+        public event System.Action LaunchEndEvent
+            = delegate { };
  
         protected AZombieController _controller;
         private ZombieLaunchController _launchController = null;
+        private ZombieMovementData.ZombieLaunchData _launchData;
 
         #endregion
 
@@ -569,9 +583,10 @@ namespace CyberMonk.Game.Zombie
 
         #region constructor
 
-        public AZombieMovementController(AZombieController controller)
+        public AZombieMovementController(AZombieController controller, ZombieMovementData movementData)
         {
             this._controller = controller;
+            this._launchData = movementData.LaunchData;
         }
 
         #endregion
@@ -588,7 +603,7 @@ namespace CyberMonk.Game.Zombie
 
             this._controller.AttackedEvent += this.OnAttackBegin;
             this._controller.AttackEvent += this.OnAttack;
-            this._controller.LaunchedEvent += this.OnLaunched;
+            this._controller.LaunchBeginEvent += this.OnLaunched;
         }
 
         /// <summary>
@@ -601,7 +616,7 @@ namespace CyberMonk.Game.Zombie
 
             this._controller.AttackedEvent -= this.OnAttackBegin;
             this._controller.AttackEvent -= this.OnAttack;
-            this._controller.LaunchedEvent -= this.OnLaunched;
+            this._controller.LaunchBeginEvent -= this.OnLaunched;
         }
 
         /// <summary>
@@ -618,7 +633,6 @@ namespace CyberMonk.Game.Zombie
             this.UpdateMovement();
         }
 
-        
         abstract protected void OnAttackBegin(Moonkey.MoonkeyComponent attacker);
 
         abstract protected void OnAttack(AttackOutcome outcome);
@@ -633,13 +647,24 @@ namespace CyberMonk.Game.Zombie
 
         protected virtual void OnLaunched()
         {
-            this._launchController = new ZombieLaunchController(this);
+            this._launchController = new ZombieLaunchController(this, this._launchData);
         }
         
         protected void UpdateLaunched()
         {
-            this._launchController?.Update();
-            // TODO: Check if the launch has completed, if so, call a launch end event.
+            if(this._launchController == null)
+            {
+                return;
+            }
+
+            this._launchController.Update();
+            
+            if(this._launchController.Completed)
+            {
+                this.LaunchEndEvent();
+                this._launchController = null;
+                return;
+            }
         }
 
         #endregion
@@ -652,7 +677,7 @@ namespace CyberMonk.Game.Zombie
     {
         #region fields
 
-        public event System.Action LaunchedEvent
+        public event System.Action LaunchBeginEvent
             = delegate { };
 
         protected ZombieState _state;
@@ -701,6 +726,7 @@ namespace CyberMonk.Game.Zombie
             references.BeatDownEvent += this.OnDownBeat;
             this._controller.AttackedEvent += this.OnAttacked;
             this._controller.AttackEvent += this.OnAttack;
+            this._controller.LaunchEndEvent += this.OnLaunchEnd;
         }
 
         /// <summary>
@@ -712,6 +738,7 @@ namespace CyberMonk.Game.Zombie
             references.BeatDownEvent -= this.OnDownBeat;
             this._controller.AttackedEvent -= this.OnAttacked;
             this._controller.AttackEvent -= this.OnAttack;
+            this._controller.LaunchEndEvent -= this.OnLaunchEnd;
         }
 
         /// <summary>
@@ -744,14 +771,19 @@ namespace CyberMonk.Game.Zombie
         /// </summary>
         protected void Launch()
         {
-            this.OnLaunch();
-            this.LaunchedEvent();
+            this.OnLaunchBegin();
+            this.LaunchBeginEvent();
         }
 
         /// <summary>
         /// Called when the zombie is launched.
         /// </summary>
-        abstract protected void OnLaunch();
+        abstract protected void OnLaunchBegin();
+
+        /// <summary>
+        /// Called when the launch has ended.
+        /// </summary>
+        abstract protected void OnLaunchEnd();
 
         #endregion
     }
@@ -822,20 +854,38 @@ namespace CyberMonk.Game.Zombie
             remove => this._targetController.AttackEvent -= value;
         }
 
-        public event System.Action LaunchedEvent
+        public event System.Action LaunchBeginEvent
         {
             add
             {
                 if(this.StateController != null)
                 {
-                    this.StateController.LaunchedEvent += value;
+                    this.StateController.LaunchBeginEvent += value;
                 }
             }
             remove
             {
                 if(this.StateController != null)
                 {
-                    this.StateController.LaunchedEvent -= value;
+                    this.StateController.LaunchBeginEvent -= value;
+                }
+            }
+        }
+
+        public event System.Action LaunchEndEvent
+        {
+            add
+            {
+                if(this.MovementController != null)
+                {
+                    this.MovementController.LaunchEndEvent += value;
+                }
+            }
+            remove
+            {
+                if(this.MovementController != null)
+                {
+                    this.MovementController.LaunchEndEvent -= value;
                 }
             }
         }

@@ -29,7 +29,7 @@ namespace CyberMonk.Game.Zombie.Melee
             => this._rigidbody;
 
         public MeleeZombieMovementController(MeleeZombieController controller, ZombieMovementData data)
-            : base(controller) 
+            : base(controller, data) 
         {
             this._stateController = (MeleeZombieStateController)controller.StateController;
             this._rigidbody = controller.Component.GetComponent<Rigidbody2D>();
@@ -206,9 +206,21 @@ namespace CyberMonk.Game.Zombie.Melee
                 this.References.Value.AttackFinishedEvent?.Call(this._attacker, this._controller.Component, outcome);
             }
 
-            // this.Launch();
-            
-            // TODO: Remove this and replace with launch
+            this.Launch();
+        }
+
+
+        /// <summary>
+        /// Called when the zombie is launched.
+        /// </summary>
+        protected override void OnLaunchBegin()
+        {
+            this._attacker = null;
+            this._state = ZombieState.STATE_LAUNCHED;
+        }
+
+        protected override void OnLaunchEnd()
+        {
             this.OnDeath();
         }
 
@@ -218,22 +230,13 @@ namespace CyberMonk.Game.Zombie.Melee
         private void OnDeath()
         {
             // Calls the zombie death event.
-            if(this.References.HasValue)
+            if (this.References.HasValue)
             {
                 this.References.Value.ZombieDeathEvent?.Call();
             }
 
             // For now it just destroys the object
             GameObject.Destroy(this._controller.Component.gameObject);
-        }
-
-        /// <summary>
-        /// Called when the zombie is launched.
-        /// </summary>
-        protected override void OnLaunch()
-        {
-            this._attacker = null;
-            this._state = ZombieState.STATE_LAUNCHED;
         }
 
         #endregion
