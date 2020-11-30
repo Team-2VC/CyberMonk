@@ -206,8 +206,10 @@ namespace CyberMonk.Game.Zombie.Melee
                 this.References.Value.AttackFinishedEvent?.Call(this._attacker, this._controller.Component, outcome);
             }
 
-            this.Launch();
-            // this.OnDeath();
+            // this.Launch();
+            
+            // TODO: Remove this and replace with launch
+            this.OnDeath();
         }
 
         /// <summary>
