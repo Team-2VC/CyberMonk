@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace CyberMonk.Game
+namespace CyberMonk.Game.Waves
 {
 
     [System.Serializable]
@@ -13,6 +13,8 @@ namespace CyberMonk.Game
         private int startNumberZombies;
         [SerializeField, Range(0.1f, 90f)]
         private float delayBetweenWaves;
+        [SerializeField, Range(1, 100)]
+        private int spawnMultiplier;
 
         public int StartNumberOfZombies
         {
@@ -23,6 +25,9 @@ namespace CyberMonk.Game
         {
             get => this.delayBetweenWaves;
         }
+
+        public int SpawnMultiplier
+            => this.spawnMultiplier;
     }
 
     [System.Serializable]
@@ -163,8 +168,8 @@ namespace CyberMonk.Game
         {
             this.references.CurrentWave++;
             // TODO: Calculate number of zombie spawns.
-            this.references.ZombiesSpawnedPerWave = this.values.StartNumberOfZombies;
 
+            this.references.ZombiesSpawnedPerWave = this.CalculateNumberOfZombies();
             this.events.WaveStartEvent?.Call();
         }
 
@@ -175,6 +180,15 @@ namespace CyberMonk.Game
         {
             this._delayBetweenWaves = this.values.DelayBetweenWaves;
             this.events.WaveEndEvent?.Call();
+        }
+
+        private int CalculateNumberOfZombies()
+        {
+            // Logs the number of zombies per each round.
+            /* return Mathf.RoundToInt(
+                this.logMultiplier * Mathf.Log((int)this.references.CurrentWave) + this.values.StartNumberOfZombies); */
+            return Mathf.RoundToInt(
+                this.values.SpawnMultiplier * this.references.CurrentWave * this.references.CurrentWave + this.values.StartNumberOfZombies);
         }
 
         #endregion

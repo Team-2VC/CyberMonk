@@ -30,7 +30,6 @@ namespace CyberMonk.Game.Zombie.Target
     [RequireComponent(typeof(Rigidbody2D), typeof(Collider2D), typeof(Renderer))]
     public class TargetComponent : MonoBehaviour
     {
-
         #region fields
 
         [SerializeField]
@@ -61,7 +60,7 @@ namespace CyberMonk.Game.Zombie.Target
             => this._pressedTime.HasValue;
 
         public bool BeatEntered
-            => this._beatsActive >= this.totalActiveBeats && this._beatTime.HasValue;
+            => this._beatTime.HasValue;
 
         /// <summary>
         /// Gets/Sets the wrapper class of the target.
@@ -104,21 +103,9 @@ namespace CyberMonk.Game.Zombie.Target
         /// </summary>
         private void OnMouseOver()
         {
-            if(Input.GetKeyDown(KeyCode.W) && this.Active)
+            if(Input.GetKeyDown(KeyCode.W) && this.Active && this.BeatEntered)
             {
-                // TODO: Send moonkey punch event.
-                // TODO: Combo event.
-                
-                this.OnPressedExact();
-
-                if(!this.BeatEntered)
-                {
-                    // this is early
-                    return;
-                }
-
-                System.TimeSpan span = this._pressedTime.Value.Subtract(this._beatTime.Value);
-                this.OnPostPressed(span);
+                this.OnPressed();
             }
         }
 
@@ -139,40 +126,16 @@ namespace CyberMonk.Game.Zombie.Target
 
             if(this.Active)
             {
-                this._beatsActive++;
-
-                // Makes sure to set the beat time.
-                if(this._beatsActive == this.totalActiveBeats)
+                if (!this._beatTime.HasValue)
                 {
-                    System.DateTime beatTime = System.DateTime.Now;
-                    
-                    if(this.Pressed)
-                    {
-                        this.OnPostPressed(beatTime.Subtract(this._pressedTime.Value));
-                        return;
-                    }
-
                     this._beatTime = System.DateTime.Now;
-                    return;
                 }
+
+                this._beatsActive++;
 
                 if(this._beatsActive > this.totalActiveBeats)
                 {
-                    if(this.Pressed)
-                    {
-                        System.TimeSpan timeSpan = this._beatTime.Value.Subtract(
-                            this._pressedTime.Value);
-                        if(this._pressedTime.Value > this._beatTime.Value)
-                        {
-                            timeSpan = this._pressedTime.Value.Subtract(this._beatTime.Value);
-                        }
-                        this.OnPostPressed(timeSpan);
-                        return;
-                    }
-
-                    DeactivationData data = new DeactivationData(DeactivationReason.REASON_RUN_OUT_OF_TIME);
-                    this._parentWrapper?.OnDeactivated(data);
-                    this.HandleDeactivation(data.Reason);
+                    this.Deactivate(DeactivationReason.REASON_RUN_OUT_OF_TIME);
                 }
             }
         }
@@ -180,7 +143,7 @@ namespace CyberMonk.Game.Zombie.Target
         /// <summary>
         /// Called at the time when the target was exactly pressed.
         /// </summary>
-        private void OnPressedExact()
+        private void OnPressed()
         {
             if(this.Pressed)
             {
@@ -194,19 +157,29 @@ namespace CyberMonk.Game.Zombie.Target
             {
                 this._renderer.enabled = false;
             }
+
+            System.TimeSpan span = this._pressedTime.Value.Subtract(this._beatTime.Value);
+            this.Deactivate(DeactivationReason.REASON_PLAYER_HIT, span);
         }
 
         /// <summary>
-        /// Called after the target is pressed & after we have discovered the time difference
-        /// between when the target was pressed and the beat time.
+        /// Deactivates the target.
         /// </summary>
-        /// <param name="timeDifference">The Time difference between the beat pressed and the current time.</param>
-        private void OnPostPressed(System.TimeSpan timeDifference)
+        /// <param name="reason">The deactivation reason.</param>
+        /// <param name="dat">The data of the deactivation.</param>
+        private void Deactivate(DeactivationReason reason, object dat = null)
         {
-            float difference = (float)timeDifference.Milliseconds / 1000f;
-
-            DeactivationData data = new DeactivationData(
-                DeactivationReason.REASON_PLAYER_HIT, difference);
+            DeactivationData data;
+            
+            if(dat is System.TimeSpan)
+            {
+                float difference = ((System.TimeSpan)dat).Milliseconds / 1000f;
+                data = new DeactivationData(reason, difference);
+            }
+            else
+            {
+                data = new DeactivationData(reason);
+            }
 
             this._parentWrapper?.OnDeactivated(data);
             this.HandleDeactivation(data.Reason);
