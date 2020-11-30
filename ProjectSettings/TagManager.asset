@@ -18,7 +18,7 @@ TagManager:
   - IgnoreMoonkeyCollisions
   - Ground
   - Moonkey
-  - 
+  - Moon
   - 
   - 
   - 
@@ -51,4 +51,7 @@ TagManager:
     locked: 0
   - name: player
     uniqueID: 1762589067
+    locked: 0
+  - name: Moon
+    uniqueID: 1197390479
     locked: 0
