@@ -122,6 +122,11 @@ namespace CyberMonk.Game.Zombie
 
         private void FixedUpdate()
         {
+            if(this.references.Paused)
+            {
+                return;
+            }
+
             this._controller?.PhysicsUpdate();
         }
 

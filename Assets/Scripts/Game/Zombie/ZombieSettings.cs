@@ -10,9 +10,14 @@ namespace CyberMonk.Game.Zombie
     {
         [SerializeField]
         private float speedForce;
+        [SerializeField]
+        private float launchForce;
 
         public float SpeedForce
             => this.speedForce;
+
+        public float LaunchForce
+            => this.launchForce;
     }
 
     /// <summary>

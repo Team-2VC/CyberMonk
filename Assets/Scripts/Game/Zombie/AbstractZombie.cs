@@ -517,6 +517,7 @@ namespace CyberMonk.Game.Zombie
 
             this._controller.AttackedEvent += this.OnAttackBegin;
             this._controller.AttackEvent += this.OnAttack;
+            this._controller.LaunchedEvent += this.OnLaunched;
         }
 
         /// <summary>
@@ -525,10 +526,11 @@ namespace CyberMonk.Game.Zombie
         public virtual void UnHookEvents()
         {
             ZombieReferences references = this._controller.Component.References;
-            references.BeatDownEvent += this.OnDownBeat;
+            references.BeatDownEvent -= this.OnDownBeat;
 
             this._controller.AttackedEvent -= this.OnAttackBegin;
-            this._controller.AttackEvent += this.OnAttack;
+            this._controller.AttackEvent -= this.OnAttack;
+            this._controller.LaunchedEvent -= this.OnLaunched;
         }
 
         /// <summary>
@@ -552,6 +554,8 @@ namespace CyberMonk.Game.Zombie
         /// </summary>
         abstract protected void UpdateMovement();
 
+        abstract protected void OnLaunched();
+
         #endregion
     }
 
@@ -561,6 +565,9 @@ namespace CyberMonk.Game.Zombie
     public abstract class AZombieStateController
     {
         #region fields
+
+        public event System.Action LaunchedEvent
+            = delegate { };
 
         protected ZombieState _state;
         protected readonly AZombieController _controller;
@@ -646,6 +653,20 @@ namespace CyberMonk.Game.Zombie
         /// <param name="outcome">The attack outcome.</param>
         abstract protected void OnAttack(AttackOutcome outcome);
 
+        /// <summary>
+        /// Called to launch the zombie.
+        /// </summary>
+        protected void Launch()
+        {
+            this.OnLaunch();
+            this.LaunchedEvent();
+        }
+
+        /// <summary>
+        /// Called when the zombie is launched.
+        /// </summary>
+        abstract protected void OnLaunch();
+
         #endregion
     }
 
@@ -713,6 +734,24 @@ namespace CyberMonk.Game.Zombie
         {
             add => this._targetController.AttackEvent += value;
             remove => this._targetController.AttackEvent -= value;
+        }
+
+        public event System.Action LaunchedEvent
+        {
+            add
+            {
+                if(this.StateController != null)
+                {
+                    this.StateController.LaunchedEvent += value;
+                }
+            }
+            remove
+            {
+                if(this.StateController != null)
+                {
+                    this.StateController.LaunchedEvent -= value;
+                }
+            }
         }
 
         private readonly ZombieComponent _component;

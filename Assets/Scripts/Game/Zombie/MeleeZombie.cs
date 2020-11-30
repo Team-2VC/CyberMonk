@@ -92,19 +92,10 @@ namespace CyberMonk.Game.Zombie.Melee
             }
         }
 
-        private void Launch()
+        protected override void OnLaunched()
         {
-            Moonkey.MoonkeyComponent attacker = this._stateController.Attacker;
-            
-            if(attacker != null)
-            {
-                Vector3 ourPosition = this._transform.position;
-                Vector3 monkeyPosition = attacker.transform.position;
-
-                Vector2 direction = new Vector2(ourPosition.x - monkeyPosition.x, ourPosition.y - ourPosition.y);
-                float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg - 90;
-
-            }
+            // TODO: Get direction of moon and launch it in the direction of the moon.
+            this._rigidbody.AddForce(Vector2.up * this._movementData.LaunchForce, ForceMode2D.Impulse);
         }
 
         protected override void OnAttackBegin(MoonkeyComponent attacker)
@@ -114,13 +105,7 @@ namespace CyberMonk.Game.Zombie.Melee
 
         protected override void OnAttack(AttackOutcome outcome)
         {
-            // TODO: Implementation
-            if(outcome == AttackOutcome.OUTCOME_SUCCESS)
-            {
-                this.Launch();
-            }
         }
-
     }
 
     /// <summary>
@@ -222,13 +207,8 @@ namespace CyberMonk.Game.Zombie.Melee
                 this.References.Value.AttackFinishedEvent?.Call(this._attacker, this._controller.Component, outcome);
             }
 
-            this._attacker = null;
-            this._state = ZombieState.STATE_LAUNCHED;
-
-            // TODO: Call a localized event that calls the launched event.
-            // TODO: Remove onDeath
-
-            this.OnDeath();
+            this.Launch();
+            // this.OnDeath();
         }
 
         /// <summary>
@@ -244,6 +224,15 @@ namespace CyberMonk.Game.Zombie.Melee
 
             // For now it just destroys the object
             GameObject.Destroy(this._controller.Component.gameObject);
+        }
+
+        /// <summary>
+        /// Called when the zombie is launched.
+        /// </summary>
+        protected override void OnLaunch()
+        {
+            this._attacker = null;
+            this._state = ZombieState.STATE_LAUNCHED;
         }
 
         #endregion
