@@ -633,9 +633,9 @@ namespace CyberMonk.Game.Zombie
             this.UpdateMovement();
         }
 
-        abstract protected void OnAttackBegin(Moonkey.MoonkeyComponent attacker);
+        protected virtual void OnAttackBegin(Moonkey.MoonkeyComponent attacker) { }
 
-        abstract protected void OnAttack(AttackOutcome outcome);
+        protected virtual void OnAttack(AttackOutcome outcome) { }
 
         abstract protected void OnDownBeat();
 

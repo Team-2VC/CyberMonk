@@ -96,15 +96,6 @@ namespace CyberMonk.Game.Zombie.Melee
                 this._rigidbody.AddForce(movementDirection.normalized * this._movementData.SpeedForce, ForceMode2D.Impulse);
             }
         }
-
-        protected override void OnAttackBegin(MoonkeyComponent attacker)
-        {
-            // TODO: Implementation
-        }
-
-        protected override void OnAttack(AttackOutcome outcome)
-        {
-        }
     }
 
     /// <summary>
@@ -220,14 +211,6 @@ namespace CyberMonk.Game.Zombie.Melee
         }
 
         protected override void OnLaunchEnd()
-        {
-            this.OnDeath();
-        }
-
-        /// <summary>
-        /// Called when the zombie has died.
-        /// </summary>
-        private void OnDeath()
         {
             // Calls the zombie death event.
             if (this.References.HasValue)
