@@ -23,7 +23,8 @@ namespace CyberMonk.Game.Moonkey
         private Utils.References.IntegerReference totalScore;
         [SerializeField]
         private Utils.References.BooleanReference paused;
-
+        [SerializeField]
+        private Utils.Events.GameEvent deathEvent;
 
         public Events.MoonkeyAttackEvent AttackFinishedEvent
         {
@@ -36,7 +37,11 @@ namespace CyberMonk.Game.Moonkey
                 }
             }
         }
-        
+
+        public Utils.Events.GameEvent DeathEvent
+        {
+            get => this.deathEvent;
+        }
 
         // TODO: When null this thing makes the whole Unity unusable.
         public int ComboCounter

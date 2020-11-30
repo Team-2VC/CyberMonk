@@ -17,6 +17,7 @@ namespace CyberMonk.Game.Moonkey
         #region fields
 
         protected readonly Rigidbody2D _rigidbody;
+        protected readonly Transform _transform;
 
         private MoonkeyController _controller;
         private readonly MoonkeyMovementSettings _movementSettings;
@@ -93,6 +94,7 @@ namespace CyberMonk.Game.Moonkey
         {
             this._controller = controller;
             this._rigidbody = controller.Component.GetComponent<Rigidbody2D>();
+            this._transform = controller.Component.transform;
 
             this._movementSettings = settings.MovementSettings;
 
@@ -116,10 +118,15 @@ namespace CyberMonk.Game.Moonkey
 
         private void OnAttackBegin(Zombie.ZombieComponent component)
         {
-            Debug.Log("Moonkey begins attacking - MoonkeyMovementController");
-            // TODO: Force the monkey to stop dashing.
             if(this.Dashing)
             {
+                Vector2 difference = component.transform.position - this._transform.position;
+                float direction = difference.x < 0 ? -1 : 1;
+                if(direction != this.LookDirection)
+                {
+                    this._lookDirection.x = direction;
+                }
+
                 this.ForceStopDashing();
             }
         }
@@ -306,12 +313,7 @@ namespace CyberMonk.Game.Moonkey
         /// <returns>True if the monkey can dash, false otherwise.</returns>
         protected bool CanDash()
         {
-            if(this._dashCounter > 0)
-            {
-                return true;
-            }
-
-            return false;
+            return this._dashCounter > 0;
         }
 
         /// <summary>

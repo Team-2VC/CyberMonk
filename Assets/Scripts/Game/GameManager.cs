@@ -21,7 +21,14 @@ namespace CyberMonk.Game
         private Utils.References.BooleanReference paused;
 
         [SerializeField]
+        private Utils.Events.GameEvent gameOverEvent;
+        [SerializeField]
+        private Utils.Events.GameEvent moonkeyDeathEvent;
+
+        [SerializeField]
         private GameObject pausedGUIPrefab;
+        [SerializeField]
+        private GameObject gameOverGUIPrefab;
 
         public Utils.References.BooleanReference Paused
         {
@@ -32,6 +39,33 @@ namespace CyberMonk.Game
         public GameObject PausedPrefab
         {
             get => this.pausedGUIPrefab;
+        }
+
+        public GameObject GameOverPrefab
+            => this.gameOverGUIPrefab;
+
+        public Utils.Events.GameEvent GameOverEvent
+        {
+            get => this.gameOverEvent;
+            set
+            {
+                if (this.gameOverEvent != null)
+                {
+                    this.gameOverEvent = value;
+                }
+            }
+        }
+
+        public Utils.Events.GameEvent MoonkeyDeathEvent
+        {
+            get => this.moonkeyDeathEvent;
+            set
+            {
+                if(this.moonkeyDeathEvent != null)
+                {
+                    this.moonkeyDeathEvent = value;
+                }
+            }
         }
 
         public void Reset()
@@ -55,25 +89,26 @@ namespace CyberMonk.Game
         protected bool PausedPressed
             => Input.GetKeyDown(KeyCode.Escape);
 
-
-        private GameObject pausedGUI = null;
-
+        private GameObject _currentMenu = null;
        
+
         private void Awake()
         {
-            Time.timeScale = 1f;
-
             this.references.Reset();
         }
 
         private void OnEnable()
         {
             this.references.Paused.ChangedValueEvent += this.OnPaused;
+            this.references.MoonkeyDeathEvent += this.OnMoonkeyDeath;
+            this.references.GameOverEvent += this.OnGameOver;
         }
 
         private void OnDisable()
         {
             this.references.Paused.ChangedValueEvent -= this.OnPaused;
+            this.references.MoonkeyDeathEvent -= this.OnMoonkeyDeath;
+            this.references.GameOverEvent -= this.OnGameOver;
         }
 
         private void Update()
@@ -86,16 +121,33 @@ namespace CyberMonk.Game
 
         private void OnPaused(bool paused)
         {
-            Time.timeScale = paused ? 0f : 1f;
-
-            if(paused)
+            if(paused && this._currentMenu == null)
             {
-                if (this.pausedGUI == null)
-                {
-                    this.pausedGUI = Instantiate(this.references.PausedPrefab);
-                }
-                return;
+                Time.timeScale = paused ? 0f : 1f;
+                this._currentMenu = Instantiate(this.references.PausedPrefab);
             }
+        }
+        
+        private void OnGameOver()
+        {
+            if(this._currentMenu != null)
+            {
+                Destroy(this._currentMenu.gameObject);
+            }
+
+            if(this.references.Paused.Value)
+            {
+                this.references.Paused.Value = false;
+                Time.timeScale = 1f;
+            }
+
+            this._currentMenu = Instantiate(this.references.GameOverPrefab);
+        }
+
+        private void OnMoonkeyDeath()
+        {
+            // TODO: reimplement accounting for more than 1 monkey.
+            this.references.GameOverEvent?.Call();
         }
     }
 }

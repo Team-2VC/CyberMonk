@@ -64,5 +64,10 @@ MonoBehaviour:
       constant: 0
       constantValue: 0
       variable: {fileID: 11400000, guid: 5c56c2f61d47f904389d3447591fe5f8, type: 2}
+    gameOverEvent: {fileID: 11400000, guid: 969ff91870cf244408ce572d61bdc8ac, type: 2}
+    moonkeyDeathEvent: {fileID: 11400000, guid: 7ead4a01b8e90374c9e7f6f24b0663eb,
+      type: 2}
     pausedGUIPrefab: {fileID: 8978451174797670443, guid: ae50cd022f5ce4540b6d09dfd231dfac,
+      type: 3}
+    gameOverGUIPrefab: {fileID: 5574530933862613495, guid: 80b13cd300db1294293ac5afe500fcb7,
       type: 3}

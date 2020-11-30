@@ -408,6 +408,11 @@ MonoBehaviour:
       constant: 0
       constantValue: 0
       variable: {fileID: 11400000, guid: 0b79c29b996e7874482d29b799ae9b4d, type: 2}
+    paused:
+      constant: 0
+      constantValue: 0
+      variable: {fileID: 11400000, guid: 5c56c2f61d47f904389d3447591fe5f8, type: 2}
+    deathEvent: {fileID: 11400000, guid: 7ead4a01b8e90374c9e7f6f24b0663eb, type: 2}
   properties:
     graphicsAnimator: {fileID: 4245225831761857295}
     graphicsSpriteRenderer: {fileID: 4245225831761857294}

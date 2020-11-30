@@ -93,7 +93,9 @@ namespace CyberMonk.Game.Waves
     public class WaveManager : MonoBehaviour
     {
         #region fields
-
+        
+        [SerializeField]
+        private GameObject waveDisplayPrefab;
         [SerializeField]
         private WaveManagerValues values;
         [SerializeField]
@@ -102,6 +104,9 @@ namespace CyberMonk.Game.Waves
         private WaveManagerReferences references;
 
         private float _delayBetweenWaves = 0f;
+        private GameObject _currentDisplay = null;
+
+        private int _currentZombiesAlive = 0;
 
         #endregion
 
@@ -109,6 +114,12 @@ namespace CyberMonk.Game.Waves
 
         private bool IsInWaveCooldown
             => this._delayBetweenWaves > 0f;
+
+        private float WaveDelayPercentage
+            => (this.values.DelayBetweenWaves - this._delayBetweenWaves) / this.values.DelayBetweenWaves;
+
+        public int ZombiesAlive
+            => this._currentZombiesAlive;
 
         #endregion
 
@@ -135,6 +146,12 @@ namespace CyberMonk.Game.Waves
             if(this.IsInWaveCooldown)
             {
                 this._delayBetweenWaves -= Time.deltaTime;
+
+                if(this.WaveDelayPercentage <= 0.5f && this.WaveDelayPercentage > 0.48f)
+                {
+                    this.OnDisplayWaveUI();
+                    return;
+                }
 
                 if(this._delayBetweenWaves <= 0f)
                 {
@@ -166,11 +183,23 @@ namespace CyberMonk.Game.Waves
         /// </summary>
         private void OnZombieDeath()
         {
-            if(this.references.ZombiesSpawnedPerWave <= 0)
+            this._currentZombiesAlive--;
+
+            if(this.references.ZombiesSpawnedPerWave <= 0 && this._currentZombiesAlive <= 0)
             {
                 this.OnWaveEnd();
+            }
+        }
+
+        private void OnDisplayWaveUI()
+        {
+            if(this._currentDisplay != null)
+            {
                 return;
             }
+
+            this.references.CurrentWave++;
+            this._currentDisplay = Instantiate(this.waveDisplayPrefab);
         }
 
         /// <summary>
@@ -178,10 +207,9 @@ namespace CyberMonk.Game.Waves
         /// </summary>
         private void OnBeginWave()
         {
-            this.references.CurrentWave++;
-            // TODO: Calculate number of zombie spawns.
-
             this.references.ZombiesSpawnedPerWave = this.CalculateNumberOfZombies();
+            this._currentZombiesAlive = this.references.ZombiesSpawnedPerWave;
+
             this.events.WaveStartEvent?.Call();
         }
 
@@ -196,9 +224,6 @@ namespace CyberMonk.Game.Waves
 
         private int CalculateNumberOfZombies()
         {
-            // Logs the number of zombies per each round.
-            /* return Mathf.RoundToInt(
-                this.logMultiplier * Mathf.Log((int)this.references.CurrentWave) + this.values.StartNumberOfZombies); */
             return Mathf.RoundToInt(
                 this.values.SpawnMultiplier * this.references.CurrentWave * this.references.CurrentWave + this.values.StartNumberOfZombies);
         }
