@@ -5,6 +5,7 @@ using UnityEngine;
 
 namespace CyberMonk.Game.Zombie.Melee
 {
+
     /// <summary>
     /// Handles the melee zombie movement controller.
     /// </summary>
@@ -22,6 +23,10 @@ namespace CyberMonk.Game.Zombie.Melee
         protected bool HasTarget
             => this._targetMoonkey != null;
 
+        // TODO: 
+
+        public override Rigidbody2D Rigidbody
+            => this._rigidbody;
 
         public MeleeZombieMovementController(MeleeZombieController controller, ZombieMovementData data)
             : base(controller) 
@@ -90,12 +95,6 @@ namespace CyberMonk.Game.Zombie.Melee
                 movementDirection.y = 0f;
                 this._rigidbody.AddForce(movementDirection.normalized * this._movementData.SpeedForce, ForceMode2D.Impulse);
             }
-        }
-
-        protected override void OnLaunched()
-        {
-            // TODO: Get direction of moon and launch it in the direction of the moon.
-            this._rigidbody.AddForce(Vector2.up * this._movementData.LaunchForce, ForceMode2D.Impulse);
         }
 
         protected override void OnAttackBegin(MoonkeyComponent attacker)

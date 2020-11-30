@@ -476,6 +476,64 @@ namespace CyberMonk.Game.Zombie
     }
 
     /// <summary>
+    /// Implements the movement for the launch.
+    /// </summary>
+    public class ZombieLaunchController
+    {
+
+        private AZombieMovementController _parent;
+        private Rigidbody2D _rigidbody;
+
+        private Vector2 _startPosition;
+
+        private bool _completed = false;
+
+        public bool Completed
+            => this._completed;
+
+        // TODO: Get the launch duration.
+        public float LaunchDuration
+            => 0.0f;
+
+        public ZombieLaunchController(AZombieMovementController parent)
+        {
+            this._parent = parent;
+            this._rigidbody = parent.Rigidbody;
+            this._startPosition = parent.Controller.Component.transform.position;
+        }
+
+        /// <summary>
+        /// Updates the movement of the launch.
+        /// </summary>
+        public void Update()
+        {
+            if(!this.Completed)
+            {
+                // TODO: Update Movement;
+            }
+        }
+
+        /// <summary>
+        /// Gets the bezier curve used for the movement of the launch.
+        /// </summary>
+        /// <param name="travelPercentage">The travel percentage.</param>
+        /// <returns>The point where to travel to.</returns>
+        private Vector2 BezierCurve(float travelPercentage)
+        {
+            // TODO: Get the mid & endpoints.
+            Vector2 midPoint = Vector2.zero;
+            Vector2 endPoint = Vector2.zero;
+
+            Vector2 rayAB = Vector2.Lerp(this._startPosition, midPoint, travelPercentage);
+            Vector2 rayBC = Vector2.Lerp(midPoint, endPoint, travelPercentage);
+
+            return Vector2.Lerp(rayAB, rayBC, travelPercentage);
+        }
+    }
+
+
+
+    /// <summary>
     /// The abstract class that handles the movement of the zombie.
     /// Checklist:
     /// - Zombies need to be in x amount of range to move to the player.
@@ -488,10 +546,24 @@ namespace CyberMonk.Game.Zombie
         #region fields
  
         protected AZombieController _controller;
+        private ZombieLaunchController _launchController = null;
 
         #endregion
 
         #region properties
+
+        public abstract Rigidbody2D Rigidbody
+        {
+            get;
+        }
+
+        public AZombieController Controller
+        {
+            get => this._controller;
+        }
+
+        protected bool Launched
+            => this._launchController != null;
 
         #endregion
 
@@ -511,7 +583,6 @@ namespace CyberMonk.Game.Zombie
         /// </summary>
         public virtual void HookEvents()
         {
-            // TODO: hook up an attack end event.
             ZombieReferences references = this._controller.Component.References;
             references.BeatDownEvent += this.OnDownBeat;
 
@@ -538,10 +609,16 @@ namespace CyberMonk.Game.Zombie
         /// </summary>
         public void PhysicsUpdate()
         {
-            // TODO: Implement paused.
+            if(this.Launched)
+            {
+                this.UpdateLaunched();
+                return;
+            }
+
             this.UpdateMovement();
         }
 
+        
         abstract protected void OnAttackBegin(Moonkey.MoonkeyComponent attacker);
 
         abstract protected void OnAttack(AttackOutcome outcome);
@@ -554,7 +631,16 @@ namespace CyberMonk.Game.Zombie
         /// </summary>
         abstract protected void UpdateMovement();
 
-        abstract protected void OnLaunched();
+        protected virtual void OnLaunched()
+        {
+            this._launchController = new ZombieLaunchController(this);
+        }
+        
+        protected void UpdateLaunched()
+        {
+            this._launchController?.Update();
+            // TODO: Check if the launch has completed, if so, call a launch end event.
+        }
 
         #endregion
     }
