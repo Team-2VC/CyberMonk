@@ -94,7 +94,17 @@ namespace CyberMonk.Game.Zombie.Melee
 
         private void Launch()
         {
-            // TODO: Implement
+            Moonkey.MoonkeyComponent attacker = this._stateController.Attacker;
+            
+            if(attacker != null)
+            {
+                Vector3 ourPosition = this._transform.position;
+                Vector3 monkeyPosition = attacker.transform.position;
+
+                Vector2 direction = new Vector2(ourPosition.x - monkeyPosition.x, ourPosition.y - ourPosition.y);
+                float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg - 90;
+
+            }
         }
 
         protected override void OnAttackBegin(MoonkeyComponent attacker)
@@ -105,6 +115,10 @@ namespace CyberMonk.Game.Zombie.Melee
         protected override void OnAttack(AttackOutcome outcome)
         {
             // TODO: Implementation
+            if(outcome == AttackOutcome.OUTCOME_SUCCESS)
+            {
+                this.Launch();
+            }
         }
 
     }
@@ -140,6 +154,9 @@ namespace CyberMonk.Game.Zombie.Melee
                 return true;
             }
         }
+
+        public override Moonkey.MoonkeyComponent Attacker
+            => this._attacker;
 
         #endregion
 

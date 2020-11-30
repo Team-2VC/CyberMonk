@@ -577,6 +577,11 @@ namespace CyberMonk.Game.Zombie
             get;
         }
 
+        public abstract Moonkey.MoonkeyComponent Attacker
+        {
+            get;
+        }
+
         public ZombieState State
             => this._state;
 
