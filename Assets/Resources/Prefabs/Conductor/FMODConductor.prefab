@@ -52,3 +52,7 @@ MonoBehaviour:
     constant: 1
     constantValue: event:/Music
     variable: {fileID: 0}
+  paused:
+    constant: 0
+    constantValue: 0
+    variable: {fileID: 11400000, guid: 5c56c2f61d47f904389d3447591fe5f8, type: 2}
