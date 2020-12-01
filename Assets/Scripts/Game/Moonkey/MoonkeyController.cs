@@ -229,6 +229,15 @@ namespace CyberMonk.Game.Moonkey
         }
 
         /// <summary>
+        /// Called when the moonkey's damage animation has ended.
+        /// </summary>
+        public void OnMoonkeyDamageEnd()
+        {
+            this._movementController.OnMoonkeyDamageEnd();
+            this._animationController.OnMoonkeyDamageEnd();
+        }
+
+        /// <summary>
         /// Kills the moonkey.
         /// </summary>
         private void Kill()

@@ -73,7 +73,7 @@ namespace CyberMonk.Game.Moonkey
             {
                 CurrentSoundData soundData = this._currentSoundData.Value;
                 FMOD.Studio.EventInstance currentSound = this._currentSoundData.Value.currentSound;
-                if(this._currentSoundData.Value.IsPlaying)
+                if(soundData.IsPlaying)
                 {
                     currentSound.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
                 }

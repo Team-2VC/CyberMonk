@@ -20,6 +20,17 @@ namespace CyberMonk.Game.Moonkey
                 parent.Controller.SoundController.OnFeetTouchGround();
             }
         }
+
+        /// <summary>
+        /// Called when the damage animation has ended.
+        /// </summary>
+        private void OnMoonkeyDamageEnd()
+        {
+            if(parent != null && parent.Controller != null)
+            {
+                parent.Controller.OnMoonkeyDamageEnd();
+            }
+        }
     }
 }
 

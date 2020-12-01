@@ -34,6 +34,8 @@ namespace CyberMonk.Game.Moonkey
         private bool _onGround = true;
         private float _offGroundTime = 0f;
 
+        private bool _currentlyDamaged = false;
+
         public event System.Action JumpEvent
             = delegate { };
         public event System.Action LandEvent
@@ -109,11 +111,30 @@ namespace CyberMonk.Game.Moonkey
         public void HookEvents()
         {
             this._controller.AttackBeginEvent += this.OnAttackBegin;
+            this._controller.HealthChangedEvent += this.OnHealthChanged;
         }
 
         public void UnHookEvents()
         {
             this._controller.AttackBeginEvent -= this.OnAttackBegin;
+            this._controller.HealthChangedEvent -= this.OnHealthChanged;
+        }
+
+        private void OnHealthChanged(float healthChanged)
+        {
+            if(healthChanged < 0f && this._controller.Health > 0f)
+            {
+                if(this.Dashing)
+                {
+                    this.ForceStopDashing();
+                }
+                this._currentlyDamaged = true;
+            }
+        }
+
+        public void OnMoonkeyDamageEnd()
+        {
+            this._currentlyDamaged = false;
         }
 
         private void OnAttackBegin(Zombie.ZombieComponent component)
@@ -262,7 +283,7 @@ namespace CyberMonk.Game.Moonkey
         /// <param name="direction">Moves the monkey in the given direction.</param>
         public virtual void Move(Vector2 direction)
         {
-            if(this.Dashing)
+            if(this.Dashing || this._currentlyDamaged)
             {
                 return;
             }
@@ -278,7 +299,7 @@ namespace CyberMonk.Game.Moonkey
         /// <returns>True if the monkey can jump, false otherwise.</returns>
         protected bool CanJump()
         {
-            return (this._jumpBuffer > 0 || this.JumpPressed) && this._onGround;
+            return (this._jumpBuffer > 0 || this.JumpPressed) && this._onGround && !this._currentlyDamaged;
         }
 
         /// <summary>
@@ -313,7 +334,7 @@ namespace CyberMonk.Game.Moonkey
         /// <returns>True if the monkey can dash, false otherwise.</returns>
         protected bool CanDash()
         {
-            return this._dashCounter > 0;
+            return this._dashCounter > 0 && !this._currentlyDamaged;
         }
 
         /// <summary>
