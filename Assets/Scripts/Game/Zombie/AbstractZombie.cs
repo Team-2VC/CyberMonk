@@ -196,13 +196,48 @@ namespace CyberMonk.Game.Zombie
         OUTCOME_NORMAL // Determines whether the attack was a normal attack
     }
 
+    /// <summary>
+    /// The zombie sound types.
+    /// </summary>
+    public enum ZombieSoundType
+    {
+        SOUND_LAUNCH
+    }
+
+
+    /// <summary>
+    /// The zombies sound controller.
+    /// </summary>
     public abstract class AZombieSoundController
     {
-        protected readonly AZombieController _controller;
+        public struct CurrentSoundData
+        {
+            public FMOD.Studio.EventInstance currentSound;
+            public ZombieSoundType soundType;
 
-        public AZombieSoundController(AZombieController controller)
+            public bool IsPlaying
+            {
+                get
+                {
+                    FMOD.Studio.PLAYBACK_STATE state;
+                    this.currentSound.getPlaybackState(out state);
+                    return state != FMOD.Studio.PLAYBACK_STATE.STOPPED && state != FMOD.Studio.PLAYBACK_STATE.STOPPING;
+                }
+            }
+        }
+
+        private CurrentSoundData? _currentSoundData;
+        protected readonly AZombieController _controller;
+        protected readonly Dictionary<ZombieSoundType, FMOD.Studio.EventInstance> _sounds;
+
+        protected CurrentSoundData? CurrentSound
+            => this._currentSoundData;
+
+        public AZombieSoundController(AZombieController controller, ZombieSoundData soundData)
         {
             this._controller = controller;
+            this._sounds = soundData.GetSoundsList(controller.Type);
+            this._currentSoundData = null;
         }
 
         /// <summary>
@@ -214,6 +249,33 @@ namespace CyberMonk.Game.Zombie
         /// Unhooks the events of the zombie.
         /// </summary>
         abstract public void UnHookEvents();
+
+        /// <summary>
+        /// Plays the given sound.
+        /// </summary>
+        /// <param name="sound">The sound.</param>
+        protected void PlaySound(ZombieSoundType sound)
+        {
+            if (this._currentSoundData.HasValue)
+            {
+                CurrentSoundData soundData = this._currentSoundData.Value;
+                FMOD.Studio.EventInstance currentSound = this._currentSoundData.Value.currentSound;
+                if (this._currentSoundData.Value.IsPlaying)
+                {
+                    currentSound.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+                }
+            }
+
+            if (this._sounds.ContainsKey(sound))
+            {
+                CurrentSoundData newSoundData = new CurrentSoundData();
+                newSoundData.currentSound = this._sounds[sound];
+                newSoundData.soundType = sound;
+
+                this._currentSoundData = newSoundData;
+                this._currentSoundData.Value.currentSound.start();
+            }
+        }
     }
 
     /// <summary>

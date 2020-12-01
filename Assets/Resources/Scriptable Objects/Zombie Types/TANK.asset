@@ -22,3 +22,5 @@ MonoBehaviour:
     launchData:
       launchHeight: 12
       launchDuration: 1.32
+  soundData:
+    launchSound: event:/Zombie/Zombie Hurt
