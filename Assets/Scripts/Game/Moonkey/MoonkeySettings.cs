@@ -62,6 +62,57 @@ namespace CyberMonk.Game.Moonkey
             => this.inputBufferForFrames;
     }
 
+    [System.Serializable]
+    public class MoonkeySoundSettings
+    {
+        [SerializeField]
+        private string jumpSound;
+        [SerializeField]
+        private string punchSound;
+        [SerializeField]
+        private string runSound;
+        [SerializeField]
+        private string hurtSound;
+        [SerializeField]
+        private string dashSound;
+
+        public Dictionary<SoundType, FMOD.Studio.EventInstance> GetSoundsList()
+        {
+            Dictionary<SoundType, FMOD.Studio.EventInstance> sounds =
+                new Dictionary<SoundType, FMOD.Studio.EventInstance>();
+            this.AddSound(SoundType.SOUND_DASH, this.dashSound, ref sounds);
+            this.AddSound(SoundType.SOUND_HURT, this.hurtSound, ref sounds);
+            this.AddSound(SoundType.SOUND_JUMP, this.jumpSound, ref sounds);
+            this.AddSound(SoundType.SOUND_PUNCH, this.punchSound, ref sounds);
+            this.AddSound(SoundType.SOUND_RUN, this.runSound, ref sounds);
+            return sounds;
+        }
+
+        /// <summary>
+        /// Adds a sound to the sounds dictionary.
+        /// </summary>
+        /// <param name="soundType">The sound type.</param>
+        /// <param name="soundPath">The sound path.</param>
+        /// <param name="sounds">The references to the list of sounds</param>
+        private void AddSound(SoundType soundType, string soundPath, ref Dictionary<SoundType, FMOD.Studio.EventInstance> sounds)
+        {
+            if (sounds.ContainsKey(soundType))
+            {
+                return;
+            }
+
+            try
+            {
+                FMOD.Studio.EventInstance outputSound = FMODUnity.RuntimeManager.CreateInstance(soundPath);
+                sounds.Add(soundType, outputSound);
+            }
+            catch (System.Exception e)
+            {
+                Debug.Log("Failed to Add Sound \"" + soundPath + "\":" + e.StackTrace);
+            }
+        }
+    }
+
     /// <summary>
     /// Moonkey Settings
     /// </summary>
@@ -74,6 +125,8 @@ namespace CyberMonk.Game.Moonkey
         private MoonkeyMovementSettings movementSettings;
         [SerializeField]
         private MoonkeyHealthSettings healthSettings;
+        [SerializeField]
+        private MoonkeySoundSettings soundSettings;
         [SerializeField]
         private RuntimeAnimatorController animatorController;
 
@@ -89,6 +142,9 @@ namespace CyberMonk.Game.Moonkey
 
         public MoonkeyMovementSettings MovementSettings
             => this.movementSettings;
+
+        public MoonkeySoundSettings SoundSettings
+            => this.soundSettings;
 
         #endregion
     }

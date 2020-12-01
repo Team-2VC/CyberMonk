@@ -54,11 +54,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Path: FMOD Files/Cybermonk/Build/Desktop/Master.strings.bank
   Name: Master.strings
-  lastModified: 637423704539163383
+  lastModified: 637423722199042568
   LoadResult: 0
   FileSizes:
   - Name: Desktop
-    Value: 1190
+    Value: 1154
   Exists: 1
 --- !u!114 &-5731269147940621572
 MonoBehaviour:
@@ -121,6 +121,52 @@ MonoBehaviour:
   LoadResult: 0
   FileSizes: []
   Exists: 1
+--- !u!114 &-4250077253361202003
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Zombie/Zombie Hurt
+  m_EditorClassIdentifier: 
+  Path: event:/Zombie/Zombie Hurt
+  guid: ca9bd9d0c1825b4695b68e64d0c16199
+  Banks:
+  - {fileID: 3560390159308282099}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 1040
+--- !u!114 &-3680717036285262716
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Moonkey/Moonkey Jump
+  m_EditorClassIdentifier: 
+  Path: event:/Moonkey/Moonkey Jump
+  guid: 2c30c196acf1fa4d9bb9462f2617c719
+  Banks:
+  - {fileID: 3560390159308282099}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 197
 --- !u!114 &-2946974947713733974
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -139,6 +185,29 @@ MonoBehaviour:
   LoadResult: 0
   FileSizes: []
   Exists: 1
+--- !u!114 &-2889378314976982381
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Moonkey/Moonkey Run
+  m_EditorClassIdentifier: 
+  Path: event:/Moonkey/Moonkey Run
+  guid: 3e5387db29936c4588918bab8dc1c164
+  Banks:
+  - {fileID: 3560390159308282099}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 593
 --- !u!114 &-2790239287906092803
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -203,6 +272,29 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 0
   Length: 32000
+--- !u!114 &-1282448518544840050
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Moonkey/Moonkey Hurt
+  m_EditorClassIdentifier: 
+  Path: event:/Moonkey/Moonkey Hurt
+  guid: 9c9b9c11c88b504bab231e363343e1a1
+  Banks:
+  - {fileID: 3560390159308282099}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 500
 --- !u!114 &-623087861416041290
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -242,12 +334,17 @@ MonoBehaviour:
   - {fileID: 3560390159308282099}
   EditorEvents:
   - {fileID: -2790239287906092803}
+  - {fileID: -3680717036285262716}
+  - {fileID: -2889378314976982381}
+  - {fileID: -1282448518544840050}
+  - {fileID: 4093679318900217941}
+  - {fileID: -4250077253361202003}
   EditorParameters: []
   MasterBanks:
   - {fileID: -4501460093374476701}
   StringsBanks:
   - {fileID: -7010048335704844816}
-  stringsBankWriteTime: 637423704539163383
+  stringsBankWriteTime: 637423722199042568
   cacheVersion: 5
 --- !u!114 &888668003576474063
 MonoBehaviour:
@@ -329,10 +426,33 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Path: FMOD Files/Cybermonk/Build/Desktop/SFX.bank
   Name: SFX
-  lastModified: 637423704539552306
-  LoadResult: 13
+  lastModified: 637423722199092435
+  LoadResult: 0
   FileSizes: []
   Exists: 1
+--- !u!114 &4093679318900217941
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Moonkey/Moonkey Punch
+  m_EditorClassIdentifier: 
+  Path: event:/Moonkey/Moonkey Punch
+  guid: a3d442e38b10654aa7f00b72b43ff433
+  Banks:
+  - {fileID: 3560390159308282099}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 174
 --- !u!114 &4343554593683036083
 MonoBehaviour:
   m_ObjectHideFlags: 0
