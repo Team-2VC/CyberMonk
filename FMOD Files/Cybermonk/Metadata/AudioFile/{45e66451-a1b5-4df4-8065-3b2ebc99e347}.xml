@@ -2,7 +2,7 @@
 <objects serializationModel="Studio.02.01.00">
 	<object class="AudioFile" id="{45e66451-a1b5-4df4-8065-3b2ebc99e347}">
 		<property name="assetPath">
-			<value>slow jam06.wav</value>
+			<value>Slow Jam Stems/slow jam06.wav</value>
 		</property>
 		<property name="isStreaming">
 			<value>true</value>
