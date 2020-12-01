@@ -42,7 +42,7 @@ namespace CyberMonk.Game.Moonkey
             this._controller.HealthChangedEvent -= this.OnHealthChanged;
             this._controller.DashEvent -= this.OnDash;
             this._controller.JumpEvent -= this.OnJump;
-            this._controller.AttackFinishedEvent -= this.OnATtackFinished;
+            this._controller.AttackFinishedEvent -= this.OnAttackFinished;
         }
 
         /// <summary>
@@ -94,6 +94,11 @@ namespace CyberMonk.Game.Moonkey
         private void OnJump()
         {
             this.PlaySound(SoundType.SOUND_JUMP);
+        }
+
+        private void OnAttackFinished(Zombie.ZombieComponent component, Zombie.AttackOutcome attackOutcome)
+        {
+            // TODO: Implementation
         }
     }
 }
