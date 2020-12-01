@@ -282,7 +282,7 @@ MonoBehaviour:
       variable: {fileID: 11400000, guid: 35b6a558d6283504ea8c5779e22c2467, type: 2}
     minSpawnSeconds: 8
     spawnSecondsDifference: 16
-    spawnerData: {fileID: 11400000, guid: 2041097cf5ced0d43ab5fcc977d2ae41, type: 2}
+    spawnerData: {fileID: 11400000, guid: 668decc16385e1f4ab934d0196bbc5a6, type: 2}
 --- !u!1001 &190981923
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4887,7 +4887,7 @@ MonoBehaviour:
       variable: {fileID: 11400000, guid: 35b6a558d6283504ea8c5779e22c2467, type: 2}
     minSpawnSeconds: 8
     spawnSecondsDifference: 16
-    spawnerData: {fileID: 11400000, guid: 2041097cf5ced0d43ab5fcc977d2ae41, type: 2}
+    spawnerData: {fileID: 11400000, guid: 668decc16385e1f4ab934d0196bbc5a6, type: 2}
 --- !u!1 &1998979314
 GameObject:
   m_ObjectHideFlags: 0

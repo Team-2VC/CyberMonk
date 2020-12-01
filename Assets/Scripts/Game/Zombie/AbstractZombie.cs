@@ -878,6 +878,7 @@ namespace CyberMonk.Game.Zombie
     {
         #region fields
 
+        protected readonly ZombieGraphics _graphics;
         protected readonly Animator _animator;
 
         #endregion
@@ -886,10 +887,14 @@ namespace CyberMonk.Game.Zombie
 
         public AZombieAnimationController(AZombieController controller, RuntimeAnimatorController animatorController)
         {
-            this._animator = controller.Component.GetComponent<Animator>()
-                ?? controller.Component.gameObject.AddComponent<Animator>();
-            this._animator.runtimeAnimatorController = animatorController;
-            // TODO: More settings.
+            this._graphics = controller.Component.Graphics;
+
+            this._animator = this._graphics.GraphicsAnimator;
+           
+            if(this._animator != null)
+            {
+                this._animator.runtimeAnimatorController = animatorController;
+            }
         }
 
         #endregion
@@ -899,18 +904,12 @@ namespace CyberMonk.Game.Zombie
         /// <summary>
         /// Hooks the events to the animator.
         /// </summary>
-        public virtual void HookEvents() 
-        {
-            // TODO: 
-        }
+        public virtual void HookEvents() { }
 
         /// <summary>
         /// Unhooks the events to the animator.
         /// </summary>
-        public virtual void UnHookEvents()
-        {
-            // TODO: 
-        }
+        public virtual void UnHookEvents() { }
 
         #endregion
     }
@@ -998,6 +997,11 @@ namespace CyberMonk.Game.Zombie
             get;
         }
 
+        public abstract AZombieAnimationController AnimationController
+        {
+            get;
+        }
+
         public ZombieComponent Component => this._component;
 
         public ZombieType Type 
@@ -1028,6 +1032,7 @@ namespace CyberMonk.Game.Zombie
             this.TargetController?.HookEvents();
             this.MovementController?.HookEvents();
             this.SoundController?.HookEvents();
+            this.AnimationController?.HookEvents();
         }
 
         /// <summary>
@@ -1039,6 +1044,7 @@ namespace CyberMonk.Game.Zombie
             this.TargetController.UnHookEvents();
             this.MovementController?.UnHookEvents();
             this.SoundController?.UnHookEvents();
+            this.AnimationController?.UnHookEvents();
         }
 
         /// <summary>

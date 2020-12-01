@@ -5,12 +5,37 @@ using UnityEngine;
 
 namespace CyberMonk.Game.Zombie.Melee
 {
+
+    public class MeleeZombieAnimationController : AZombieAnimationController
+    {
+        private AZombieController _controller;
+        private ZombieReferences _references;
+
+        private int _spawnBeat;
+
+        public MeleeZombieAnimationController(AZombieController controller, RuntimeAnimatorController animController)
+            : base(controller, animController)
+        {
+            this._controller = controller;
+            this._references = this._controller.Component.References;
+
+            this._spawnBeat = this._references.BeatCounter;
+        }
+
+        public override void HookEvents()
+        {
+        }
+
+        public override void UnHookEvents()
+        {
+        }
+    }
+
     /// <summary>
     /// Handles the zombie sound.
     /// </summary>
     public class MeleeZombieSoundController : AZombieSoundController
     {
-
         public MeleeZombieSoundController(MeleeZombieController controller, ZombieSoundData soundData)
             : base(controller, soundData) { }
 
@@ -259,10 +284,9 @@ namespace CyberMonk.Game.Zombie.Melee
         #region fields
 
         private readonly MeleeZombieStateController _stateController;
-
         private readonly MeleeZombieMovementController _movementController;
-
         private readonly MeleeZombieSoundController _soundController;
+        private readonly MeleeZombieAnimationController _animationController;
 
         #endregion
 
@@ -277,6 +301,9 @@ namespace CyberMonk.Game.Zombie.Melee
         public override AZombieSoundController SoundController 
             => this._soundController;
 
+        public override AZombieAnimationController AnimationController 
+            => this._animationController;
+
         #endregion
 
         #region constructor
@@ -287,6 +314,7 @@ namespace CyberMonk.Game.Zombie.Melee
             this._stateController = new MeleeZombieStateController(this);
             this._movementController = new MeleeZombieMovementController(this, settings.MovementData);
             this._soundController = new MeleeZombieSoundController(this, settings.SoundData);
+            this._animationController = new MeleeZombieAnimationController(this, settings.AnimatorController);
         }
 
         #endregion

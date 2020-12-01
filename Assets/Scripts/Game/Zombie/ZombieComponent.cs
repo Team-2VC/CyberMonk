@@ -71,6 +71,21 @@ namespace CyberMonk.Game.Zombie
         }
     }
 
+    [System.Serializable]
+    public class ZombieGraphics
+    {
+        [SerializeField]
+        private Animator graphicsAnimator;
+        [SerializeField]
+        private SpriteRenderer graphicsSpriteRenderer;
+
+        public Animator GraphicsAnimator
+            => this.graphicsAnimator;
+
+        public SpriteRenderer GraphicsSpriteRenderer
+            => this.graphicsSpriteRenderer;
+    }
+
     /// <summary>
     /// The Zombie Component Monobehaviour.
     /// </summary>
@@ -83,6 +98,8 @@ namespace CyberMonk.Game.Zombie
         private ZombieSettings settings;
         [SerializeField]
         private ZombieReferences references;
+        [SerializeField]
+        private ZombieGraphics graphics;
 
         private AZombieController _controller;
 
@@ -95,6 +112,9 @@ namespace CyberMonk.Game.Zombie
 
         public AZombieController Controller
             => this._controller;
+
+        public ZombieGraphics Graphics
+            => this.graphics;
 
         #endregion
 

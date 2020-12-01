@@ -93,6 +93,9 @@ namespace CyberMonk.Game.Zombie
         [SerializeField]
         private ZombieSoundData soundData;
 
+        [SerializeField]
+        private RuntimeAnimatorController animatorController;
+
         #endregion
 
         #region properties
@@ -107,6 +110,9 @@ namespace CyberMonk.Game.Zombie
 
         public ZombieSoundData SoundData
             => this.soundData;
+
+        public RuntimeAnimatorController AnimatorController
+            => this.animatorController;
 
         #endregion
     }
