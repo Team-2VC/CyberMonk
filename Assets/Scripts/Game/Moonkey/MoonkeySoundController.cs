@@ -13,47 +13,80 @@ namespace CyberMonk.Game.Moonkey
         SOUND_DASH
     }
 
-
     public class MoonkeySoundController
     {
+        public struct CurrentSoundData
+        {
+            public SoundType soundType;
+            public FMOD.Studio.EventInstance currentSound;
+
+            public bool IsPlaying
+            {
+                get
+                {
+                    FMOD.Studio.PLAYBACK_STATE state;
+                    this.currentSound.getPlaybackState(out state);
+                    return state != FMOD.Studio.PLAYBACK_STATE.STOPPED && state != FMOD.Studio.PLAYBACK_STATE.STOPPING;
+                }
+            }
+        }
+
         private MoonkeyController _controller;
 
         private Dictionary<SoundType, FMOD.Studio.EventInstance> _sounds;
-        private FMOD.Studio.EventInstance? _currentSound;
+        private CurrentSoundData? _currentSoundData;
 
         public MoonkeySoundController(MoonkeyController controller, MoonkeySoundSettings soundSettings)
         {
             this._controller = controller;
             this._sounds = soundSettings.GetSoundsList();
-            this._currentSound = null;
+            this._currentSoundData = null;
         }
 
         public void HookEvents()
         {
-            // TODO: Implementation
             this._controller.HealthChangedEvent += this.OnHealthChanged;
             this._controller.DashEvent += this.OnDash;
+            this._controller.JumpEvent += this.OnJump;
+            this._controller.AttackFinishedEvent += this.OnAttackFinished;
         }
 
         public void UnHookEvents()
         {
-            // TODO: Implementation
             this._controller.HealthChangedEvent -= this.OnHealthChanged;
             this._controller.DashEvent -= this.OnDash;
+            this._controller.JumpEvent -= this.OnJump;
+            this._controller.AttackFinishedEvent -= this.OnAttackFinished;
+        }
+
+        /// <summary>
+        /// Called when moonkey's feet touch ground.
+        /// </summary>
+        public void OnFeetTouchGround()
+        {
+            this.PlaySound(SoundType.SOUND_RUN);
         }
 
         private void PlaySound(SoundType sound)
         {
-            if(this._currentSound.HasValue)
+            if(this._currentSoundData.HasValue)
             {
-                FMOD.Studio.EventInstance currentSound = this._currentSound.Value;
-                currentSound.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+                CurrentSoundData soundData = this._currentSoundData.Value;
+                FMOD.Studio.EventInstance currentSound = this._currentSoundData.Value.currentSound;
+                if(this._currentSoundData.Value.IsPlaying)
+                {
+                    currentSound.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+                }
             }
 
             if(this._sounds.ContainsKey(sound))
             {
-                this._currentSound = this._sounds[sound];
-                this._currentSound.Value.start();
+                CurrentSoundData newSoundData = new CurrentSoundData();
+                newSoundData.currentSound = this._sounds[sound];
+                newSoundData.soundType = sound;
+
+                this._currentSoundData = newSoundData;
+                this._currentSoundData.Value.currentSound.start();
             }
         }
 
@@ -75,6 +108,22 @@ namespace CyberMonk.Game.Moonkey
         private void OnDash()
         {
             this.PlaySound(SoundType.SOUND_DASH);
+        }
+
+        /// <summary>
+        /// Called when the monkey jumps.
+        /// </summary>
+        private void OnJump()
+        {
+            this.PlaySound(SoundType.SOUND_JUMP);
+        }
+
+        private void OnAttackFinished(Zombie.ZombieComponent component, Zombie.AttackOutcome attackOutcome)
+        {
+            if(attackOutcome != Zombie.AttackOutcome.OUTCOME_FAILED)
+            {
+                this.PlaySound(SoundType.SOUND_PUNCH);
+            }
         }
     }
 }

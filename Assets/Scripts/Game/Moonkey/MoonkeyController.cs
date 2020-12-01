@@ -113,6 +113,9 @@ namespace CyberMonk.Game.Moonkey
         public virtual MoonkeyStateController StateController
             => this._stateController;
 
+        public virtual MoonkeySoundController SoundController
+            => this._soundController;
+
         public float Health
             => this._health.HealthAmount;
 
