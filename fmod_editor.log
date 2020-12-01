@@ -17,7 +17,127 @@
 [LOG] Manager::readBank                        : fileversion = 135, compatVersion = 132 (oldest = 44, newest = 135)
 [LOG] Manager::readBank                        : fileversion = 135, compatVersion = 132 (oldest = 44, newest = 135)
 [LOG] Manager::readBank                        : fileversion = 135, compatVersion = 132 (oldest = 44, newest = 135)
-[LOG] Manager::readBank                        : fileversion = 135, compatVersion = 132 (oldest = 44, newest = 135)
 [LOG] PlaybackSystem::acquireMasterBus         : Setting master channel group format to 6
 [LOG] Manager::readBank                        : fileversion = 135, compatVersion = 132 (oldest = 44, newest = 135)
 [LOG] Manager::readBank                        : fileversion = 135, compatVersion = 132 (oldest = 44, newest = 135)
+[LOG] Manager::receiveLiveUpdateBank           : Received live update bank path: fmod:///remote/C:/Users/jeron/AppData/Local/FMOD Studio/UnsavedProjects/Hotswap-BdJpcs/hotswap_70.bank
+[LOG] ProfileRemoteFile::fileOpen              : Attemping to open remote file 'C:/Users/jeron/AppData/Local/FMOD Studio/UnsavedProjects/Hotswap-BdJpcs/hotswap_70.bank'
+[LOG] Manager::readBank                        : fileversion = 135, compatVersion = 132 (oldest = 44, newest = 135)
+[LOG] SoundI::release                          :  (000002D12BE98A88)
+[LOG] SoundI::release                          :     ESM_Ninja_Jump_2_Airy_Whoosh_Pass_By (000002D129D0B018)
+[LOG] SoundI::release                          :  (000002D12BE9AE78)
+[LOG] SoundI::release                          :     SPLC-6523_FX_Oneshot_Little_Monkey_Chirping_Vocalizations (000002D129D0B838)
+[LOG] SoundI::release                          :  (000002D12BE9A748)
+[LOG] SoundI::release                          :     SPLC-6551_FX_Oneshot_Little_Monkey_Medium_Creature (000002D129D0B4F8)
+[LOG] SoundI::release                          :  (000002D12BE99498)
+[LOG] SoundI::release                          :     SPLC-6574_FX_Oneshot_Little_Monkey_Chirping_Vocalizations (000002D129D0BD18)
+[LOG] SoundI::release                          :  (000002D12BE98638)
+[LOG] SoundI::release                          :     SPLC-6582_FX_Oneshot_Little_Monkey_Chirping_Vocalizations (000002D129D09FD8)
+[LOG] SoundI::release                          :  (000002D12BE984C8)
+[LOG] SoundI::release                          :     SPLC-6583_FX_Oneshot_Little_Monkey_Chirping_Vocalizations (000002D129D0BB78)
+[LOG] SystemI::createSoundInternal             : Create name='fmod:///remote/D:/Game Dev/Unity Projects/CyberMonk/FMOD Files/Cybermonk/Assets/Run/MODE_foley_Kick_01.wav', mode=0x0200C202
+[LOG] SystemI::createSoundInternal             : exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             : exinfo->initialseekpostype = 1
+[LOG] ProfileRemoteFile::fileOpen              : Attemping to open remote file 'D:/Game Dev/Unity Projects/CyberMonk/FMOD Files/Cybermonk/Assets/Run/MODE_foley_Kick_01.wav'
+[LOG] SystemI::createSoundInternal             : Sample 0/0: name='(null)', format=3, channels=2, frequency=44100, lengthbytes=105840, lengthpcm=17640, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.000000.
+[LOG] SystemI::createSoundInternal             : Create name='fmod:///remote/D:/Game Dev/Unity Projects/CyberMonk/FMOD Files/Cybermonk/Assets/Run/MODE_foley_Kick_03.wav', mode=0x0200C202
+[LOG] SystemI::createSoundInternal             : exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             : exinfo->initialseekpostype = 1
+[LOG] ProfileRemoteFile::fileOpen              : Attemping to open remote file 'D:/Game Dev/Unity Projects/CyberMonk/FMOD Files/Cybermonk/Assets/Run/MODE_foley_Kick_03.wav'
+[LOG] SystemI::createSoundInternal             : Sample 0/0: name='(null)', format=3, channels=2, frequency=44100, lengthbytes=26460, lengthpcm=4410, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.000000.
+[LOG] SystemI::createSoundInternal             : Create name='fmod:///remote/D:/Game Dev/Unity Projects/CyberMonk/FMOD Files/Cybermonk/Assets/Run/ESM_Footstep_on_Gravel_5_Human_Foot_Step_Stone.wav', mode=0x0200C202
+[LOG] SystemI::createSoundInternal             : exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             : exinfo->initialseekpostype = 1
+[LOG] ProfileRemoteFile::fileOpen              : Attemping to open remote file 'D:/Game Dev/Unity Projects/CyberMonk/FMOD Files/Cybermonk/Assets/Run/ESM_Footstep_on_Gravel_5_Human_Foot_Step_Stone.wav'
+[LOG] SystemI::createSoundInternal             : Sample 0/0: name='(null)', format=2, channels=2, frequency=44100, lengthbytes=102900, lengthpcm=25725, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.000000.
+[LOG] SystemI::createSoundInternal             : Create name='fmod:///remote/D:/Game Dev/Unity Projects/CyberMonk/FMOD Files/Cybermonk/Assets/Run/ESM_Soft_Snow_Footstep_9_Human_Foot_Step_Winter.wav', mode=0x0200C202
+[LOG] SystemI::createSoundInternal             : exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             : exinfo->initialseekpostype = 1
+[LOG] ProfileRemoteFile::fileOpen              : Attemping to open remote file 'D:/Game Dev/Unity Projects/CyberMonk/FMOD Files/Cybermonk/Assets/Run/ESM_Soft_Snow_Footstep_9_Human_Foot_Step_Winter.wav'
+[LOG] SystemI::createSoundInternal             : Sample 0/0: name='(null)', format=2, channels=2, frequency=44100, lengthbytes=79544, lengthpcm=19886, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.000000.
+[LOG] SystemI::createSoundInternal             : Create name='fmod:///remote/D:/Game Dev/Unity Projects/CyberMonk/FMOD Files/Cybermonk/Assets/ESM_Ninja_Jump_2_Airy_Whoosh_Pass_By.wav', mode=0x0200C202
+[LOG] SystemI::createSoundInternal             : exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             : exinfo->initialseekpostype = 1
+[LOG] ProfileRemoteFile::fileOpen              : Attemping to open remote file 'D:/Game Dev/Unity Projects/CyberMonk/FMOD Files/Cybermonk/Assets/ESM_Ninja_Jump_2_Airy_Whoosh_Pass_By.wav'
+[LOG] SystemI::createSoundInternal             : Sample 0/0: name='(null)', format=2, channels=2, frequency=44100, lengthbytes=38560, lengthpcm=9640, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.000000.
+[LOG] SystemI::createSoundInternal             : Create name='fmod:///remote/D:/Game Dev/Unity Projects/CyberMonk/FMOD Files/Cybermonk/Assets/Moonkey Hurt SFX/MonkeyScreechSing_S08AN.199.wav', mode=0x0200C202
+[LOG] SystemI::createSoundInternal             : exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             : exinfo->initialseekpostype = 1
+[LOG] ProfileRemoteFile::fileOpen              : Attemping to open remote file 'D:/Game Dev/Unity Projects/CyberMonk/FMOD Files/Cybermonk/Assets/Moonkey Hurt SFX/MonkeyScreechSing_S08AN.199.wav'
+[LOG] SystemI::createSoundInternal             : Sample 0/0: name='(null)', format=3, channels=2, frequency=96000, lengthbytes=181248, lengthpcm=30208, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.000000.
+[LOG] SystemI::createSoundInternal             : Create name='fmod:///remote/D:/Game Dev/Unity Projects/CyberMonk/FMOD Files/Cybermonk/Assets/Moonkey Hurt SFX/SPLC-6523_FX_Oneshot_Little_Monkey_Chirping_Vocalizations.wav', mode=0x0200C202
+[LOG] SystemI::createSoundInternal             : exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             : exinfo->initialseekpostype = 1
+[LOG] ProfileRemoteFile::fileOpen              : Attemping to open remote file 'D:/Game Dev/Unity Projects/CyberMonk/FMOD Files/Cybermonk/Assets/Moonkey Hurt SFX/SPLC-6523_FX_Oneshot_Little_Monkey_Chirping_Vocalizations.wav'
+[LOG] SystemI::createSoundInternal             : Sample 0/0: name='(null)', format=3, channels=1, frequency=192000, lengthbytes=930966, lengthpcm=310322, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.000000.
+[LOG] SystemI::createSoundInternal             : Create name='fmod:///remote/D:/Game Dev/Unity Projects/CyberMonk/FMOD Files/Cybermonk/Assets/Moonkey Hurt SFX/SPLC-6551_FX_Oneshot_Little_Monkey_Medium_Creature.wav', mode=0x0200C202
+[LOG] SystemI::createSoundInternal             : exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             : exinfo->initialseekpostype = 1
+[LOG] ProfileRemoteFile::fileOpen              : Attemping to open remote file 'D:/Game Dev/Unity Projects/CyberMonk/FMOD Files/Cybermonk/Assets/Moonkey Hurt SFX/SPLC-6551_FX_Oneshot_Little_Monkey_Medium_Creature.wav'
+[LOG] SystemI::createSoundInternal             : Sample 0/0: name='(null)', format=3, channels=2, frequency=192000, lengthbytes=361110, lengthpcm=60185, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.000000.
+[LOG] SystemI::createSoundInternal             : Create name='fmod:///remote/D:/Game Dev/Unity Projects/CyberMonk/FMOD Files/Cybermonk/Assets/Moonkey Hurt SFX/SPLC-6574_FX_Oneshot_Little_Monkey_Chirping_Vocalizations.wav', mode=0x0200C202
+[LOG] SystemI::createSoundInternal             : exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             : exinfo->initialseekpostype = 1
+[LOG] ProfileRemoteFile::fileOpen              : Attemping to open remote file 'D:/Game Dev/Unity Projects/CyberMonk/FMOD Files/Cybermonk/Assets/Moonkey Hurt SFX/SPLC-6574_FX_Oneshot_Little_Monkey_Chirping_Vocalizations.wav'
+[LOG] SystemI::createSoundInternal             : Sample 0/0: name='(null)', format=3, channels=2, frequency=192000, lengthbytes=1273452, lengthpcm=212242, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.000000.
+[LOG] SystemI::createSoundInternal             : Create name='fmod:///remote/D:/Game Dev/Unity Projects/CyberMonk/FMOD Files/Cybermonk/Assets/Moonkey Hurt SFX/SPLC-6582_FX_Oneshot_Little_Monkey_Chirping_Vocalizations.wav', mode=0x0200C202
+[LOG] SystemI::createSoundInternal             : exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             : exinfo->initialseekpostype = 1
+[LOG] ProfileRemoteFile::fileOpen              : Attemping to open remote file 'D:/Game Dev/Unity Projects/CyberMonk/FMOD Files/Cybermonk/Assets/Moonkey Hurt SFX/SPLC-6582_FX_Oneshot_Little_Monkey_Chirping_Vocalizations.wav'
+[LOG] SystemI::createSoundInternal             : Sample 0/0: name='(null)', format=3, channels=2, frequency=192000, lengthbytes=1276554, lengthpcm=212759, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.000000.
+[LOG] SystemI::createSoundInternal             : Create name='fmod:///remote/D:/Game Dev/Unity Projects/CyberMonk/FMOD Files/Cybermonk/Assets/Moonkey Hurt SFX/SPLC-6583_FX_Oneshot_Little_Monkey_Chirping_Vocalizations.wav', mode=0x0200C202
+[LOG] SystemI::createSoundInternal             : exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             : exinfo->initialseekpostype = 1
+[LOG] ProfileRemoteFile::fileOpen              : Attemping to open remote file 'D:/Game Dev/Unity Projects/CyberMonk/FMOD Files/Cybermonk/Assets/Moonkey Hurt SFX/SPLC-6583_FX_Oneshot_Little_Monkey_Chirping_Vocalizations.wav'
+[LOG] SystemI::createSoundInternal             : Sample 0/0: name='(null)', format=3, channels=2, frequency=192000, lengthbytes=973788, lengthpcm=162298, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.000000.
+[LOG] SystemI::createSoundInternal             : Create name='fmod:///remote/D:/Game Dev/Unity Projects/CyberMonk/FMOD Files/Cybermonk/Assets/Moonkey Hurt SFX/MODE_foley_Kick_01.wav', mode=0x0200C202
+[LOG] SystemI::createSoundInternal             : exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             : exinfo->initialseekpostype = 1
+[LOG] ProfileRemoteFile::fileOpen              : Attemping to open remote file 'D:/Game Dev/Unity Projects/CyberMonk/FMOD Files/Cybermonk/Assets/Moonkey Hurt SFX/MODE_foley_Kick_01.wav'
+[LOG] SystemI::createSoundInternal             : Sample 0/0: name='(null)', format=3, channels=2, frequency=44100, lengthbytes=105840, lengthpcm=17640, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.000000.
+[LOG] SystemI::createSoundInternal             : Create name='fmod:///remote/D:/Game Dev/Unity Projects/CyberMonk/FMOD Files/Cybermonk/Assets/Jump/SC_LP_bongo_thud_high.wav', mode=0x0200C202
+[LOG] SystemI::createSoundInternal             : exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             : exinfo->initialseekpostype = 1
+[LOG] ProfileRemoteFile::fileOpen              : Attemping to open remote file 'D:/Game Dev/Unity Projects/CyberMonk/FMOD Files/Cybermonk/Assets/Jump/SC_LP_bongo_thud_high.wav'
+[LOG] SystemI::createSoundInternal             : Sample 0/0: name='(null)', format=3, channels=2, frequency=44100, lengthbytes=36372, lengthpcm=6062, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.000000.
+[LOG] SoundI::release                          : More Funk.wav (000002D12B8328E8)
+[LOG] SoundI::release                          : MODE_foley_Kick_01.wav (000002D17CE7ABF8)
+[LOG] SoundI::release                          : MODE_foley_Kick_03.wav (000002D17CE7A098)
+[LOG] SoundI::release                          : ESM_Footstep_on_Gravel_5_Human_Foot_Step_Stone.wav (000002D17CE7D978)
+[LOG] SoundI::release                          : ESM_Soft_Snow_Footstep_9_Human_Foot_Step_Winter.wav (000002D17CE7B278)
+[LOG] SoundI::release                          : BRS_Punch_Body_Cloth_03.wav (000002D13725B888)
+[LOG] SoundI::release                          : BRS_Bone_Break_Celery_Many_1.wav (000002D13725A1C8)
+[LOG] SoundI::release                          : BRS_Punch_Body_Cloth_08.wav (000002D13725A028)
+[LOG] SoundI::release                          : SPLC-6523_FX_Oneshot_Little_Monkey_Chirping_Vocalizations.wav (000002D17CE7C2B8)
+[LOG] SoundI::release                          : SPLC-6551_FX_Oneshot_Little_Monkey_Medium_Creature.wav (000002D17CE7DCB8)
+[LOG] SoundI::release                          : SPLC-6574_FX_Oneshot_Little_Monkey_Chirping_Vocalizations.wav (000002D17CE7D498)
+[LOG] SoundI::release                          : SPLC-6582_FX_Oneshot_Little_Monkey_Chirping_Vocalizations.wav (000002D17CE7B5B8)
+[LOG] SoundI::release                          : SPLC-6583_FX_Oneshot_Little_Monkey_Chirping_Vocalizations.wav (000002D17CE7C5F8)
+[LOG] SoundI::release                          : MonkeyScreechSing_S08AN.199.wav (000002D17CE7A238)
+[LOG] SoundI::release                          : PunchFaceCartoon_HV.617.wav (000002D13725A368)
+[LOG] SoundI::release                          : MODE_foley_Kick_01.wav (000002D17CE7AD98)
+[LOG] SoundI::release                          : ESM_Ninja_Jump_2_Airy_Whoosh_Pass_By.wav (000002D17CE7DE58)
+[LOG] SoundI::release                          : SC_LP_bongo_thud_high.wav (000002D17CE7AF38)
+[LOG] SoundI::release                          : PFUNK_bouvier_richardson_vocal_phrase_huh.wav (000002D12B9B0D88)
+[LOG] SoundI::release                          : PFUNK_bouvier_richardson_vocal_phrase_huh_huh.wav (000002D129D0AE78)
+[LOG] SoundI::release                          : PFUNK_bouvier_richardson_vocal_phrase_ow.wav (000002D129D0A318)
+[LOG] SoundI::release                          : PFUNK_bouvier_richardson_vocal_phrase_oww.wav (000002D12D6DA5D8)
+[LOG] SoundI::release                          : PFUNK_bouvier_richardson_vocal_phrase_ugh_02.wav (000002D17CE7A718)
+[LOG] SoundI::release                          : PFUNK_bouvier_richardson_vocal_phrase_yeahh.wav (000002D17CE7C458)
+[LOG] SoundI::release                          : PFUNK_bouvier_richardson_vocal_phrase_what.wav (000002D17CE7BC38)
+[LOG] SoundI::release                          : BRS_Punch_Sub_06.wav (000002D12B831D88)
+[LOG] SoundI::release                          : PFUNK_bouvier_richardson_vocal_phrase_whoo.wav (000002D17CE7A3D8)
+[LOG] Thread::callback                         : FMOD Studio update thread finished.
+[LOG] Thread::callback                         : FMOD Studio bank load thread finished.
+[LOG] ProfileClient::markForDead               : Closing client connection
+[LOG] Profile::disconnectAll                   : Profiler disconnecting all clients
+[LOG] Thread::callback                         : FMOD profiler thread (send) finished.
+[LOG] FMOD_OS_Net_Read                         : Interrupted.[LOG] ProfileClient::recvThreadLoopFunction    : Socket disconnected
+[LOG] Thread::callback                         : FMOD profiler thread (recv) finished.
+[LOG] Thread::callback                         : FMOD Studio sample load thread finished.
+[LOG] LiveUpdate::release                      : 
+[LOG] LiveUpdate::reset                        : Reset connection (reason Disconnected)
+[LOG] Thread::callback                         : FMOD stream thread finished.
+[LOG] Thread::callback                         : FMOD mixer thread finished.
+[LOG] Profile::disconnectAll                   : Profiler disconnecting all clients
+[LOG] SystemI::close                           : Closed.
