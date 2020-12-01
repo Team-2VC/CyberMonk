@@ -4,6 +4,9 @@
 		<property name="assetPath">
 			<value>Run/ESM_Footstep_on_Gravel_5_Human_Foot_Step_Stone.wav</value>
 		</property>
+		<property name="isStreaming">
+			<value>true</value>
+		</property>
 		<property name="frequencyInKHz">
 			<value>44.0999985</value>
 		</property>
