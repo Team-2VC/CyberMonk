@@ -13,7 +13,6 @@ namespace CyberMonk.Game.Moonkey
         SOUND_DASH
     }
 
-
     public class MoonkeySoundController
     {
         private MoonkeyController _controller;
@@ -33,6 +32,8 @@ namespace CyberMonk.Game.Moonkey
             // TODO: Implementation
             this._controller.HealthChangedEvent += this.OnHealthChanged;
             this._controller.DashEvent += this.OnDash;
+            this._controller.JumpEvent += this.OnJump;
+            this._controller.AttackFinishedEvent += this.OnAttackFinished;
         }
 
         public void UnHookEvents()
@@ -40,6 +41,16 @@ namespace CyberMonk.Game.Moonkey
             // TODO: Implementation
             this._controller.HealthChangedEvent -= this.OnHealthChanged;
             this._controller.DashEvent -= this.OnDash;
+            this._controller.JumpEvent -= this.OnJump;
+            this._controller.AttackFinishedEvent -= this.OnATtackFinished;
+        }
+
+        /// <summary>
+        /// Updates the monkey sound controller.
+        /// </summary>
+        public void Update()
+        {
+
         }
 
         private void PlaySound(SoundType sound)
@@ -75,6 +86,14 @@ namespace CyberMonk.Game.Moonkey
         private void OnDash()
         {
             this.PlaySound(SoundType.SOUND_DASH);
+        }
+
+        /// <summary>
+        /// Called when the monkey jumps.
+        /// </summary>
+        private void OnJump()
+        {
+            this.PlaySound(SoundType.SOUND_JUMP);
         }
     }
 }
