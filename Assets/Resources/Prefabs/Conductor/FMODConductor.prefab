@@ -49,9 +49,9 @@ MonoBehaviour:
     constantValue: 0
     variable: {fileID: 11400000, guid: d50f134e000ce614b8873ed998976472, type: 2}
   musicPath:
-    constant: 1
-    constantValue: event:/Slow Jam
-    variable: {fileID: 0}
+    constant: 0
+    constantValue: 
+    variable: {fileID: 11400000, guid: 99fa0dc031724e54f81688b8215dabe4, type: 2}
   paused:
     constant: 0
     constantValue: 0

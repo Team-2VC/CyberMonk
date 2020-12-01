@@ -54,11 +54,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Path: FMOD Files/Cybermonk/Build/Desktop/Master.strings.bank
   Name: Master.strings
-  lastModified: 637422894520000000
+  lastModified: 637423704539163383
   LoadResult: 0
   FileSizes:
   - Name: Desktop
-    Value: 828
+    Value: 1190
   Exists: 1
 --- !u!114 &-5731269147940621572
 MonoBehaviour:
@@ -117,7 +117,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Path: FMOD Files/Cybermonk/Build/Desktop/Master.bank
   Name: Master
-  lastModified: 637422894520000000
+  lastModified: 637423704539133421
   LoadResult: 0
   FileSizes: []
   Exists: 1
@@ -135,10 +135,33 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Path: FMOD Files/Cybermonk/Build/Desktop/Music.bank
   Name: Music
-  lastModified: 637422894520000000
+  lastModified: 637423704539512415
   LoadResult: 0
   FileSizes: []
   Exists: 1
+--- !u!114 &-2790239287906092803
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Music/Slow Jam
+  m_EditorClassIdentifier: 
+  Path: event:/Music/Slow Jam
+  guid: 699c7c1606e70c41a53956652923e567
+  Banks:
+  - {fileID: -2946974947713733974}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 32000
 --- !u!114 &-2444704609767048002
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -216,14 +239,15 @@ MonoBehaviour:
   - {fileID: -7010048335704844816}
   - {fileID: -4501460093374476701}
   - {fileID: -2946974947713733974}
+  - {fileID: 3560390159308282099}
   EditorEvents:
-  - {fileID: -1832811280403715574}
+  - {fileID: -2790239287906092803}
   EditorParameters: []
   MasterBanks:
   - {fileID: -4501460093374476701}
   StringsBanks:
   - {fileID: -7010048335704844816}
-  stringsBankWriteTime: 637422894520000000
+  stringsBankWriteTime: 637423704539163383
   cacheVersion: 5
 --- !u!114 &888668003576474063
 MonoBehaviour:
@@ -291,6 +315,24 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 0
   Length: 239386
+--- !u!114 &3560390159308282099
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/SFX.bank
+  m_EditorClassIdentifier: 
+  Path: FMOD Files/Cybermonk/Build/Desktop/SFX.bank
+  Name: SFX
+  lastModified: 637423704539552306
+  LoadResult: 13
+  FileSizes: []
+  Exists: 1
 --- !u!114 &4343554593683036083
 MonoBehaviour:
   m_ObjectHideFlags: 0

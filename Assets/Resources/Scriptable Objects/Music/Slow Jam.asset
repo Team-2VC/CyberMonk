@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Slow Jam
   m_EditorClassIdentifier: 
   value: 
-  originalValue: event:/Slow Jam
+  originalValue: event:/Music/Slow Jam
