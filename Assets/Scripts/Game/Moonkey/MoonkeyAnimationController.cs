@@ -14,6 +14,8 @@ namespace CyberMonk.Game.Moonkey
 
         #region fields
 
+        private const int MAX_PUNCH_NUMBER = 3;
+
         private readonly MoonkeyController _controller;
         private readonly Animator _animator;
         private readonly SpriteRenderer _renderer;
@@ -22,6 +24,8 @@ namespace CyberMonk.Game.Moonkey
 
         private bool _prevMoving = false;
         private bool _isDamaged = false, _isAttacking = false;
+
+        private int _punchNumber = 0;
 
         #endregion
 
@@ -94,6 +98,12 @@ namespace CyberMonk.Game.Moonkey
 
             if (this._movementController.Moving)
             {
+                if(this._movementController.Dashing)
+                {
+                    this._prevMoving = true;
+                    return;
+                }
+
                 this._animator.Play("moonkey walk persp");
                 this._prevMoving = this._movementController.Moving;
                 return;
@@ -131,13 +141,22 @@ namespace CyberMonk.Game.Moonkey
 
         private void OnAttackFinished(Zombie.ZombieComponent component, Zombie.AttackOutcome outcome)
         {
-            if(outcome != Zombie.AttackOutcome.OUTCOME_NORMAL)
+            if(outcome != Zombie.AttackOutcome.OUTCOME_FAILED)
             {
-                this._isAttacking = false;
+                this._animator.Play("moonkey punch " + this._punchNumber);
+                this._punchNumber++;
+                this._punchNumber %= MAX_PUNCH_NUMBER;
+
+                if(outcome == Zombie.AttackOutcome.OUTCOME_SUCCESS)
+                {
+                    this._punchNumber = 0;
+                    this._isAttacking = false;
+                }
                 return;
             }
 
-            // TODO: Punch animation
+            this._punchNumber = 0;
+            this._isAttacking = false;
         }
 
         private void OnDash()
