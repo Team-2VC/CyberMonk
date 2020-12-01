@@ -28,3 +28,4 @@ MonoBehaviour:
       launchDuration: 0.9
   soundData:
     launchSound: event:/Zombie/Zombie Hurt
+  animatorController: {fileID: 9100000, guid: d839ac2e3c29c1e4c91d399838004a01, type: 2}
