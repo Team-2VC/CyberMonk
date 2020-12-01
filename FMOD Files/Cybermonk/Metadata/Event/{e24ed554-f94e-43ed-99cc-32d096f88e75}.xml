@@ -120,9 +120,32 @@
 	<object class="MixerBusEffectChain" id="{e22d182e-0ea7-493f-b8c8-cde179f934f9}">
 		<relationship name="effects">
 			<destination>{c88c1757-72e9-41fb-9774-b7217ee7f0df}</destination>
+			<destination>{b1b20d77-8f77-483e-af5d-41ec0ccad9d0}</destination>
+			<destination>{9d3145cb-b0f6-497f-b1bc-97ead2b9518b}</destination>
+			<destination>{5de6ca76-0d1d-42c2-9bfb-4466f2a0c9f0}</destination>
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{04d9fd1b-8929-4161-9356-ce4b4006020a}" />
 	<object class="MixerBusFader" id="{65b013f7-12c5-4739-9155-146092085739}" />
 	<object class="MixerBusFader" id="{c88c1757-72e9-41fb-9774-b7217ee7f0df}" />
+	<object class="SFXReverbEffect" id="{b1b20d77-8f77-483e-af5d-41ec0ccad9d0}">
+		<property name="decayTime">
+			<value>220</value>
+		</property>
+		<property name="earlyDelay">
+			<value>0</value>
+		</property>
+		<property name="lateDelay">
+			<value>0</value>
+		</property>
+	</object>
+	<object class="FlangerEffect" id="{9d3145cb-b0f6-497f-b1bc-97ead2b9518b}">
+		<property name="rate">
+			<value>20</value>
+		</property>
+		<property name="mix">
+			<value>100</value>
+		</property>
+	</object>
+	<object class="ChorusEffect" id="{5de6ca76-0d1d-42c2-9bfb-4466f2a0c9f0}" />
 </objects>
