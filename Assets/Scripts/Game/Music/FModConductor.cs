@@ -73,7 +73,7 @@ namespace CyberMonk.Game.Music
             this.timelineData = new FModTimelineData();
             this.beatCallback = new FMOD.Studio.EVENT_CALLBACK(this.BeatEventCallback);
 
-            this.eventInstance = FMODUnity.RuntimeManager.CreateInstance(musicPath?.Value ?? "event:/Music");
+            this.eventInstance = FMODUnity.RuntimeManager.CreateInstance(musicPath.Value);
 
             this.timelineHandle = GCHandle.Alloc(this.timelineData, GCHandleType.Pinned);
 
