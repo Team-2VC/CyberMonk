@@ -91,6 +91,7 @@ namespace CyberMonk.Game.Moonkey
         private readonly MoonkeyAttackController _attackController;
         private readonly MoonkeyStateController _stateController;
         private readonly MoonkeyAnimationController _animationController;
+        private readonly MoonkeySoundController _soundController;
         private MoonkeyHealth _health;
 
         #endregion
@@ -130,6 +131,7 @@ namespace CyberMonk.Game.Moonkey
             this._attackController = new MoonkeyAttackController(this);
             this._stateController = new MoonkeyStateController(this);
             this._animationController = new MoonkeyAnimationController(this, settings.AnimatorController);
+            this._soundController = new MoonkeySoundController(this, settings.SoundSettings);
 
             this._health = new MoonkeyHealth(settings.HealthSettings);
         }
@@ -155,6 +157,7 @@ namespace CyberMonk.Game.Moonkey
             this._movementController?.HookEvents();
             this._attackController?.HookEvents();
             this._animationController?.HookEvents();
+            this._soundController?.HookEvents();
         }
 
         /// <summary>
@@ -173,6 +176,7 @@ namespace CyberMonk.Game.Moonkey
             this._movementController?.UnHookEvents();
             this._attackController?.UnHookEvents();
             this._animationController?.UnhookEvents();
+            this._soundController?.UnHookEvents();
         }
 
         /// <summary>

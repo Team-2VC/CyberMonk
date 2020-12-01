@@ -7,6 +7,8 @@ using UnityEngine;
 namespace CyberMonk.Game.Moonkey
 {
 
+    
+
     /// <summary>
     /// The list of moonkey references.
     /// </summary>
@@ -84,12 +86,12 @@ namespace CyberMonk.Game.Moonkey
             => this.paused.Value;
     }
 
+
     [System.Serializable]
     public struct MoonkeyProperties
     {
         [SerializeField]
         private Animator graphicsAnimator;
-
         [SerializeField]
         private SpriteRenderer graphicsSpriteRenderer;
 
