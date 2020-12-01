@@ -350,6 +350,36 @@ PrefabInstance:
       propertyPath: m_Name
       value: Moonkey
       objectReference: {fileID: 0}
+    - target: {fileID: 4729690972428298619, guid: 051128727cb65ed4f801ca4651b0f7b3,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4729690972428298619, guid: 051128727cb65ed4f801ca4651b0f7b3,
+        type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4729690972428298619, guid: 051128727cb65ed4f801ca4651b0f7b3,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7282887463030473684, guid: 051128727cb65ed4f801ca4651b0f7b3,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7282887463030473684, guid: 051128727cb65ed4f801ca4651b0f7b3,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7282887463030473684, guid: 051128727cb65ed4f801ca4651b0f7b3,
+        type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 051128727cb65ed4f801ca4651b0f7b3, type: 3}
 --- !u!1 &225507924
