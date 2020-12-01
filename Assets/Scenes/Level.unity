@@ -1579,7 +1579,7 @@ PrefabInstance:
         type: 3}
       propertyPath: musicPath.variable
       value: 
-      objectReference: {fileID: 11400000, guid: 82e9f9a247d715e4d91f8f600cc813e5,
+      objectReference: {fileID: 11400000, guid: d0f00609e1d620b43a347c6c7401e251,
         type: 2}
     - target: {fileID: 5213678832027362868, guid: bd0db0649d0d5904db176a86c74a050e,
         type: 3}
