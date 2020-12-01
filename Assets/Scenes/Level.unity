@@ -290,11 +290,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 4245225831144168999, guid: 051128727cb65ed4f801ca4651b0f7b3,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -1.66
-      objectReference: {fileID: 0}
     - target: {fileID: 4245225831426242232, guid: 051128727cb65ed4f801ca4651b0f7b3,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -355,11 +350,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Moonkey
       objectReference: {fileID: 0}
-    - target: {fileID: 4245225831761857295, guid: 051128727cb65ed4f801ca4651b0f7b3,
-        type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 9100000, guid: ce049101895a74b4e904107fe4e1505b, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 051128727cb65ed4f801ca4651b0f7b3, type: 3}
 --- !u!1 &225507924

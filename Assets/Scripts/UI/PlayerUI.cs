@@ -34,9 +34,9 @@ namespace CyberMonk.UI
         private PlayerUIReferences references;
         [SerializeField]
         private Game.Moonkey.MoonkeyComponent moonkey;
-        
+
         [SerializeField]
-        private Text healthText;
+        private Slider healthBar;
         [SerializeField]
         private Text scoreText;
 
@@ -47,8 +47,8 @@ namespace CyberMonk.UI
         {
             this.HookHealthChangedEvent();
 
-            this.healthText.text = "Health: " + (int)this.moonkey.Controller.Health;
             this.scoreText.text = "Score: " + (int)this.references.TotalScore.Value;
+            this.healthBar.value = 0f;
         }
 
         private void HookHealthChangedEvent()
@@ -81,7 +81,10 @@ namespace CyberMonk.UI
         /// <param name="healthChanged">The amount of health that has been changed.</param>
         private void OnHealthChanged(float healthChanged)
         {
-            this.healthText.text = "Health: " + (int)this.moonkey.Controller.Health;
+            float maxHealth = this.moonkey.Controller.MaxHealth;
+            float healthBarPercentage = (maxHealth - this.moonkey.Controller.Health) / maxHealth;
+            Debug.Log(healthBarPercentage);
+            this.healthBar.value = healthBarPercentage;
         }
 
         /// <summary>

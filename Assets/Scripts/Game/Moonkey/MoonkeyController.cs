@@ -20,6 +20,9 @@ namespace CyberMonk.Game.Moonkey
         public float HealthAmount
             => this._healthAmount;
 
+        public float MaxAmount
+            => this._maxHealth;
+
         public MoonkeyHealth(MoonkeyHealthSettings healthSettings)
         {
             this._maxHealth = this._healthAmount = healthSettings.MaxHealth;
@@ -124,6 +127,9 @@ namespace CyberMonk.Game.Moonkey
 
         public float Health
             => this._health.HealthAmount;
+
+        public float MaxHealth
+            => this._health.MaxAmount;
 
         public bool IsAtttacking
             => this._attackController.AttackedZombie != null;

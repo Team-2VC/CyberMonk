@@ -37,11 +37,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Path: FMOD Files/Build/Desktop/Master.strings.bank
   Name: Master.strings
-  lastModified: 637423928668114867
+  lastModified: 637424238723475549
   LoadResult: 0
   FileSizes:
   - Name: Desktop
-    Value: 1242
+    Value: 1280
   Exists: 1
 --- !u!114 &-8837476044701152240
 MonoBehaviour:
@@ -536,6 +536,29 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 0
   Length: 1040
+--- !u!114 &-759906042074026749
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Music/Fast Jam
+  m_EditorClassIdentifier: 
+  Path: event:/Music/Fast Jam
+  guid: 8942005a511afb409b616e2f5e4f0f31
+  Banks:
+  - {fileID: 7238266503214165945}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 91636
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -562,12 +585,13 @@ MonoBehaviour:
   - {fileID: -4720097653602737309}
   - {fileID: -1073460317113681780}
   - {fileID: 8050033046086177476}
+  - {fileID: -759906042074026749}
   EditorParameters: []
   MasterBanks:
   - {fileID: 6887861158230777679}
   StringsBanks:
   - {fileID: -9001161595442205457}
-  stringsBankWriteTime: 637423928668114867
+  stringsBankWriteTime: 637424238723475549
   cacheVersion: 5
 --- !u!114 &534504903396768719
 MonoBehaviour:
@@ -1020,7 +1044,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Path: FMOD Files/Build/Desktop/Music.bank
   Name: Music
-  lastModified: 637423928668703295
+  lastModified: 637424238724103871
   LoadResult: 0
   FileSizes: []
   Exists: 1
