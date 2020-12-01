@@ -15,7 +15,7 @@ MonoBehaviour:
   Path: event:/Music/Slow Jam
   guid: 699c7c1606e70c41a53956652923e567
   Banks:
-  - {fileID: 7669875095915323141}
+  - {fileID: 2631279662544121209}
   IsStream: 1
   Is3D: 0
   IsOneShot: 0
@@ -23,24 +23,6 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 0
   Length: 32000
---- !u!114 &-8887783885435897790
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
-  m_Name: bank:/Master.bank
-  m_EditorClassIdentifier: 
-  Path: FMOD Files/Build/Desktop/Master.bank
-  Name: Master
-  lastModified: 637423928668094922
-  LoadResult: 0
-  FileSizes: []
-  Exists: 1
 --- !u!114 &-8837476044701152240
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -209,7 +191,7 @@ MonoBehaviour:
   lastModified: 637423909440000000
   LoadResult: 0
   FileSizes: []
-  Exists: 0
+  Exists: 1
 --- !u!114 &-6948796199127915409
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -248,7 +230,7 @@ MonoBehaviour:
   Path: event:/Moonkey/Moonkey Run
   guid: 3e5387db29936c4588918bab8dc1c164
   Banks:
-  - {fileID: -1869798467255991946}
+  - {fileID: 4816351787186041680}
   IsStream: 1
   Is3D: 0
   IsOneShot: 1
@@ -294,7 +276,7 @@ MonoBehaviour:
   Path: event:/Music/More Funk
   guid: 8f1a3161aea96b44bd8145fd194b67ff
   Banks:
-  - {fileID: 7669875095915323141}
+  - {fileID: 2631279662544121209}
   IsStream: 1
   Is3D: 0
   IsOneShot: 0
@@ -317,7 +299,7 @@ MonoBehaviour:
   Path: event:/Moonkey/Moonkey Hurt
   guid: 9c9b9c11c88b504bab231e363343e1a1
   Banks:
-  - {fileID: -1869798467255991946}
+  - {fileID: 4816351787186041680}
   IsStream: 1
   Is3D: 0
   IsOneShot: 1
@@ -452,24 +434,6 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 0
   Length: 32000
---- !u!114 &-1869798467255991946
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
-  m_Name: bank:/SFX.bank
-  m_EditorClassIdentifier: 
-  Path: FMOD Files/Build/Desktop/SFX.bank
-  Name: SFX
-  lastModified: 637423928668773110
-  LoadResult: 0
-  FileSizes: []
-  Exists: 1
 --- !u!114 &-1833343823261052645
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -503,7 +467,7 @@ MonoBehaviour:
   Path: event:/Moonkey/Moonkey Punch
   guid: a3d442e38b10654aa7f00b72b43ff433
   Banks:
-  - {fileID: -1869798467255991946}
+  - {fileID: 4816351787186041680}
   IsStream: 1
   Is3D: 0
   IsOneShot: 1
@@ -547,10 +511,10 @@ MonoBehaviour:
   m_Name: FMODStudioCache
   m_EditorClassIdentifier: 
   EditorBanks:
-  - {fileID: 4998494968950716083}
-  - {fileID: -8887783885435897790}
-  - {fileID: 7669875095915323141}
-  - {fileID: -1869798467255991946}
+  - {fileID: 4839030218438574992}
+  - {fileID: -7543221493979503440}
+  - {fileID: 2631279662544121209}
+  - {fileID: 4816351787186041680}
   EditorEvents:
   - {fileID: -9133636528245828385}
   - {fileID: -4984707306951194411}
@@ -562,10 +526,10 @@ MonoBehaviour:
   - {fileID: 8050033046086177476}
   EditorParameters: []
   MasterBanks:
-  - {fileID: -8887783885435897790}
+  - {fileID: -7543221493979503440}
   StringsBanks:
-  - {fileID: 4998494968950716083}
-  stringsBankWriteTime: 637423928668114867
+  - {fileID: 4839030218438574992}
+  stringsBankWriteTime: 637423909440000000
   cacheVersion: 5
 --- !u!114 &534504903396768719
 MonoBehaviour:
@@ -707,7 +671,7 @@ MonoBehaviour:
   lastModified: 637423909480000000
   LoadResult: 0
   FileSizes: []
-  Exists: 0
+  Exists: 1
 --- !u!114 &2633804795746905742
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -746,7 +710,7 @@ MonoBehaviour:
   Path: event:/Moonkey/Moonkey Dash
   guid: 54d54ee24ef9ed4399cc32d096f88e75
   Banks:
-  - {fileID: -1869798467255991946}
+  - {fileID: 4816351787186041680}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -792,7 +756,7 @@ MonoBehaviour:
   Path: event:/Moonkey/Moonkey Jump
   guid: 2c30c196acf1fa4d9bb9462f2617c719
   Banks:
-  - {fileID: -1869798467255991946}
+  - {fileID: 4816351787186041680}
   IsStream: 1
   Is3D: 0
   IsOneShot: 1
@@ -817,7 +781,7 @@ MonoBehaviour:
   lastModified: 637423909480000000
   LoadResult: 0
   FileSizes: []
-  Exists: 0
+  Exists: 1
 --- !u!114 &4839030218438574992
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -833,26 +797,6 @@ MonoBehaviour:
   Path: ../../../FMOD Projects/Cybermonk/Build/Desktop/Master.strings.bank
   Name: Master.strings
   lastModified: 637423909440000000
-  LoadResult: 0
-  FileSizes:
-  - Name: Desktop
-    Value: 1242
-  Exists: 0
---- !u!114 &4998494968950716083
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
-  m_Name: bank:/Master.strings.bank
-  m_EditorClassIdentifier: 
-  Path: FMOD Files/Build/Desktop/Master.strings.bank
-  Name: Master.strings
-  lastModified: 637423928668114867
   LoadResult: 0
   FileSizes:
   - Name: Desktop
@@ -1029,24 +973,6 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 0
   Length: 430
---- !u!114 &7669875095915323141
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
-  m_Name: bank:/Music.bank
-  m_EditorClassIdentifier: 
-  Path: FMOD Files/Build/Desktop/Music.bank
-  Name: Music
-  lastModified: 637423928668703295
-  LoadResult: 0
-  FileSizes: []
-  Exists: 1
 --- !u!114 &8050033046086177476
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1062,7 +988,7 @@ MonoBehaviour:
   Path: event:/Zombie/Zombie Hurt
   guid: ca9bd9d0c1825b4695b68e64d0c16199
   Banks:
-  - {fileID: -1869798467255991946}
+  - {fileID: 4816351787186041680}
   IsStream: 1
   Is3D: 0
   IsOneShot: 1
