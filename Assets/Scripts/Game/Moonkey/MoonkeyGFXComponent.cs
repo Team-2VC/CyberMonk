@@ -31,6 +31,17 @@ namespace CyberMonk.Game.Moonkey
                 parent.Controller.OnMoonkeyDamageEnd();
             }
         }
+
+        /// <summary>
+        /// Called when the monkey actually jumps.
+        /// </summary>
+        private void OnMoonkeyJump()
+        {
+            if(parent != null && parent.Controller != null)
+            {
+                parent.Controller.OnJump();
+            }
+        }
     }
 }
 

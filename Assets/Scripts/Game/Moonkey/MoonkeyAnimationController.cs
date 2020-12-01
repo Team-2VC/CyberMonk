@@ -24,6 +24,7 @@ namespace CyberMonk.Game.Moonkey
 
         private bool _prevMoving = false;
         private bool _isDamaged = false, _isAttacking = false;
+        private bool _isJumping = false;
 
         private int _punchNumber = 0;
 
@@ -53,6 +54,7 @@ namespace CyberMonk.Game.Moonkey
             this._controller.AttackFinishedEvent += this.OnAttackFinished;
             this._controller.AttackBeginEvent += this.OnAttackBegin;
             this._controller.DashEvent += this.OnDash;
+            this._controller.JumpBeginEvent += this.OnJumpBegin;
             this._controller.JumpEvent += this.OnJump;
             this._controller.LandEvent += this.OnLand;
             this._controller.MoonkeyKilledEvent += this.OnKilled;
@@ -64,6 +66,7 @@ namespace CyberMonk.Game.Moonkey
             this._controller.AttackFinishedEvent -= this.OnAttackFinished;
             this._controller.AttackBeginEvent -= this.OnAttackBegin;
             this._controller.DashEvent -= this.OnDash;
+            this._controller.JumpBeginEvent -= this.OnJumpBegin;
             this._controller.JumpEvent -= this.OnJump;
             this._controller.LandEvent -= this.OnLand;
             this._controller.MoonkeyKilledEvent -= this.OnKilled;
@@ -93,6 +96,12 @@ namespace CyberMonk.Game.Moonkey
             if(this._isDamaged || this._isAttacking)
             {
                 this._prevMoving = false;
+                return;
+            }
+
+            if(this._isJumping)
+            {
+                this._prevMoving = this._movementController.Moving;
                 return;
             }
 
@@ -164,14 +173,21 @@ namespace CyberMonk.Game.Moonkey
             this._animator.Play("moonkey fly");
         }
 
+        private void OnJumpBegin()
+        {
+            this._isJumping = true;
+            this._animator.Play("moonkey jump");
+        }
+
         private void OnJump()
         {
-            this._animator.Play("moonkey jump");
+            this._isJumping = false;
         }
 
         private void OnLand()
         {
             // TODO: Play landed animation
+            Debug.Log("land pls");
             this._animator.Play("moonkey idle");
         }
 

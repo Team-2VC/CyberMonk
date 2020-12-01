@@ -67,6 +67,12 @@ namespace CyberMonk.Game.Moonkey
             remove => this._movementController.JumpEvent -= value;
         }
 
+        public event System.Action JumpBeginEvent
+        {
+            add => this._movementController.JumpBeginEvent += value;
+            remove => this._movementController.JumpBeginEvent -= value;
+        }
+
         public event System.Action LandEvent
         {
             add => this._movementController.LandEvent += value;
@@ -306,6 +312,14 @@ namespace CyberMonk.Game.Moonkey
         public void OnTriggerExit2D(Collider2D collider)
         {
             this._attackController?.OnTriggerExit2D(collider);
+        }
+
+        /// <summary>
+        /// Called when the monkey literally jumps.
+        /// </summary>
+        public void OnJump()
+        {
+            this._movementController.Jump();
         }
 
         #endregion

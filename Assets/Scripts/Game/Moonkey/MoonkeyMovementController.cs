@@ -38,6 +38,10 @@ namespace CyberMonk.Game.Moonkey
 
         public event System.Action JumpEvent
             = delegate { };
+
+        public event System.Action JumpBeginEvent
+            = delegate { };
+
         public event System.Action LandEvent
             = delegate { };
         public event System.Action DashEvent
@@ -179,6 +183,11 @@ namespace CyberMonk.Game.Moonkey
             if(this._onGround)
             {
                 this.DecrementJumpBuffer();
+
+                if (this.CanJump())
+                {
+                    this.OnJumpBegin();
+                }
                 return;
             }
 
@@ -243,13 +252,9 @@ namespace CyberMonk.Game.Moonkey
                 this.Move(Vector2.right * horizontalAxis);
             }
 
-            // Handles the jumping.
-            if(this.CanJump())
-            {
-                this.Jump();
-            }
+
             // Applies a jump boost if the moonkey isn't on ground.
-            else if (this.BoostJump && !this._onGround)
+            if (this.BoostJump && !this._onGround)
             {
                 // Applies a jump boost.
                 this.ApplyJumpBoost();
@@ -300,6 +305,14 @@ namespace CyberMonk.Game.Moonkey
         protected bool CanJump()
         {
             return (this._jumpBuffer > 0 || this.JumpPressed) && this._onGround && !this._currentlyDamaged;
+        }
+
+        /// <summary>
+        /// Called to start the jumping sequence.
+        /// </summary>
+        private void OnJumpBegin()
+        {
+            this.JumpBeginEvent();
         }
 
         /// <summary>
@@ -359,7 +372,7 @@ namespace CyberMonk.Game.Moonkey
             if(collision.gameObject.tag == "ground")
             {
                 // TODO: Make 0.5f serialized
-                if(!this.OnGround && this._offGroundTime >= 0.5f)
+                if(!this.OnGround && this._offGroundTime >= 0.1f)
                 {
                     this.LandEvent();
                 }
