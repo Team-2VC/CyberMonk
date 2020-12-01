@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36f2d3f05ce8ec64cbf531fba440e18e, type: 3}
   m_Name: Slow Jam
   m_EditorClassIdentifier: 
-  value: 
+  value: event:/Music/Slow Jam
   originalValue: event:/Music/Slow Jam

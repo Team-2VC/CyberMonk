@@ -1581,6 +1581,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 657141692}
     m_Modifications:
+    - target: {fileID: 5213678832027362866, guid: bd0db0649d0d5904db176a86c74a050e,
+        type: 3}
+      propertyPath: musicPath.constantValue
+      value: event:/Music/Slow Jam
+      objectReference: {fileID: 0}
     - target: {fileID: 5213678832027362868, guid: bd0db0649d0d5904db176a86c74a050e,
         type: 3}
       propertyPath: m_Name
