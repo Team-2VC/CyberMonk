@@ -196,6 +196,26 @@ namespace CyberMonk.Game.Zombie
         OUTCOME_NORMAL // Determines whether the attack was a normal attack
     }
 
+    public abstract class AZombieSoundController
+    {
+        protected readonly AZombieController _controller;
+
+        public AZombieSoundController(AZombieController controller)
+        {
+            this._controller = controller;
+        }
+
+        /// <summary>
+        /// Hooks the events of the zombie.
+        /// </summary>
+        abstract public void HookEvents();
+
+        /// <summary>
+        /// Unhooks the events of the zombie.
+        /// </summary>
+        abstract public void UnHookEvents();
+    }
+
     /// <summary>
     /// Controls how the targets are handled for each zombie.
     /// </summary>
@@ -911,6 +931,11 @@ namespace CyberMonk.Game.Zombie
             get;
         }
 
+        public abstract AZombieSoundController SoundController
+        {
+            get;
+        }
+
         public ZombieComponent Component => this._component;
 
         public ZombieType Type 
@@ -940,6 +965,7 @@ namespace CyberMonk.Game.Zombie
             this.StateController?.HookEvents();
             this.TargetController?.HookEvents();
             this.MovementController?.HookEvents();
+            this.SoundController?.HookEvents();
         }
 
         /// <summary>
@@ -950,6 +976,7 @@ namespace CyberMonk.Game.Zombie
             this.StateController?.UnHookEvents();
             this.TargetController.UnHookEvents();
             this.MovementController?.UnHookEvents();
+            this.SoundController?.UnHookEvents();
         }
 
         /// <summary>
