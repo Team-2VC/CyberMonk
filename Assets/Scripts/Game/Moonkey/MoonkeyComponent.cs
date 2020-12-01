@@ -255,7 +255,6 @@ namespace CyberMonk.Game.Moonkey
             this._controller.OnTriggerExit2D(collider);
         }
 
-
         #endregion
     }
 }

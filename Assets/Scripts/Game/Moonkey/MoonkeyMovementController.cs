@@ -76,7 +76,7 @@ namespace CyberMonk.Game.Moonkey
             => this._onGround && this._rigidbody.velocity.x == 0f;
 
         public bool Moving
-            => this._onGround && this._rigidbody.velocity.x != 0f && !this.Dashing;
+            => this._onGround && Mathf.Abs(this._rigidbody.velocity.x) > 0f && !this.Dashing;
 
         public float LookDirection
             => this._lookDirection.x;

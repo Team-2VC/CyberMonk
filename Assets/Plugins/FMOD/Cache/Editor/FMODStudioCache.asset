@@ -1,46 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-8870700339245758069
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
-  m_Name: bank:/Master.strings.bank
-  m_EditorClassIdentifier: 
-  Path: C:/Users/jeron/OneDrive/Documents/FMOD Studio/testing/Build/Desktop/Master.strings.bank
-  Name: Master.strings
-  lastModified: 637402272862423372
-  LoadResult: 0
-  FileSizes:
-  - Name: Desktop
-    Value: 742
-  Exists: 0
---- !u!114 &-8828739680301445786
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
-  m_Name: bank:/Master.strings.bank
-  m_EditorClassIdentifier: 
-  Path: C:/Users/jeron/OneDrive/Documents/FMOD Studio/testing/Build/Desktop/Master.strings.bank
-  Name: Master.strings
-  lastModified: 637402272862423372
-  LoadResult: 0
-  FileSizes:
-  - Name: Desktop
-    Value: 742
-  Exists: 0
---- !u!114 &-7047945903373155132
+--- !u!114 &-6780551885446739288
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -50,128 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/Zombie/Zombie Hurt
+  m_Name: event:/Moonkey/Moonkey Jump
   m_EditorClassIdentifier: 
-  Path: event:/Zombie/Zombie Hurt
-  guid: ca9bd9d0c1825b4695b68e64d0c16199
+  Path: event:/Moonkey/Moonkey Jump
+  guid: 2c30c196acf1fa4d9bb9462f2617c719
   Banks:
-  - {fileID: 3560390159308282099}
+  - {fileID: 1161507117279994794}
   IsStream: 1
   Is3D: 0
   IsOneShot: 1
   Parameters: []
   MinDistance: 0
   MaxDistance: 0
-  Length: 1040
---- !u!114 &-7010048335704844816
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
-  m_Name: bank:/Master.strings.bank
-  m_EditorClassIdentifier: 
-  Path: FMOD Files/Cybermonk/Build/Desktop/Master.strings.bank
-  Name: Master.strings
-  lastModified: 637423732940000000
-  LoadResult: 0
-  FileSizes:
-  - Name: Desktop
-    Value: 1190
-  Exists: 1
---- !u!114 &-5731269147940621572
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/Music
-  m_EditorClassIdentifier: 
-  Path: event:/Music
-  guid: 7e668cf25e89474caa356ac247fa153b
-  Banks:
-  - {fileID: 8948591102217797606}
-  IsStream: 1
-  Is3D: 0
-  IsOneShot: 1
-  Parameters: []
-  MinDistance: 0
-  MaxDistance: 0
-  Length: 239386
---- !u!114 &-5596484472767406350
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/Moonkey/Moonkey Dash
-  m_EditorClassIdentifier: 
-  Path: event:/Moonkey/Moonkey Dash
-  guid: 54d54ee24ef9ed4399cc32d096f88e75
-  Banks:
-  - {fileID: 3560390159308282099}
-  IsStream: 0
-  Is3D: 0
-  IsOneShot: 1
-  Parameters: []
-  MinDistance: 0
-  MaxDistance: 0
-  Length: 218
---- !u!114 &-5442656415858596320
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
-  m_Name: bank:/Master.strings.bank
-  m_EditorClassIdentifier: 
-  Path: FMOD Files/testing/Build/Desktop/Master.strings.bank
-  Name: Master.strings
-  lastModified: 637403863486340897
-  LoadResult: 0
-  FileSizes:
-  - Name: Desktop
-    Value: 742
-  Exists: 1
---- !u!114 &-4501460093374476701
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
-  m_Name: bank:/Master.bank
-  m_EditorClassIdentifier: 
-  Path: FMOD Files/Cybermonk/Build/Desktop/Master.bank
-  Name: Master
-<<<<<<< HEAD
-  lastModified: 637423732940000000
-=======
-  lastModified: 637423704539133421
->>>>>>> 9bf073717f16ac94b15e89a44ee7407cd6445377
-  LoadResult: 0
-  FileSizes: []
-  Exists: 1
---- !u!114 &-2946974947713733974
+  Length: 197
+--- !u!114 &-5160961890168241367
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -185,75 +37,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Path: FMOD Files/Cybermonk/Build/Desktop/Music.bank
   Name: Music
-  lastModified: 637423732940000000
+  lastModified: 637423704539512415
   LoadResult: 0
   FileSizes: []
   Exists: 1
---- !u!114 &-2790239287906092803
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/Music/Slow Jam
-  m_EditorClassIdentifier: 
-  Path: event:/Music/Slow Jam
-  guid: 699c7c1606e70c41a53956652923e567
-  Banks:
-  - {fileID: -2946974947713733974}
-  IsStream: 1
-  Is3D: 0
-  IsOneShot: 0
-  Parameters: []
-  MinDistance: 0
-  MaxDistance: 0
-  Length: 32000
---- !u!114 &-2444704609767048002
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
-  m_Name: bank:/Master.bank
-  m_EditorClassIdentifier: 
-  Path: FMOD Files/testing/Build/Desktop/Master.bank
-  Name: Master
-  lastModified: 637403863486320955
-  LoadResult: 0
-  FileSizes: []
-  Exists: 1
---- !u!114 &-1832811280403715574
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/Slow Jam
-  m_EditorClassIdentifier: 
-  Path: event:/Slow Jam
-  guid: 699c7c1606e70c41a53956652923e567
-  Banks:
-  - {fileID: -2946974947713733974}
-  IsStream: 1
-  Is3D: 0
-  IsOneShot: 0
-  Parameters: []
-  MinDistance: 0
-  MaxDistance: 0
-  Length: 32000
---- !u!114 &-1261283618844299931
+--- !u!114 &-4839205443717890732
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -268,7 +56,7 @@ MonoBehaviour:
   Path: event:/Moonkey/Moonkey Punch
   guid: a3d442e38b10654aa7f00b72b43ff433
   Banks:
-  - {fileID: 3560390159308282099}
+  - {fileID: 1161507117279994794}
   IsStream: 1
   Is3D: 0
   IsOneShot: 1
@@ -276,59 +64,7 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 0
   Length: 174
---- !u!114 &-623087861416041290
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
-  m_Name: bank:/Master.strings.bank
-  m_EditorClassIdentifier: 
-  Path: FMOD Files/testing/Build/Desktop/Master.strings.bank
-  Name: Master.strings
-  lastModified: 637403863486340897
-  LoadResult: 0
-  FileSizes:
-  - Name: Desktop
-    Value: 742
-  Exists: 1
---- !u!114 &11400000
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d32cf7c32a3ed8347bac48ef5ed56d82, type: 3}
-  m_Name: FMODStudioCache
-  m_EditorClassIdentifier: 
-  EditorBanks:
-  - {fileID: -7010048335704844816}
-  - {fileID: -4501460093374476701}
-  - {fileID: -2946974947713733974}
-  - {fileID: 3560390159308282099}
-  EditorEvents:
-  - {fileID: -2790239287906092803}
-  - {fileID: -1843135344409561335}
-  - {fileID: 5415555903703056587}
-  - {fileID: -372703046498023907}
-  - {fileID: -1261283618844299931}
-  - {fileID: -7047945903373155132}
-  - {fileID: -5596484472767406350}
-  EditorParameters: []
-  MasterBanks:
-  - {fileID: -4501460093374476701}
-  StringsBanks:
-  - {fileID: -7010048335704844816}
-  stringsBankWriteTime: 637423732940000000
-  cacheVersion: 5
---- !u!114 &888668003576474063
+--- !u!114 &-4686725650912158640
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -340,160 +76,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
   m_Name: bank:/Master.bank
   m_EditorClassIdentifier: 
-  Path: C:/Users/jeron/OneDrive/Documents/FMOD Studio/testing/Build/Desktop/Master.bank
+  Path: FMOD Files/Cybermonk/Build/Desktop/Master.bank
   Name: Master
-  lastModified: 637402272862353422
-  LoadResult: 0
-  FileSizes:
-  - Name: Desktop
-    Value: 3301760
-  Exists: 0
---- !u!114 &1020098519029783242
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/Music
-  m_EditorClassIdentifier: 
-  Path: event:/Music
-  guid: 7e668cf25e89474caa356ac247fa153b
-  Banks:
-  - {fileID: 4343554593683036083}
-  IsStream: 1
-  Is3D: 0
-  IsOneShot: 1
-  Parameters: []
-  MinDistance: 0
-  MaxDistance: 0
-  Length: 239386
---- !u!114 &2889443134892662207
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/Music
-  m_EditorClassIdentifier: 
-  Path: event:/Music
-  guid: 7e668cf25e89474caa356ac247fa153b
-  Banks:
-  - {fileID: -2444704609767048002}
-  IsStream: 1
-  Is3D: 0
-  IsOneShot: 1
-  Parameters: []
-  MinDistance: 0
-  MaxDistance: 0
-  Length: 239386
---- !u!114 &3560390159308282099
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
-  m_Name: bank:/SFX.bank
-  m_EditorClassIdentifier: 
-  Path: FMOD Files/Cybermonk/Build/Desktop/SFX.bank
-  Name: SFX
-  lastModified: 637423732940000000
+  lastModified: 637423704539133421
   LoadResult: 0
   FileSizes: []
   Exists: 1
---- !u!114 &4093679318900217941
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/Moonkey/Moonkey Punch
-  m_EditorClassIdentifier: 
-  Path: event:/Moonkey/Moonkey Punch
-  guid: a3d442e38b10654aa7f00b72b43ff433
-  Banks:
-  - {fileID: 3560390159308282099}
-  IsStream: 1
-  Is3D: 0
-  IsOneShot: 1
-  Parameters: []
-  MinDistance: 0
-  MaxDistance: 0
-  Length: 174
---- !u!114 &4343554593683036083
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
-  m_Name: bank:/Master.bank
-  m_EditorClassIdentifier: 
-  Path: C:/Users/jeron/OneDrive/Documents/FMOD Studio/testing/Build/Desktop/Master.bank
-  Name: Master
-  lastModified: 637402186910120534
-  LoadResult: 0
-  FileSizes:
-  - Name: Desktop
-    Value: 3301568
-  Exists: 1
---- !u!114 &4437734374041280004
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
-  m_Name: bank:/Master.bank
-  m_EditorClassIdentifier: 
-  Path: FMOD Files/testing/Build/Desktop/Master.bank
-  Name: Master
-  lastModified: 637403863486320955
-  LoadResult: 0
-  FileSizes: []
-  Exists: 1
---- !u!114 &4528943727038503627
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
-  m_Name: bank:/Master.strings.bank
-  m_EditorClassIdentifier: 
-  Path: FMOD Files/testing/Build/Desktop/Master.strings.bank
-  Name: Master.strings
-  lastModified: 637403863486340897
-  LoadResult: 0
-  FileSizes:
-  - Name: Desktop
-    Value: 742
-  Exists: 1
---- !u!114 &5415555903703056587
+--- !u!114 &-2981848063928498748
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -508,7 +97,7 @@ MonoBehaviour:
   Path: event:/Moonkey/Moonkey Run
   guid: 3e5387db29936c4588918bab8dc1c164
   Banks:
-  - {fileID: 3560390159308282099}
+  - {fileID: 1161507117279994794}
   IsStream: 1
   Is3D: 0
   IsOneShot: 1
@@ -516,7 +105,57 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 0
   Length: 593
---- !u!114 &6423951545787610965
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d32cf7c32a3ed8347bac48ef5ed56d82, type: 3}
+  m_Name: FMODStudioCache
+  m_EditorClassIdentifier: 
+  EditorBanks:
+  - {fileID: 3161217238641047397}
+  - {fileID: -4686725650912158640}
+  - {fileID: -5160961890168241367}
+  - {fileID: 1161507117279994794}
+  EditorEvents:
+  - {fileID: 7146859957110096574}
+  - {fileID: -6780551885446739288}
+  - {fileID: -2981848063928498748}
+  - {fileID: 4916994993458464269}
+  - {fileID: 4573402306363052486}
+  - {fileID: -4839205443717890732}
+  - {fileID: 8790171620873594441}
+  EditorParameters: []
+  MasterBanks:
+  - {fileID: -4686725650912158640}
+  StringsBanks:
+  - {fileID: 3161217238641047397}
+  stringsBankWriteTime: 637423749587254244
+  cacheVersion: 5
+--- !u!114 &1161507117279994794
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/SFX.bank
+  m_EditorClassIdentifier: 
+  Path: FMOD Files/Cybermonk/Build/Desktop/SFX.bank
+  Name: SFX
+  lastModified: 637423749587314065
+  LoadResult: 0
+  FileSizes: []
+  Exists: 1
+--- !u!114 &3161217238641047397
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -528,15 +167,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
   m_Name: bank:/Master.strings.bank
   m_EditorClassIdentifier: 
-  Path: FMOD Files/testing/Build/Desktop/Master.strings.bank
+  Path: FMOD Files/Cybermonk/Build/Desktop/Master.strings.bank
   Name: Master.strings
-  lastModified: 637403863486340897
+  lastModified: 637423749587254244
   LoadResult: 0
   FileSizes:
   - Name: Desktop
-    Value: 742
+    Value: 1190
   Exists: 1
---- !u!114 &7660370739718318096
+--- !u!114 &4573402306363052486
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -545,18 +184,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
-  m_Name: bank:/Master.bank
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Moonkey/Moonkey Hurt
   m_EditorClassIdentifier: 
-  Path: C:/Users/jeron/OneDrive/Documents/FMOD Studio/testing/Build/Desktop/Master.bank
-  Name: Master
-  lastModified: 637402272862353422
-  LoadResult: 0
-  FileSizes:
-  - Name: Desktop
-    Value: 3301760
-  Exists: 0
---- !u!114 &8758846831976417848
+  Path: event:/Moonkey/Moonkey Hurt
+  guid: 9c9b9c11c88b504bab231e363343e1a1
+  Banks:
+  - {fileID: 1161507117279994794}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 500
+--- !u!114 &4916994993458464269
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -565,18 +207,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
-  m_Name: bank:/Master.strings.bank
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Moonkey/Moonkey Dash
   m_EditorClassIdentifier: 
-  Path: C:/Users/jeron/OneDrive/Documents/FMOD Studio/testing/Build/Desktop/Master.strings.bank
-  Name: Master.strings
-  lastModified: 637402186910180513
-  LoadResult: 0
-  FileSizes:
-  - Name: Desktop
-    Value: 742
-  Exists: 1
---- !u!114 &8912272773231824350
+  Path: event:/Moonkey/Moonkey Dash
+  guid: 54d54ee24ef9ed4399cc32d096f88e75
+  Banks:
+  - {fileID: 1161507117279994794}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 218
+--- !u!114 &7146859957110096574
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -585,16 +230,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
-  m_Name: bank:/Master.bank
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Music/Slow Jam
   m_EditorClassIdentifier: 
-  Path: FMOD Files/testing/Build/Desktop/Master.bank
-  Name: Master
-  lastModified: 637403863486320955
-  LoadResult: 0
-  FileSizes: []
-  Exists: 1
---- !u!114 &8948591102217797606
+  Path: event:/Music/Slow Jam
+  guid: 699c7c1606e70c41a53956652923e567
+  Banks:
+  - {fileID: -5160961890168241367}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 32000
+--- !u!114 &8790171620873594441
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -603,12 +253,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
-  m_Name: bank:/Master.bank
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Zombie/Zombie Hurt
   m_EditorClassIdentifier: 
-  Path: FMOD Files/testing/Build/Desktop/Master.bank
-  Name: Master
-  lastModified: 637403863486320955
-  LoadResult: 0
-  FileSizes: []
-  Exists: 1
+  Path: event:/Zombie/Zombie Hurt
+  guid: ca9bd9d0c1825b4695b68e64d0c16199
+  Banks:
+  - {fileID: 1161507117279994794}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 1040
