@@ -4,6 +4,9 @@
 		<property name="assetPath">
 			<value>Moonkey Hurt SFX/MonkeyScreechSing_S08AN.199.wav</value>
 		</property>
+		<property name="isStreaming">
+			<value>true</value>
+		</property>
 		<property name="frequencyInKHz">
 			<value>96</value>
 		</property>

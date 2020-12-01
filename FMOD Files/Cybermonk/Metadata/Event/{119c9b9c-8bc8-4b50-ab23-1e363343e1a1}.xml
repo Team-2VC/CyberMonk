@@ -266,11 +266,7 @@
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{71fbbd50-8b59-449f-bc56-4ece1c5db154}" />
-	<object class="SingleSound" id="{5a160e9b-ed9d-441c-abae-6fcfaf98c358}">
-		<relationship name="audioFile">
-			<destination>{c377aa01-6ca4-4211-8a98-d742e07f0f4d}</destination>
-		</relationship>
-	</object>
+	<object class="SingleSound" id="{5a160e9b-ed9d-441c-abae-6fcfaf98c358}" />
 	<object class="SingleSound" id="{2facfd2f-4d83-43a2-a419-0eb83245b9c8}">
 		<relationship name="audioFile">
 			<destination>{6be38757-f319-4bb9-a53a-197280d5a419}</destination>

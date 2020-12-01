@@ -4,6 +4,9 @@
 		<property name="assetPath">
 			<value>Moonkey Hurt SFX/PunchFaceCartoon_HV.617.wav</value>
 		</property>
+		<property name="isStreaming">
+			<value>true</value>
+		</property>
 		<property name="frequencyInKHz">
 			<value>96</value>
 		</property>
