@@ -14,6 +14,8 @@ namespace CyberMonk.Game.Moonkey
 
         #region fields
 
+        private const int MAX_PUNCH_NUMBER = 3;
+
         private readonly MoonkeyController _controller;
         private readonly Animator _animator;
         private readonly SpriteRenderer _renderer;
@@ -21,6 +23,10 @@ namespace CyberMonk.Game.Moonkey
         private MoonkeyMovementController _movementController;
 
         private bool _prevMoving = false;
+        private bool _isDamaged = false, _isAttacking = false;
+        private bool _isJumping = false;
+
+        private int _punchNumber = 0;
 
         #endregion
 
@@ -45,22 +51,26 @@ namespace CyberMonk.Game.Moonkey
 
         public virtual void HookEvents()
         {
-            this._controller.AttackBeginEvent += this.OnAttackBegin;
             this._controller.AttackFinishedEvent += this.OnAttackFinished;
+            this._controller.AttackBeginEvent += this.OnAttackBegin;
             this._controller.DashEvent += this.OnDash;
+            this._controller.JumpBeginEvent += this.OnJumpBegin;
             this._controller.JumpEvent += this.OnJump;
             this._controller.LandEvent += this.OnLand;
             this._controller.MoonkeyKilledEvent += this.OnKilled;
+            this._controller.HealthChangedEvent += this.OnHealthChanged;
         }
 
         public virtual void UnhookEvents()
         {
-            this._controller.AttackBeginEvent -= this.OnAttackBegin;
             this._controller.AttackFinishedEvent -= this.OnAttackFinished;
+            this._controller.AttackBeginEvent -= this.OnAttackBegin;
             this._controller.DashEvent -= this.OnDash;
+            this._controller.JumpBeginEvent -= this.OnJumpBegin;
             this._controller.JumpEvent -= this.OnJump;
             this._controller.LandEvent -= this.OnLand;
             this._controller.MoonkeyKilledEvent -= this.OnKilled;
+            this._controller.HealthChangedEvent -= this.OnHealthChanged;
         }
 
         public virtual void Update()
@@ -83,14 +93,32 @@ namespace CyberMonk.Game.Moonkey
         /// </summary>
         private void UpdateMovingAnimator()
         {
+            if(this._isDamaged || this._isAttacking)
+            {
+                this._prevMoving = false;
+                return;
+            }
+
+            if(this._isJumping)
+            {
+                this._prevMoving = this._movementController.Moving;
+                return;
+            }
+
             if (this._movementController.Moving)
             {
+                if(this._movementController.Dashing)
+                {
+                    this._prevMoving = true;
+                    return;
+                }
+
                 this._animator.Play("moonkey walk persp");
                 this._prevMoving = this._movementController.Moving;
                 return;
             }
 
-            if (this._prevMoving)
+            if (this._prevMoving && this._movementController.OnGround)
             {
                 this._animator.Play("moonkey idle");
             }
@@ -98,31 +126,69 @@ namespace CyberMonk.Game.Moonkey
             this._prevMoving = this._movementController.Moving;
         }
 
+        private void OnHealthChanged(float damaged)
+        {
+            if(damaged < 0f && this._controller.Health > 0f)
+            {
+                this._animator.Play("moonkey damaged");
+                this._isDamaged = true;
+            }
+        }
+
+        /// <summary>
+        /// Called when the moonkey's damage animation ends.
+        /// </summary>
+        public void OnMoonkeyDamageEnd()
+        {
+            this._isDamaged = false;
+        }
+
         private void OnAttackBegin(Zombie.ZombieComponent component)
         {
-            // TODO: Implementation.
+            this._isAttacking = true;
         }
 
         private void OnAttackFinished(Zombie.ZombieComponent component, Zombie.AttackOutcome outcome)
         {
-            // TODO: Implementation.
+            if(outcome != Zombie.AttackOutcome.OUTCOME_FAILED)
+            {
+                this._animator.Play("moonkey punch " + this._punchNumber);
+                this._punchNumber++;
+                this._punchNumber %= MAX_PUNCH_NUMBER;
+
+                if(outcome == Zombie.AttackOutcome.OUTCOME_SUCCESS)
+                {
+                    this._punchNumber = 0;
+                    this._isAttacking = false;
+                }
+                return;
+            }
+
+            this._punchNumber = 0;
+            this._isAttacking = false;
         }
 
         private void OnDash()
         {
-            // TODO: Implementation.
+            this._animator.Play("moonkey fly");
+        }
+
+        private void OnJumpBegin()
+        {
+            this._isJumping = true;
+            this._animator.Play("moonkey jump");
         }
 
         private void OnJump()
         {
-            // TODO: Implementation.
-            Debug.Log("Moonkey jumped.");
+            this._isJumping = false;
         }
 
         private void OnLand()
         {
-            // TODO: Implementation.
-            Debug.Log("Moonkey landed.");
+            // TODO: Play landed animation
+            Debug.Log("land pls");
+            this._animator.Play("moonkey idle");
         }
 
         /// <summary>

@@ -197,6 +197,88 @@ namespace CyberMonk.Game.Zombie
     }
 
     /// <summary>
+    /// The zombie sound types.
+    /// </summary>
+    public enum ZombieSoundType
+    {
+        SOUND_LAUNCH
+    }
+
+
+    /// <summary>
+    /// The zombies sound controller.
+    /// </summary>
+    public abstract class AZombieSoundController
+    {
+        public struct CurrentSoundData
+        {
+            public FMOD.Studio.EventInstance currentSound;
+            public ZombieSoundType soundType;
+
+            public bool IsPlaying
+            {
+                get
+                {
+                    FMOD.Studio.PLAYBACK_STATE state;
+                    this.currentSound.getPlaybackState(out state);
+                    return state != FMOD.Studio.PLAYBACK_STATE.STOPPED && state != FMOD.Studio.PLAYBACK_STATE.STOPPING;
+                }
+            }
+        }
+
+        private CurrentSoundData? _currentSoundData;
+        protected readonly AZombieController _controller;
+        protected readonly Dictionary<ZombieSoundType, FMOD.Studio.EventInstance> _sounds;
+
+        protected CurrentSoundData? CurrentSound
+            => this._currentSoundData;
+
+        public AZombieSoundController(AZombieController controller, ZombieSoundData soundData)
+        {
+            this._controller = controller;
+            this._sounds = soundData.GetSoundsList(controller.Type);
+            this._currentSoundData = null;
+        }
+
+        /// <summary>
+        /// Hooks the events of the zombie.
+        /// </summary>
+        abstract public void HookEvents();
+
+        /// <summary>
+        /// Unhooks the events of the zombie.
+        /// </summary>
+        abstract public void UnHookEvents();
+
+        /// <summary>
+        /// Plays the given sound.
+        /// </summary>
+        /// <param name="sound">The sound.</param>
+        protected void PlaySound(ZombieSoundType sound)
+        {
+            if (this._currentSoundData.HasValue)
+            {
+                CurrentSoundData soundData = this._currentSoundData.Value;
+                FMOD.Studio.EventInstance currentSound = this._currentSoundData.Value.currentSound;
+                if (this._currentSoundData.Value.IsPlaying)
+                {
+                    currentSound.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+                }
+            }
+
+            if (this._sounds.ContainsKey(sound))
+            {
+                CurrentSoundData newSoundData = new CurrentSoundData();
+                newSoundData.currentSound = this._sounds[sound];
+                newSoundData.soundType = sound;
+
+                this._currentSoundData = newSoundData;
+                this._currentSoundData.Value.currentSound.start();
+            }
+        }
+    }
+
+    /// <summary>
     /// Controls how the targets are handled for each zombie.
     /// </summary>
     public class ZombieTargetController
@@ -476,6 +558,74 @@ namespace CyberMonk.Game.Zombie
     }
 
     /// <summary>
+    /// Implements the movement for the launch.
+    /// </summary>
+    public class ZombieLaunchController
+    {
+
+        private AZombieMovementController _parent;
+        private Rigidbody2D _rigidbody;
+
+        private Vector2 _startPosition;
+        private Vector2 _centerPosition;
+        private Vector2 _endPosition;
+
+        private ZombieMovementData.ZombieLaunchData _launchData;
+        private float _currentLaunchDuration = 0f;
+
+        public bool Completed
+            => this._currentLaunchDuration >= this._launchData.LaunchDuration;
+
+        public float LaunchDuration
+            => this._currentLaunchDuration;
+
+        protected float DurationPercentage
+            => this._currentLaunchDuration / this._launchData.LaunchDuration;
+
+        public ZombieLaunchController(AZombieMovementController parent, ZombieMovementData.ZombieLaunchData launchData)
+        {
+            this._parent = parent;
+            this._rigidbody = parent.Rigidbody;
+            this._startPosition = parent.Controller.Component.transform.position;
+            this._endPosition = parent.Controller.Component.References.MoonPosition;
+            this._launchData = launchData;
+
+            // Calculates the middle position.
+            Vector2 midPosition = new Vector2();
+            midPosition.y += launchData.LaunchHeight;
+            midPosition.x = (this._startPosition.x + this._endPosition.x / 2.0f);
+            this._centerPosition = midPosition;
+        }
+
+        /// <summary>
+        /// Updates the movement of the launch.
+        /// </summary>
+        public void Update()
+        {
+            if(!this.Completed)
+            {
+                this._currentLaunchDuration += Time.fixedDeltaTime;
+                this._rigidbody.MovePosition(this.BezierCurve(this.DurationPercentage));
+            }
+        }
+
+        /// <summary>
+        /// Gets the bezier curve used for the movement of the launch.
+        /// </summary>
+        /// <param name="travelPercentage">The travel percentage.</param>
+        /// <returns>The point where to travel to.</returns>
+        private Vector2 BezierCurve(float travelPercentage)
+        {
+            Vector2 rayAB = Vector2.Lerp(this._startPosition, this._centerPosition, travelPercentage);
+            Vector2 rayBC = Vector2.Lerp(this._centerPosition, this._endPosition, travelPercentage);
+
+            return Vector2.Lerp(rayAB, rayBC, travelPercentage);
+        }
+    }
+
+
+
+    /// <summary>
     /// The abstract class that handles the movement of the zombie.
     /// Checklist:
     /// - Zombies need to be in x amount of range to move to the player.
@@ -486,20 +636,39 @@ namespace CyberMonk.Game.Zombie
     {
 
         #region fields
+
+        public event System.Action LaunchEndEvent
+            = delegate { };
  
         protected AZombieController _controller;
+        private ZombieLaunchController _launchController = null;
+        private ZombieMovementData.ZombieLaunchData _launchData;
 
         #endregion
 
         #region properties
 
+        public abstract Rigidbody2D Rigidbody
+        {
+            get;
+        }
+
+        public AZombieController Controller
+        {
+            get => this._controller;
+        }
+
+        protected bool Launched
+            => this._launchController != null;
+
         #endregion
 
         #region constructor
 
-        public AZombieMovementController(AZombieController controller)
+        public AZombieMovementController(AZombieController controller, ZombieMovementData movementData)
         {
             this._controller = controller;
+            this._launchData = movementData.LaunchData;
         }
 
         #endregion
@@ -511,12 +680,12 @@ namespace CyberMonk.Game.Zombie
         /// </summary>
         public virtual void HookEvents()
         {
-            // TODO: hook up an attack end event.
             ZombieReferences references = this._controller.Component.References;
             references.BeatDownEvent += this.OnDownBeat;
 
             this._controller.AttackedEvent += this.OnAttackBegin;
             this._controller.AttackEvent += this.OnAttack;
+            this._controller.LaunchBeginEvent += this.OnLaunched;
         }
 
         /// <summary>
@@ -525,10 +694,11 @@ namespace CyberMonk.Game.Zombie
         public virtual void UnHookEvents()
         {
             ZombieReferences references = this._controller.Component.References;
-            references.BeatDownEvent += this.OnDownBeat;
+            references.BeatDownEvent -= this.OnDownBeat;
 
             this._controller.AttackedEvent -= this.OnAttackBegin;
-            this._controller.AttackEvent += this.OnAttack;
+            this._controller.AttackEvent -= this.OnAttack;
+            this._controller.LaunchBeginEvent -= this.OnLaunched;
         }
 
         /// <summary>
@@ -536,13 +706,18 @@ namespace CyberMonk.Game.Zombie
         /// </summary>
         public void PhysicsUpdate()
         {
-            // TODO: Implement paused.
+            if(this.Launched)
+            {
+                this.UpdateLaunched();
+                return;
+            }
+
             this.UpdateMovement();
         }
 
-        abstract protected void OnAttackBegin(Moonkey.MoonkeyComponent attacker);
+        protected virtual void OnAttackBegin(Moonkey.MoonkeyComponent attacker) { }
 
-        abstract protected void OnAttack(AttackOutcome outcome);
+        protected virtual void OnAttack(AttackOutcome outcome) { }
 
         abstract protected void OnDownBeat();
 
@@ -551,6 +726,28 @@ namespace CyberMonk.Game.Zombie
         /// in the Update function.
         /// </summary>
         abstract protected void UpdateMovement();
+
+        protected virtual void OnLaunched()
+        {
+            this._launchController = new ZombieLaunchController(this, this._launchData);
+        }
+        
+        protected void UpdateLaunched()
+        {
+            if(this._launchController == null)
+            {
+                return;
+            }
+
+            this._launchController.Update();
+            
+            if(this._launchController.Completed)
+            {
+                this.LaunchEndEvent();
+                this._launchController = null;
+                return;
+            }
+        }
 
         #endregion
     }
@@ -561,6 +758,9 @@ namespace CyberMonk.Game.Zombie
     public abstract class AZombieStateController
     {
         #region fields
+
+        public event System.Action LaunchBeginEvent
+            = delegate { };
 
         protected ZombieState _state;
         protected readonly AZombieController _controller;
@@ -573,6 +773,11 @@ namespace CyberMonk.Game.Zombie
         /// Determines whether the zombie is open for an attack.
         /// </summary>
         public abstract bool OpenForAttack
+        {
+            get;
+        }
+
+        public abstract Moonkey.MoonkeyComponent Attacker
         {
             get;
         }
@@ -603,6 +808,7 @@ namespace CyberMonk.Game.Zombie
             references.BeatDownEvent += this.OnDownBeat;
             this._controller.AttackedEvent += this.OnAttacked;
             this._controller.AttackEvent += this.OnAttack;
+            this._controller.LaunchEndEvent += this.OnLaunchEnd;
         }
 
         /// <summary>
@@ -614,6 +820,7 @@ namespace CyberMonk.Game.Zombie
             references.BeatDownEvent -= this.OnDownBeat;
             this._controller.AttackedEvent -= this.OnAttacked;
             this._controller.AttackEvent -= this.OnAttack;
+            this._controller.LaunchEndEvent -= this.OnLaunchEnd;
         }
 
         /// <summary>
@@ -640,6 +847,25 @@ namespace CyberMonk.Game.Zombie
         /// </summary>
         /// <param name="outcome">The attack outcome.</param>
         abstract protected void OnAttack(AttackOutcome outcome);
+
+        /// <summary>
+        /// Called to launch the zombie.
+        /// </summary>
+        protected void Launch()
+        {
+            this.OnLaunchBegin();
+            this.LaunchBeginEvent();
+        }
+
+        /// <summary>
+        /// Called when the zombie is launched.
+        /// </summary>
+        abstract protected void OnLaunchBegin();
+
+        /// <summary>
+        /// Called when the launch has ended.
+        /// </summary>
+        abstract protected void OnLaunchEnd();
 
         #endregion
     }
@@ -710,6 +936,42 @@ namespace CyberMonk.Game.Zombie
             remove => this._targetController.AttackEvent -= value;
         }
 
+        public event System.Action LaunchBeginEvent
+        {
+            add
+            {
+                if(this.StateController != null)
+                {
+                    this.StateController.LaunchBeginEvent += value;
+                }
+            }
+            remove
+            {
+                if(this.StateController != null)
+                {
+                    this.StateController.LaunchBeginEvent -= value;
+                }
+            }
+        }
+
+        public event System.Action LaunchEndEvent
+        {
+            add
+            {
+                if(this.MovementController != null)
+                {
+                    this.MovementController.LaunchEndEvent += value;
+                }
+            }
+            remove
+            {
+                if(this.MovementController != null)
+                {
+                    this.MovementController.LaunchEndEvent -= value;
+                }
+            }
+        }
+
         private readonly ZombieComponent _component;
         private readonly ZombieType _type;
         private readonly ZombieTargetController _targetController;
@@ -727,6 +989,11 @@ namespace CyberMonk.Game.Zombie
         }
 
         public abstract AZombieMovementController MovementController
+        {
+            get;
+        }
+
+        public abstract AZombieSoundController SoundController
         {
             get;
         }
@@ -760,6 +1027,7 @@ namespace CyberMonk.Game.Zombie
             this.StateController?.HookEvents();
             this.TargetController?.HookEvents();
             this.MovementController?.HookEvents();
+            this.SoundController?.HookEvents();
         }
 
         /// <summary>
@@ -770,6 +1038,7 @@ namespace CyberMonk.Game.Zombie
             this.StateController?.UnHookEvents();
             this.TargetController.UnHookEvents();
             this.MovementController?.UnHookEvents();
+            this.SoundController?.UnHookEvents();
         }
 
         /// <summary>

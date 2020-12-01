@@ -13,3 +13,14 @@ MonoBehaviour:
   m_Name: RANGE
   m_EditorClassIdentifier: 
   type: 1
+  targetsData:
+    prefab: {fileID: 0}
+    zombieTargetPositions: []
+    randomizeTargetOrder: 0
+  movementData:
+    speedForce: 0
+    launchData:
+      launchHeight: 12
+      launchDuration: 2.5
+  soundData:
+    launchSound: event:/Zombie/Zombie Hurt

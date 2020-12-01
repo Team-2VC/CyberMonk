@@ -357,8 +357,8 @@ MonoBehaviour:
   SwitchSettingsMigration: 1
   HasSourceProject: 1
   HasPlatforms: 1
-  sourceProjectPath: FMOD Files/testing/testing.fspro
-  sourceBankPath: FMOD Files\testing\Build
+  sourceProjectPath: FMOD Files/Cybermonk/Cybermonk.fspro
+  sourceBankPath: FMOD Files\Cybermonk\Build
   SourceBankPathUnformatted: 
   AutomaticEventLoading: 1
   BankLoadType: 0
@@ -379,7 +379,9 @@ MonoBehaviour:
   Plugins: []
   MasterBanks:
   - Master
-  Banks: []
+  Banks:
+  - Music
+  - SFX
   BanksToLoad: []
   LiveUpdatePort: 9264
   EnableMemoryTracking: 0

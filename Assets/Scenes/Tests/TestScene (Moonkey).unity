@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -1121,6 +1121,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e062cb6436f6f644d844d3b6d837678d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  waveDisplayPrefab: {fileID: 4397904598556620043, guid: 191497a0d1154e44db9e0d09960be49e,
+    type: 3}
   values:
     startNumberZombies: 5
     delayBetweenWaves: 10.5
@@ -1215,12 +1217,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Moonkey
       objectReference: {fileID: 0}
-    - target: {fileID: 4245225831426242234, guid: 051128727cb65ed4f801ca4651b0f7b3,
-        type: 3}
-      propertyPath: references.paused.variable
-      value: 
-      objectReference: {fileID: 11400000, guid: 5c56c2f61d47f904389d3447591fe5f8,
-        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 051128727cb65ed4f801ca4651b0f7b3, type: 3}
 --- !u!1 &4245225831229622894 stripped
@@ -1420,41 +1416,5 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7250241122266481763, guid: 1595317a3f537d44586be336c63e842a,
-        type: 3}
-      propertyPath: references.currentWave.variable
-      value: 
-      objectReference: {fileID: 11400000, guid: 08f7d0380be4cd545b04b74108183459,
-        type: 2}
-    - target: {fileID: 7250241122266481763, guid: 1595317a3f537d44586be336c63e842a,
-        type: 3}
-      propertyPath: references.totalScore.variable
-      value: 
-      objectReference: {fileID: 11400000, guid: 0b79c29b996e7874482d29b799ae9b4d,
-        type: 2}
-    - target: {fileID: 7250241122266481763, guid: 1595317a3f537d44586be336c63e842a,
-        type: 3}
-      propertyPath: references.comboMultiplier.variable
-      value: 
-      objectReference: {fileID: 11400000, guid: c7df1a7311f273f49ab09022a40f8a3c,
-        type: 2}
-    - target: {fileID: 7250241122266481763, guid: 1595317a3f537d44586be336c63e842a,
-        type: 3}
-      propertyPath: references.comboCounter.variable
-      value: 
-      objectReference: {fileID: 11400000, guid: 203ec7fcdd833a046b0b839ed1b02879,
-        type: 2}
-    - target: {fileID: 7250241122266481763, guid: 1595317a3f537d44586be336c63e842a,
-        type: 3}
-      propertyPath: references.paused.variable
-      value: 
-      objectReference: {fileID: 11400000, guid: 5c56c2f61d47f904389d3447591fe5f8,
-        type: 2}
-    - target: {fileID: 7250241122266481763, guid: 1595317a3f537d44586be336c63e842a,
-        type: 3}
-      propertyPath: references.pausedGUIPrefab
-      value: 
-      objectReference: {fileID: 8978451174797670443, guid: ae50cd022f5ce4540b6d09dfd231dfac,
-        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1595317a3f537d44586be336c63e842a, type: 3}

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.01.00">
+	<object class="AudioFile" id="{b41af5f5-7428-4dca-bb0b-9872e03e3a8f}">
+		<property name="assetPath">
+			<value>Moonkey Hurt SFX/BRS_Bone_Break_Celery_Many_1.wav</value>
+		</property>
+		<property name="isStreaming">
+			<value>true</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>44.0999985</value>
+		</property>
+		<property name="channelCount">
+			<value>1</value>
+		</property>
+		<property name="length">
+			<value>13.212154195011339</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{20bbabde-b8b7-4e0c-a9ec-d933e697c636}</destination>
+		</relationship>
+	</object>
+</objects>

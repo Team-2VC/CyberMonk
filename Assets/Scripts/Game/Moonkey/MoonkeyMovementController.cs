@@ -17,6 +17,7 @@ namespace CyberMonk.Game.Moonkey
         #region fields
 
         protected readonly Rigidbody2D _rigidbody;
+        protected readonly Transform _transform;
 
         private MoonkeyController _controller;
         private readonly MoonkeyMovementSettings _movementSettings;
@@ -33,8 +34,14 @@ namespace CyberMonk.Game.Moonkey
         private bool _onGround = true;
         private float _offGroundTime = 0f;
 
+        private bool _currentlyDamaged = false;
+
         public event System.Action JumpEvent
             = delegate { };
+
+        public event System.Action JumpBeginEvent
+            = delegate { };
+
         public event System.Action LandEvent
             = delegate { };
         public event System.Action DashEvent
@@ -75,7 +82,7 @@ namespace CyberMonk.Game.Moonkey
             => this._onGround && this._rigidbody.velocity.x == 0f;
 
         public bool Moving
-            => this._onGround && this._rigidbody.velocity.x != 0f && !this.Dashing;
+            => this._onGround && Mathf.Abs(this._rigidbody.velocity.x) > 0f && !this.Dashing;
 
         public float LookDirection
             => this._lookDirection.x;
@@ -93,6 +100,7 @@ namespace CyberMonk.Game.Moonkey
         {
             this._controller = controller;
             this._rigidbody = controller.Component.GetComponent<Rigidbody2D>();
+            this._transform = controller.Component.transform;
 
             this._movementSettings = settings.MovementSettings;
 
@@ -107,19 +115,43 @@ namespace CyberMonk.Game.Moonkey
         public void HookEvents()
         {
             this._controller.AttackBeginEvent += this.OnAttackBegin;
+            this._controller.HealthChangedEvent += this.OnHealthChanged;
         }
 
         public void UnHookEvents()
         {
             this._controller.AttackBeginEvent -= this.OnAttackBegin;
+            this._controller.HealthChangedEvent -= this.OnHealthChanged;
+        }
+
+        private void OnHealthChanged(float healthChanged)
+        {
+            if(healthChanged < 0f && this._controller.Health > 0f)
+            {
+                if(this.Dashing)
+                {
+                    this.ForceStopDashing();
+                }
+                this._currentlyDamaged = true;
+            }
+        }
+
+        public void OnMoonkeyDamageEnd()
+        {
+            this._currentlyDamaged = false;
         }
 
         private void OnAttackBegin(Zombie.ZombieComponent component)
         {
-            Debug.Log("Moonkey begins attacking - MoonkeyMovementController");
-            // TODO: Force the monkey to stop dashing.
             if(this.Dashing)
             {
+                Vector2 difference = component.transform.position - this._transform.position;
+                float direction = difference.x < 0 ? -1 : 1;
+                if(direction != this.LookDirection)
+                {
+                    this._lookDirection.x = direction;
+                }
+
                 this.ForceStopDashing();
             }
         }
@@ -151,6 +183,11 @@ namespace CyberMonk.Game.Moonkey
             if(this._onGround)
             {
                 this.DecrementJumpBuffer();
+
+                if (this.CanJump())
+                {
+                    this.OnJumpBegin();
+                }
                 return;
             }
 
@@ -215,13 +252,9 @@ namespace CyberMonk.Game.Moonkey
                 this.Move(Vector2.right * horizontalAxis);
             }
 
-            // Handles the jumping.
-            if(this.CanJump())
-            {
-                this.Jump();
-            }
+
             // Applies a jump boost if the moonkey isn't on ground.
-            else if (this.BoostJump && !this._onGround)
+            if (this.BoostJump && !this._onGround)
             {
                 // Applies a jump boost.
                 this.ApplyJumpBoost();
@@ -255,7 +288,7 @@ namespace CyberMonk.Game.Moonkey
         /// <param name="direction">Moves the monkey in the given direction.</param>
         public virtual void Move(Vector2 direction)
         {
-            if(this.Dashing)
+            if(this.Dashing || this._currentlyDamaged)
             {
                 return;
             }
@@ -271,7 +304,15 @@ namespace CyberMonk.Game.Moonkey
         /// <returns>True if the monkey can jump, false otherwise.</returns>
         protected bool CanJump()
         {
-            return (this._jumpBuffer > 0 || this.JumpPressed) && this._onGround;
+            return (this._jumpBuffer > 0 || this.JumpPressed) && this._onGround && !this._currentlyDamaged;
+        }
+
+        /// <summary>
+        /// Called to start the jumping sequence.
+        /// </summary>
+        private void OnJumpBegin()
+        {
+            this.JumpBeginEvent();
         }
 
         /// <summary>
@@ -306,12 +347,7 @@ namespace CyberMonk.Game.Moonkey
         /// <returns>True if the monkey can dash, false otherwise.</returns>
         protected bool CanDash()
         {
-            if(this._dashCounter > 0)
-            {
-                return true;
-            }
-
-            return false;
+            return this._dashCounter > 0 && !this._currentlyDamaged;
         }
 
         /// <summary>
@@ -336,7 +372,7 @@ namespace CyberMonk.Game.Moonkey
             if(collision.gameObject.tag == "ground")
             {
                 // TODO: Make 0.5f serialized
-                if(!this.OnGround && this._offGroundTime >= 0.5f)
+                if(!this.OnGround && this._offGroundTime >= 0.1f)
                 {
                     this.LandEvent();
                 }

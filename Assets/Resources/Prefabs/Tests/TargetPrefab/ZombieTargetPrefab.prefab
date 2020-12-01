@@ -165,4 +165,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   references:
     beatDownEvent: {fileID: 11400000, guid: d73961cd309650a44b36f0f55ef2d599, type: 2}
-  totalActiveBeats: 2
+  totalActiveBeats: 1
+  hitParticlePrefab: {fileID: 100004, guid: f95ff734540a0d749be6571b6cb5b37f, type: 3}

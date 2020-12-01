@@ -33,6 +33,8 @@ namespace CyberMonk.Game.Zombie
         private Moonkey.Events.MoonkeyAttackEvent attackFinishedEvent;
         [SerializeField]
         private Utils.References.BooleanReference paused;
+        [SerializeField]
+        private Utils.References.Vector2Reference moonPosition;
 
         [SerializeField, Range(0.1f, 100f)]
         private float _damageAmount;
@@ -42,6 +44,9 @@ namespace CyberMonk.Game.Zombie
 
         public float DamageAmount
             => this._damageAmount;
+
+        public Vector2 MoonPosition
+            => this.moonPosition.Value;
 
         public Utils.Events.GameEvent BeatDownEvent
         {
@@ -122,6 +127,11 @@ namespace CyberMonk.Game.Zombie
 
         private void FixedUpdate()
         {
+            if(this.references.Paused)
+            {
+                return;
+            }
+
             this._controller?.PhysicsUpdate();
         }
 

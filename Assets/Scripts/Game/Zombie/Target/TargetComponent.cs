@@ -37,6 +37,9 @@ namespace CyberMonk.Game.Zombie.Target
         [SerializeField, Range(0, 10)]
         private int totalActiveBeats;
 
+        [SerializeField]
+        private GameObject hitParticlePrefab;
+
         private int _beatsActive = 0;
 
         private bool _active = false;
@@ -157,6 +160,7 @@ namespace CyberMonk.Game.Zombie.Target
                 this._renderer.enabled = false;
             }
 
+            Instantiate(this.hitParticlePrefab, this.transform.position, Quaternion.identity);
             this.Deactivate(DeactivationReason.REASON_PLAYER_HIT, this._pressedTime.Value - this._beatTime.Value);
         }
 

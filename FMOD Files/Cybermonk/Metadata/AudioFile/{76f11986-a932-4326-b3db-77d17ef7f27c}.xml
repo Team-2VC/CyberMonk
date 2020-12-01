@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.01.00">
+	<object class="AudioFile" id="{76f11986-a932-4326-b3db-77d17ef7f27c}">
+		<property name="assetPath">
+			<value>Funk Yells/PFUNK_bouvier_richardson_vocal_phrase_oww.wav</value>
+		</property>
+		<property name="isStreaming">
+			<value>true</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>44.0999985</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>0.52090702947845802</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{20bbabde-b8b7-4e0c-a9ec-d933e697c636}</destination>
+		</relationship>
+	</object>
+</objects>

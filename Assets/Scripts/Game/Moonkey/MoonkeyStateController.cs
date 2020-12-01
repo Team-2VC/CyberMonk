@@ -93,8 +93,15 @@ namespace CyberMonk.Game.Moonkey
 
             this._state = MoonkeyState.STATE_DYING;
             this.MoonkeyKilledEvent();
-            
-            // TODO: Remove this;
+
+            // TODO: Remove this.
+            this.OnDeath();
+        }
+
+        // TODO: Remove this, only acts as a placeholder for the end state.
+        private void OnDeath()
+        {
+            this._controller.Component.References.DeathEvent?.Call();
             GameObject.Destroy(this._controller.Component.gameObject);
         }
 

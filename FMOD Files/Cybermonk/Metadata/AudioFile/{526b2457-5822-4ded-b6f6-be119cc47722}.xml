@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.01.00">
+	<object class="AudioFile" id="{526b2457-5822-4ded-b6f6-be119cc47722}">
+		<property name="assetPath">
+			<value>Run/MODE_foley_Kick_03.wav</value>
+		</property>
+		<property name="isStreaming">
+			<value>true</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>44.0999985</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>0.10000000000000001</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{20bbabde-b8b7-4e0c-a9ec-d933e697c636}</destination>
+		</relationship>
+	</object>
+</objects>

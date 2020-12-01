@@ -10,8 +10,6 @@ namespace CyberMonk.Menus
     /// </summary>
     public class MainMenuManager : MonoBehaviour
     {
-        
-
         /// <summary>
         /// Called when the play button is selected.
         /// </summary>

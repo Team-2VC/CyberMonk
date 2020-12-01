@@ -6,6 +6,35 @@ using UnityEngine;
 namespace CyberMonk.Game.Zombie.Melee
 {
     /// <summary>
+    /// Handles the zombie sound.
+    /// </summary>
+    public class MeleeZombieSoundController : AZombieSoundController
+    {
+
+        public MeleeZombieSoundController(MeleeZombieController controller, ZombieSoundData soundData)
+            : base(controller, soundData) { }
+
+        public override void HookEvents()
+        {
+            this._controller.LaunchBeginEvent += this.OnLaunchBegin;
+        }
+
+        public override void UnHookEvents()
+        {
+            this._controller.LaunchBeginEvent -= this.OnLaunchBegin;
+        }
+
+        /// <summary>
+        /// Called when the zombie has begun to launch.
+        /// </summary>
+        private void OnLaunchBegin()
+        {
+            this.PlaySound(ZombieSoundType.SOUND_LAUNCH);
+        }
+    }
+
+
+    /// <summary>
     /// Handles the melee zombie movement controller.
     /// </summary>
     public class MeleeZombieMovementController : AZombieMovementController
@@ -22,9 +51,13 @@ namespace CyberMonk.Game.Zombie.Melee
         protected bool HasTarget
             => this._targetMoonkey != null;
 
+        // TODO: 
+
+        public override Rigidbody2D Rigidbody
+            => this._rigidbody;
 
         public MeleeZombieMovementController(MeleeZombieController controller, ZombieMovementData data)
-            : base(controller) 
+            : base(controller, data) 
         {
             this._stateController = (MeleeZombieStateController)controller.StateController;
             this._rigidbody = controller.Component.GetComponent<Rigidbody2D>();
@@ -36,14 +69,12 @@ namespace CyberMonk.Game.Zombie.Melee
         {
             if(!this.HasTarget)
             {
-                // TODO: Movement.
                 this.SearchForTarget();
             }
         }
 
         private void SearchForTarget()
         {
-            // TODO: Implementation.
             if(this._transform == null)
             {
                 return;
@@ -91,22 +122,6 @@ namespace CyberMonk.Game.Zombie.Melee
                 this._rigidbody.AddForce(movementDirection.normalized * this._movementData.SpeedForce, ForceMode2D.Impulse);
             }
         }
-
-        private void Launch()
-        {
-            // TODO: Implement
-        }
-
-        protected override void OnAttackBegin(MoonkeyComponent attacker)
-        {
-            // TODO: Implementation
-        }
-
-        protected override void OnAttack(AttackOutcome outcome)
-        {
-            // TODO: Implementation
-        }
-
     }
 
     /// <summary>
@@ -140,6 +155,9 @@ namespace CyberMonk.Game.Zombie.Melee
                 return true;
             }
         }
+
+        public override Moonkey.MoonkeyComponent Attacker
+            => this._attacker;
 
         #endregion
 
@@ -205,22 +223,23 @@ namespace CyberMonk.Game.Zombie.Melee
                 this.References.Value.AttackFinishedEvent?.Call(this._attacker, this._controller.Component, outcome);
             }
 
-            this._attacker = null;
-            this._state = ZombieState.STATE_LAUNCHED;
-
-            // TODO: Call a localized event that calls the launched event.
-            // TODO: Remove onDeath
-
-            this.OnDeath();
+            this.Launch();
         }
 
+
         /// <summary>
-        /// Called when the zombie has died.
+        /// Called when the zombie is launched.
         /// </summary>
-        private void OnDeath()
+        protected override void OnLaunchBegin()
+        {
+            this._attacker = null;
+            this._state = ZombieState.STATE_LAUNCHED;
+        }
+
+        protected override void OnLaunchEnd()
         {
             // Calls the zombie death event.
-            if(this.References.HasValue)
+            if (this.References.HasValue)
             {
                 this.References.Value.ZombieDeathEvent?.Call();
             }
@@ -243,6 +262,8 @@ namespace CyberMonk.Game.Zombie.Melee
 
         private readonly MeleeZombieMovementController _movementController;
 
+        private readonly MeleeZombieSoundController _soundController;
+
         #endregion
 
         #region properties
@@ -253,6 +274,9 @@ namespace CyberMonk.Game.Zombie.Melee
         public override AZombieMovementController MovementController 
             => this._movementController;
 
+        public override AZombieSoundController SoundController 
+            => this._soundController;
+
         #endregion
 
         #region constructor
@@ -262,6 +286,7 @@ namespace CyberMonk.Game.Zombie.Melee
         {
             this._stateController = new MeleeZombieStateController(this);
             this._movementController = new MeleeZombieMovementController(this, settings.MovementData);
+            this._soundController = new MeleeZombieSoundController(this, settings.SoundData);
         }
 
         #endregion

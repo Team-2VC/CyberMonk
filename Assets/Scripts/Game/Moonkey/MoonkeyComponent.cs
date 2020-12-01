@@ -7,6 +7,8 @@ using UnityEngine;
 namespace CyberMonk.Game.Moonkey
 {
 
+    
+
     /// <summary>
     /// The list of moonkey references.
     /// </summary>
@@ -23,7 +25,8 @@ namespace CyberMonk.Game.Moonkey
         private Utils.References.IntegerReference totalScore;
         [SerializeField]
         private Utils.References.BooleanReference paused;
-
+        [SerializeField]
+        private Utils.Events.GameEvent deathEvent;
 
         public Events.MoonkeyAttackEvent AttackFinishedEvent
         {
@@ -36,7 +39,11 @@ namespace CyberMonk.Game.Moonkey
                 }
             }
         }
-        
+
+        public Utils.Events.GameEvent DeathEvent
+        {
+            get => this.deathEvent;
+        }
 
         // TODO: When null this thing makes the whole Unity unusable.
         public int ComboCounter
@@ -79,12 +86,12 @@ namespace CyberMonk.Game.Moonkey
             => this.paused.Value;
     }
 
+
     [System.Serializable]
     public struct MoonkeyProperties
     {
         [SerializeField]
         private Animator graphicsAnimator;
-
         [SerializeField]
         private SpriteRenderer graphicsSpriteRenderer;
 
@@ -247,7 +254,6 @@ namespace CyberMonk.Game.Moonkey
 
             this._controller.OnTriggerExit2D(collider);
         }
-
 
         #endregion
     }

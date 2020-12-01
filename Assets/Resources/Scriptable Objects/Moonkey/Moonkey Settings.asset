@@ -12,14 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2020adf1779913047bdf0e435e9edc9d, type: 3}
   m_Name: Moonkey Settings
   m_EditorClassIdentifier: 
-  movementSpeed: 9
-  jumpForce: 10
-  maxJumpBoostTime: 0.3
-  dashSpeed: 50
-  dashTime: 0.1
-  dashCooldownTime: 1
-  dashMaxCounter: 2
-  inputBufferForFrames: 11
   movementSettings:
     movementSpeed: 9
     jumpForce: 10
@@ -31,4 +23,10 @@ MonoBehaviour:
     inputBufferForFrames: 11
   healthSettings:
     maxHealth: 200
+  soundSettings:
+    jumpSound: event:/Moonkey/Moonkey Jump
+    punchSound: event:/Moonkey/Moonkey Punch
+    runSound: event:/Moonkey/Moonkey Run
+    hurtSound: event:/Moonkey/Moonkey Hurt
+    dashSound: event:/Moonkey/Moonkey Dash
   animatorController: {fileID: 9100000, guid: ce049101895a74b4e904107fe4e1505b, type: 2}
