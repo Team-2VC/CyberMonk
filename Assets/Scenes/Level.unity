@@ -1599,7 +1599,7 @@ PrefabInstance:
         type: 3}
       propertyPath: musicPath.variable
       value: 
-      objectReference: {fileID: 11400000, guid: d0f00609e1d620b43a347c6c7401e251,
+      objectReference: {fileID: 11400000, guid: 82e9f9a247d715e4d91f8f600cc813e5,
         type: 2}
     - target: {fileID: 5213678832027362868, guid: bd0db0649d0d5904db176a86c74a050e,
         type: 3}
@@ -4396,6 +4396,7 @@ GameObject:
   - component: {fileID: 1841252567}
   - component: {fileID: 1841252569}
   - component: {fileID: 1841252566}
+  - component: {fileID: 1841252570}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -4505,6 +4506,25 @@ MonoBehaviour:
   m_RequiresDepthTexture: 0
   m_RequiresColorTexture: 0
   m_Version: 2
+--- !u!95 &1841252570
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1841252565}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: d56f8c6618c30774ba5327029addab96, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1924676420
 GameObject:
   m_ObjectHideFlags: 0
