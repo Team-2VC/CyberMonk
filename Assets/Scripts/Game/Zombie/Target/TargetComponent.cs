@@ -40,7 +40,7 @@ namespace CyberMonk.Game.Zombie.Target
         [SerializeField]
         private GameObject hitParticlePrefab;
 
-        private GameObject _camera;
+        private Animator _cameraAnimator;
 
         private int _beatsActive = 0;
 
@@ -85,7 +85,7 @@ namespace CyberMonk.Game.Zombie.Target
         private void Start()
         {
             this._renderer = this.GetComponent<Renderer>();
-            this._camera = GameObject.FindGameObjectWithTag("MainCamera");
+            this._cameraAnimator = Camera.main?.GetComponent<Animator>();
         }
 
         /// <summary>
@@ -163,7 +163,11 @@ namespace CyberMonk.Game.Zombie.Target
                 this._renderer.enabled = false;
             }
 
-            this._camera.GetComponent<Animator>().Play("CamShake");
+            if(this._cameraAnimator != null)
+            {
+                this._cameraAnimator.Play("CamShake");
+            }
+
             Instantiate(this.hitParticlePrefab, this.transform.position, Quaternion.identity);
             this.Deactivate(DeactivationReason.REASON_PLAYER_HIT, this._pressedTime.Value - this._beatTime.Value);
         }
