@@ -46,7 +46,7 @@ namespace CyberMonk.Game.Moonkey
         public void HookEvents()
         {
             this._controller.HealthChangedEvent += this.OnHealthChanged;
-            this._controller.DashEvent += this.OnDash;
+            this._controller.DashBeginEvent += this.OnDash;
             this._controller.JumpEvent += this.OnJump;
             this._controller.AttackFinishedEvent += this.OnAttackFinished;
         }
@@ -54,7 +54,7 @@ namespace CyberMonk.Game.Moonkey
         public void UnHookEvents()
         {
             this._controller.HealthChangedEvent -= this.OnHealthChanged;
-            this._controller.DashEvent -= this.OnDash;
+            this._controller.DashBeginEvent -= this.OnDash;
             this._controller.JumpEvent -= this.OnJump;
             this._controller.AttackFinishedEvent -= this.OnAttackFinished;
         }

@@ -44,7 +44,11 @@ namespace CyberMonk.Game.Moonkey
 
         public event System.Action LandEvent
             = delegate { };
-        public event System.Action DashEvent
+
+        public event System.Action DashBeginEvent
+            = delegate { };
+
+        public event System.Action DashEndEvent
             = delegate { };
 
         #endregion
@@ -79,10 +83,10 @@ namespace CyberMonk.Game.Moonkey
             => this._onGround;
 
         public bool Idle
-            => this._onGround && this._rigidbody.velocity.x == 0f;
+            => this._onGround && !this.Moving;
 
         public bool Moving
-            => this._onGround && Mathf.Abs(this._rigidbody.velocity.x) > 0f && !this.Dashing;
+            => Mathf.Abs(this._rigidbody.velocity.x) > 0f;
 
         public float LookDirection
             => this._lookDirection.x;
@@ -130,7 +134,7 @@ namespace CyberMonk.Game.Moonkey
             {
                 if(this.Dashing)
                 {
-                    this.ForceStopDashing();
+                    this.ForceStopDashing(false);
                 }
                 this._currentlyDamaged = true;
             }
@@ -252,7 +256,6 @@ namespace CyberMonk.Game.Moonkey
                 this.Move(Vector2.right * horizontalAxis);
             }
 
-
             // Applies a jump boost if the moonkey isn't on ground.
             if (this.BoostJump && !this._onGround)
             {
@@ -267,7 +270,6 @@ namespace CyberMonk.Game.Moonkey
                 if (this._dashTime <= 0)
                 {
                     // Stops Dashing here
-                    // TODO: C# Event to stop dashing.
                     this.ForceStopDashing();
                 }
             }
@@ -276,8 +278,14 @@ namespace CyberMonk.Game.Moonkey
         /// <summary>
         /// Forces the moonkey to stop dashing.
         /// </summary>
-        public void ForceStopDashing()
+        /// <param name="callEvent">Call the dash end event.</param>
+        public void ForceStopDashing(bool callEvent = true)
         {
+            if(callEvent)
+            {
+                this.DashEndEvent();
+            }
+
             this._dashTime = 0f;
             this._rigidbody.velocity = Vector2.zero;
         }
@@ -360,7 +368,7 @@ namespace CyberMonk.Game.Moonkey
             this._rigidbody.velocity = this._lookDirection * this._movementSettings.DashSpeed;
             this._dashCounter--;
 
-            this.DashEvent();
+            this.DashBeginEvent();
         }
 
         /// <summary>
@@ -371,7 +379,6 @@ namespace CyberMonk.Game.Moonkey
         {
             if(collision.gameObject.tag == "ground")
             {
-                // TODO: Make 0.5f serialized
                 if(!this.OnGround && this._offGroundTime >= 0.1f)
                 {
                     this.LandEvent();

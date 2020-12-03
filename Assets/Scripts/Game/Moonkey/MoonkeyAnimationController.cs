@@ -53,7 +53,8 @@ namespace CyberMonk.Game.Moonkey
         {
             this._controller.AttackFinishedEvent += this.OnAttackFinished;
             this._controller.AttackBeginEvent += this.OnAttackBegin;
-            this._controller.DashEvent += this.OnDash;
+            this._controller.DashBeginEvent += this.OnDashBegin;
+            this._controller.DashEndEvent -= this.OnDashEnd;
             this._controller.JumpBeginEvent += this.OnJumpBegin;
             this._controller.JumpEvent += this.OnJump;
             this._controller.LandEvent += this.OnLand;
@@ -65,7 +66,8 @@ namespace CyberMonk.Game.Moonkey
         {
             this._controller.AttackFinishedEvent -= this.OnAttackFinished;
             this._controller.AttackBeginEvent -= this.OnAttackBegin;
-            this._controller.DashEvent -= this.OnDash;
+            this._controller.DashBeginEvent -= this.OnDashBegin;
+            this._controller.DashEndEvent -= this.OnDashEnd;
             this._controller.JumpBeginEvent -= this.OnJumpBegin;
             this._controller.JumpEvent -= this.OnJump;
             this._controller.LandEvent -= this.OnLand;
@@ -93,34 +95,31 @@ namespace CyberMonk.Game.Moonkey
         /// </summary>
         private void UpdateMovingAnimator()
         {
-            if(this._isDamaged || this._isAttacking)
-            {
-                this._prevMoving = false;
-                return;
-            }
-
             if(this._isJumping)
             {
                 this._prevMoving = this._movementController.Moving;
                 return;
             }
 
-            if (this._movementController.Moving)
+            if(this._isDamaged || this._isAttacking)
             {
-                if(this._movementController.Dashing)
-                {
-                    this._prevMoving = true;
-                    return;
-                }
-
-                this._animator.Play("moonkey walk persp");
-                this._prevMoving = this._movementController.Moving;
+                this._prevMoving = false;
                 return;
             }
 
-            if (this._prevMoving && this._movementController.OnGround)
+            if(this._movementController.OnGround)
             {
-                this._animator.Play("moonkey idle");
+                if (this._movementController.Moving)
+                {
+                    this._animator.Play("moonkey walk persp");
+                    this._prevMoving = this._movementController.Moving;
+                    return;
+                }
+
+                if (this._prevMoving)
+                {
+                    this._animator.Play("moonkey idle");
+                }
             }
 
             this._prevMoving = this._movementController.Moving;
@@ -140,11 +139,14 @@ namespace CyberMonk.Game.Moonkey
         /// </summary>
         public void OnMoonkeyDamageEnd()
         {
+            this.PlayNormalState();
             this._isDamaged = false;
         }
 
         private void OnAttackBegin(Zombie.ZombieComponent component)
         {
+            // TODO: fighting stance idle?
+            this._animator.Play("moonkey idle");
             this._isAttacking = true;
         }
 
@@ -168,9 +170,14 @@ namespace CyberMonk.Game.Moonkey
             this._isAttacking = false;
         }
 
-        private void OnDash()
+        private void OnDashBegin()
         {
             this._animator.Play("moonkey fly");
+        }
+
+        private void OnDashEnd()
+        {
+            this.PlayNormalState();
         }
 
         private void OnJumpBegin()
@@ -188,6 +195,23 @@ namespace CyberMonk.Game.Moonkey
         {
             // TODO: Play landed animation
             Debug.Log("land pls");
+            if(this._isJumping)
+            {
+                this._isJumping = false;
+            }
+
+            this.PlayNormalState();
+        }
+
+        private void PlayNormalState()
+        {
+            if (this._movementController.Moving)
+            {
+                this._animator.Play("moonkey walk persp");
+                return;
+            }
+
+            this._prevMoving = false;
             this._animator.Play("moonkey idle");
         }
 

@@ -82,10 +82,16 @@ namespace CyberMonk.Game.Moonkey
             remove => this._movementController.LandEvent -= value;
         }
 
-        public event System.Action DashEvent
+        public event System.Action DashBeginEvent
         {
-            add => this._movementController.DashEvent += value;
-            remove => this._movementController.DashEvent -= value;
+            add => this._movementController.DashBeginEvent += value;
+            remove => this._movementController.DashBeginEvent -= value;
+        }
+
+        public event System.Action DashEndEvent
+        {
+            add => this._movementController.DashEndEvent += value;
+            remove => this._movementController.DashBeginEvent -= value;
         }
 
         public event System.Action<float> HealthChangedEvent
