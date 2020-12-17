@@ -11,6 +11,8 @@ namespace CyberMonk.UI
     {
         [SerializeField]
         private Utils.References.IntegerReference totalScore;
+        [SerializeField]
+        private Utils.Events.GameEvent beatDownEvent;
 
         public Utils.References.IntegerReference TotalScore
         {
@@ -23,11 +25,24 @@ namespace CyberMonk.UI
                 }
             }
         }
+
+        public Utils.Events.GameEvent BeatDownEvent
+        {
+            get => this.beatDownEvent;
+            set
+            {
+                if(this.beatDownEvent != null)
+                {
+                    this.beatDownEvent = value;
+                }
+            }
+        }
     }
 
     /// <summary>
     /// The Player UI.
     /// </summary>
+    [RequireComponent(typeof(Animator), typeof(Canvas))]
     public class PlayerUI : MonoBehaviour
     {
         [SerializeField]
@@ -40,6 +55,8 @@ namespace CyberMonk.UI
         [SerializeField]
         private Text scoreText;
 
+        private Animator _animator;
+
         /// <summary>
         /// Sets the health text to the health.
         /// </summary>
@@ -47,6 +64,7 @@ namespace CyberMonk.UI
         {
             this.HookHealthChangedEvent();
 
+            this._animator = this.GetComponent<Animator>();
             this.scoreText.text = "Score: " + (int)this.references.TotalScore.Value;
             this.healthBar.value = 0f;
         }
@@ -62,6 +80,7 @@ namespace CyberMonk.UI
         private void OnEnable()
         {
             this.HookHealthChangedEvent();
+            this.references.BeatDownEvent += this.OnBeatDown;
             this.references.TotalScore.ChangedValueEvent += this.OnScoreChanged;
         }
 
@@ -72,6 +91,7 @@ namespace CyberMonk.UI
                 this.moonkey.Controller.HealthChangedEvent -= this.OnHealthChanged;
             }
 
+            this.references.BeatDownEvent -= this.OnBeatDown;
             this.references.TotalScore.ChangedValueEvent -= this.OnScoreChanged;
         }
 
@@ -85,6 +105,14 @@ namespace CyberMonk.UI
             float healthBarPercentage = (maxHealth - this.moonkey.Controller.Health) / maxHealth;
             Debug.Log(healthBarPercentage);
             this.healthBar.value = healthBarPercentage;
+        }
+
+        /// <summary>
+        /// Called when the beat is down.
+        /// </summary>
+        private void OnBeatDown()
+        {
+            this._animator.Play("BeatPulse");
         }
 
         /// <summary>
