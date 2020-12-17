@@ -91,7 +91,6 @@ namespace CyberMonk.Game
 
         private GameObject _currentMenu = null;
        
-
         private void Awake()
         {
             this.references.Reset();
@@ -121,11 +120,14 @@ namespace CyberMonk.Game
 
         private void OnPaused(bool paused)
         {
-            if(paused && this._currentMenu == null)
+            float timeScale = 1f;
+            if (paused && this._currentMenu == null)
             {
-                Time.timeScale = paused ? 0f : 1f;
+                timeScale = 0f;
                 this._currentMenu = Instantiate(this.references.PausedPrefab);
             }
+
+            Time.timeScale = timeScale;
         }
         
         private void OnGameOver()

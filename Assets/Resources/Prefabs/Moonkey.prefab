@@ -216,6 +216,7 @@ MonoBehaviour:
       constant: 0
       constantValue: 0
       variable: {fileID: 11400000, guid: 0b79c29b996e7874482d29b799ae9b4d, type: 2}
+    beatDownEvent: {fileID: 11400000, guid: d73961cd309650a44b36f0f55ef2d599, type: 2}
   moonkey: {fileID: 4245225831426242234}
   healthBar: {fileID: 2428385283733769431}
   scoreText: {fileID: 715265709}

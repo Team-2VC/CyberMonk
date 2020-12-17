@@ -22,7 +22,6 @@ namespace CyberMonk.Menus
         public void OnContinuePressed()
         {
             this.paused.Value = false;
-
             if(this.closeOnContinue)
             {
                 Destroy(this.gameObject);
@@ -35,6 +34,7 @@ namespace CyberMonk.Menus
         /// <param name="level">The level to load.</param>
         public void OnExitPressed(string level)
         {
+            this.paused.Value = false;
             SceneManager.LoadScene(level);
         }
     }
