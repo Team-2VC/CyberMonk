@@ -4412,9 +4412,9 @@ Camera:
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
-  m_SensorSize: {x: 36, y: 24}
+  m_SensorSize: {x: 33.94, y: 24}
   m_LensShift: {x: 0, y: 0}
-  m_FocalLength: 50
+  m_FocalLength: 9.04
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
@@ -4423,7 +4423,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 60
+  field of view: 106.016136
   orthographic: 1
   orthographic size: 8.245898
   m_Depth: -1

@@ -1,7 +1,247 @@
 fileFormatVersion: 2
 guid: e3b569a0061322149821f59c2871c8cc
 TextureImporter:
-  internalIDToNameTable: []
+  internalIDToNameTable:
+  - first:
+      213: -1408437573596956881
+    second: TitleScreen
+  - first:
+      213: 6662437350718754850
+    second: TitleScreen_1
+  - first:
+      213: 8178116643437178935
+    second: TitleScreen_2
+  - first:
+      213: 544131479985222813
+    second: TitleScreen_3
+  - first:
+      213: -3796318909725056041
+    second: TitleScreen_4
+  - first:
+      213: 5627779701389661174
+    second: TitleScreen_5
+  - first:
+      213: -3571618719920874198
+    second: TitleScreen_6
+  - first:
+      213: -8384860810640688523
+    second: TitleScreen_7
+  - first:
+      213: 921449456513738468
+    second: TitleScreen_8
+  - first:
+      213: 3820936900061760946
+    second: TitleScreen_9
+  - first:
+      213: 6352344355117394551
+    second: TitleScreen_10
+  - first:
+      213: 7709305891805506335
+    second: TitleScreen_11
+  - first:
+      213: 5729228346715255035
+    second: TitleScreen_12
+  - first:
+      213: 4746690805261741705
+    second: TitleScreen_13
+  - first:
+      213: -1742415945944274944
+    second: TitleScreen_14
+  - first:
+      213: -6413097248084086247
+    second: TitleScreen_15
+  - first:
+      213: -1666959118706802838
+    second: TitleScreen_16
+  - first:
+      213: 8593444215000862579
+    second: TitleScreen_17
+  - first:
+      213: -2932121303426884241
+    second: TitleScreen_18
+  - first:
+      213: -1563925007204435290
+    second: TitleScreen_19
+  - first:
+      213: 7532825719659974057
+    second: TitleScreen_20
+  - first:
+      213: 4821941995752779508
+    second: TitleScreen_21
+  - first:
+      213: 5819841674814368369
+    second: TitleScreen_22
+  - first:
+      213: 2825479246396807314
+    second: TitleScreen_23
+  - first:
+      213: -191412942284306035
+    second: TitleScreen_24
+  - first:
+      213: 9108816049942787443
+    second: TitleScreen_25
+  - first:
+      213: -2448311344905452945
+    second: TitleScreen_26
+  - first:
+      213: 5479847346050782081
+    second: TitleScreen_27
+  - first:
+      213: 4851628922149373654
+    second: TitleScreen_28
+  - first:
+      213: -7295602426873970107
+    second: TitleScreen_29
+  - first:
+      213: 593148602882204341
+    second: TitleScreen_30
+  - first:
+      213: 5839995824991489600
+    second: TitleScreen_31
+  - first:
+      213: 8860507394741579909
+    second: TitleScreen_32
+  - first:
+      213: 6074192498390489991
+    second: TitleScreen_33
+  - first:
+      213: -8286901632468850270
+    second: TitleScreen_34
+  - first:
+      213: 944569491359155496
+    second: TitleScreen_35
+  - first:
+      213: -4077492377665562188
+    second: TitleScreen_36
+  - first:
+      213: 7987293136561253148
+    second: TitleScreen_37
+  - first:
+      213: 3113675087574775821
+    second: TitleScreen_38
+  - first:
+      213: -6207007536474369814
+    second: TitleScreen_39
+  - first:
+      213: 578161133848335018
+    second: TitleScreen_40
+  - first:
+      213: 4231257321696667781
+    second: TitleScreen_41
+  - first:
+      213: 836858044431786745
+    second: TitleScreen_42
+  - first:
+      213: -4391890886482335327
+    second: TitleScreen_43
+  - first:
+      213: -323373766273463479
+    second: TitleScreen_44
+  - first:
+      213: 7477721443856895701
+    second: TitleScreen_45
+  - first:
+      213: -8915648224788533611
+    second: TitleScreen_46
+  - first:
+      213: 7276519747758769153
+    second: TitleScreen_47
+  - first:
+      213: -3974853493645399293
+    second: TitleScreen_48
+  - first:
+      213: 2195797667797403851
+    second: TitleScreen_49
+  - first:
+      213: -8040866700956503118
+    second: TitleScreen_50
+  - first:
+      213: -7699161121768318063
+    second: TitleScreen_51
+  - first:
+      213: 2836991656782757471
+    second: TitleScreen_52
+  - first:
+      213: 7005352620719778203
+    second: TitleScreen_53
+  - first:
+      213: 1265466911618162624
+    second: TitleScreen_54
+  - first:
+      213: 3350234931910922335
+    second: TitleScreen_55
+  - first:
+      213: -1594499565252318588
+    second: TitleScreen_56
+  - first:
+      213: -7113701008711908560
+    second: TitleScreen_57
+  - first:
+      213: -6492612592874389737
+    second: TitleScreen_58
+  - first:
+      213: -5845030049770274327
+    second: TitleScreen_59
+  - first:
+      213: -1982142209779345725
+    second: TitleScreen_60
+  - first:
+      213: 1156642724511408613
+    second: TitleScreen_61
+  - first:
+      213: 2930164794676303728
+    second: TitleScreen_62
+  - first:
+      213: -3252420660067501965
+    second: TitleScreen_63
+  - first:
+      213: 8650404786364928154
+    second: TitleScreen_64
+  - first:
+      213: 1119625103059171795
+    second: TitleScreen_65
+  - first:
+      213: 2593407216889605252
+    second: TitleScreen_66
+  - first:
+      213: -9007731307246006896
+    second: TitleScreen_67
+  - first:
+      213: -2782176544569792256
+    second: TitleScreen_68
+  - first:
+      213: -2842737832033625171
+    second: TitleScreen_69
+  - first:
+      213: 1764142602002127240
+    second: TitleScreen_70
+  - first:
+      213: -2672364481708693948
+    second: TitleScreen_71
+  - first:
+      213: 7040654454145302379
+    second: TitleScreen_72
+  - first:
+      213: 9060475945365860435
+    second: TitleScreen_73
+  - first:
+      213: -187768720243045532
+    second: TitleScreen_74
+  - first:
+      213: -5850810729702585975
+    second: TitleScreen_75
+  - first:
+      213: -7248806867080282830
+    second: TitleScreen_76
+  - first:
+      213: -601943936910343396
+    second: TitleScreen_77
+  - first:
+      213: 7695802136297584552
+    second: TitleScreen_78
+  - first:
+      213: -1432899541193627540
+    second: TitleScreen_79
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -40,13 +280,13 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 100
-  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteBorder: {x: 0, y: 52, z: 32, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
   alphaIsTransparency: 1
@@ -71,9 +311,114 @@ TextureImporter:
     overridden: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Windows Store Apps
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: tvOS
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: iPhone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Lumin
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: TitleScreen
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 51
+        width: 629
+        height: 499
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 1, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f27b0713d79347ce0800000000000000
+      internalID: -1408437573596956881
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
