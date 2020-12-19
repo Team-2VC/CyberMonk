@@ -200,7 +200,7 @@ namespace CyberMonk.Game.Moonkey
         }
 
         /// <summary>
-        /// Called when the monkey controler collides with another collision.
+        /// Called when the monkey controller collides with another collision.
         /// </summary>
         /// <param name="collision">The collision.</param>
         private void OnCollisionEnter2D(Collision2D collision)

@@ -11,7 +11,7 @@ namespace CyberMonk.Game.Zombie
     /// </summary>
     public enum TryZombieAttackOutcome
     {
-        OUTCOME_FAILED_UNKNOWN,
+        OUTCOME_FAILED_MISC,
         OUTCOME_FAILED_PLAYER_ATTACKING,
         OUTCOME_FAILED_ZOMBIE_ATTACKING,
         OUTCOME_SUCCESS
@@ -139,7 +139,7 @@ namespace CyberMonk.Game.Zombie
         {
             if(component == null)
             {
-                return TryZombieAttackOutcome.OUTCOME_FAILED_UNKNOWN;
+                return TryZombieAttackOutcome.OUTCOME_FAILED_MISC;
             }
 
             return this._controller.OnMoonkeyAttack(component);

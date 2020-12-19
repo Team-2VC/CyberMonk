@@ -130,15 +130,15 @@ namespace CyberMonk.Game.Zombie.Melee
 
             if (this.HasTarget && beatDown % 2 == 0)
             {
-                if(this._targetMoonkey.IsAttacking)
+                AZombieStateController stateController = this._controller.StateController;
+                if (stateController.State != ZombieState.STATE_DANCING)
                 {
-                    this.SearchForTarget();
                     return;
                 }
 
-                AZombieStateController stateController = this._controller.StateController;
-                if(stateController.State != ZombieState.STATE_DANCING)
+                if (this._targetMoonkey.IsAttacking)
                 {
+                    this.SearchForTarget();
                     return;
                 }
 

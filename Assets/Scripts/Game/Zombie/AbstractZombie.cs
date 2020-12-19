@@ -1059,18 +1059,26 @@ namespace CyberMonk.Game.Zombie
         /// Called when the moonkey component attacks this zombie.
         /// </summary>
         /// <param name="component">The moonkey component reference.</param>
-        /// <returns>True if the monkey was succesfully attacked, false otherwise.</returns>
+        /// <returns>True if the monkey was successfully attacked, false otherwise.</returns>
         public virtual TryZombieAttackOutcome OnMoonkeyAttack(Moonkey.MoonkeyComponent component)
         {
-            // TODO: Add check for player if its already attacking
-
-            if(this.StateController.OpenForAttack)
+            if(this.StateController.State == ZombieState.STATE_DANCING)
             {
-                this.AttackedEvent(component);
-                return TryZombieAttackOutcome.OUTCOME_SUCCESS;
+                if(this.StateController.OpenForAttack)
+                {
+                    this.AttackedEvent(component);
+                    return TryZombieAttackOutcome.OUTCOME_SUCCESS;
+                }
+
+                return TryZombieAttackOutcome.OUTCOME_FAILED_ZOMBIE_ATTACKING;
             }
 
-            return TryZombieAttackOutcome.OUTCOME_FAILED_ZOMBIE_ATTACKING;
+            if(this.StateController.State == ZombieState.STATE_ATTACKED)
+            {
+                return TryZombieAttackOutcome.OUTCOME_FAILED_PLAYER_ATTACKING;
+            }
+
+            return TryZombieAttackOutcome.OUTCOME_FAILED_MISC;
         }
 
         #endregion
