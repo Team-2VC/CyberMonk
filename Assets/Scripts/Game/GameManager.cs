@@ -148,7 +148,7 @@ namespace CyberMonk.Game
 
         private void OnMoonkeyDeath()
         {
-            // TODO: reimplement accounting for more than 1 monkey.
+            // TODO: re implement accounting for more than 1 monkey.
             this.references.GameOverEvent?.Call();
         }
     }

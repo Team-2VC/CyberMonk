@@ -8,6 +8,6 @@ namespace CyberMonk.Utils.Variables
     /// <summary>
     /// The definition for the boolean variable scriptable object.
     /// </summary>
-    [CreateAssetMenu(fileName = "Bool Variable", menuName = "Bool Variable")]
+    [CreateAssetMenu(fileName = "Bool Variable", menuName = "Variables/Bool Variable")]
     public class BooleanVariable : GenericVariable<bool> { }
 }

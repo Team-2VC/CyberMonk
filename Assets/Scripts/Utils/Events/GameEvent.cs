@@ -7,7 +7,7 @@ namespace CyberMonk.Utils.Events
     /// <summary>
     /// The Generic Event class definition without the type.
     /// </summary>
-    [CreateAssetMenu(fileName = "Game Event", menuName = "Game Event")]
+    [CreateAssetMenu(fileName = "Game Event", menuName = "Events/Game Event")]
     public class GameEvent : ScriptableObject
     {
 

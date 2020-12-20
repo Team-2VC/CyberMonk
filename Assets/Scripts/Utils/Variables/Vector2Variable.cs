@@ -8,6 +8,6 @@ namespace CyberMonk.Utils.Variables
     /// <summary>
     /// Defintion for the Vector2 variable scriptable object.
     /// </summary>
-    [CreateAssetMenu(fileName = "Vector2 Variable", menuName = "Vector2 Variable")]
+    [CreateAssetMenu(fileName = "Vector2 Variable", menuName = "Variables/Vector2 Variable")]
     public class Vector2Variable : GenericVariable<Vector2> { }
 }

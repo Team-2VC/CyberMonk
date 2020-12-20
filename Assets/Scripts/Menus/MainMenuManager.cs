@@ -48,7 +48,7 @@ namespace CyberMonk.Menus
         /// <summary>
         /// Called when the play button is selected.
         /// </summary>
-        public void OnPlaySelected(string level)
+        public void OnPlaySelected(Game.Level.LevelLoadData levelData)
         {
             if(this.IsInTransition)
             {
@@ -58,12 +58,12 @@ namespace CyberMonk.Menus
             this._animator.Play(this.animationTransitions.PlayGameTransition);
             this.SetTransitionData((object a) =>
                 {
-                    if(a is string)
+                    if(a is Game.Level.LevelLoadData)
                     {
                         // TODO: Load instructions scene??
-                        SceneManager.LoadSceneAsync((string)a);
+                        Game.Level.LevelLoader.LoadLevel((Game.Level.LevelLoadData)a);
                     }
-                }, level);
+                }, levelData);
         }
 
         /// <summary>

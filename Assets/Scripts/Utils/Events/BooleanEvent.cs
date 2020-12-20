@@ -7,7 +7,7 @@ namespace CyberMonk.Utils.Events
     /// <summary>
     /// A Game event that utilizes a boolean input.
     /// </summary>
-    [CreateAssetMenu(fileName = "Game Event (Boolean)", menuName = "Game Event (Boolean)")]
+    [CreateAssetMenu(fileName = "Game Event (Boolean)", menuName = "Events/Game Event (Boolean)")]
     public class BooleanEvent : GenericEvent<bool> { }
 }
 

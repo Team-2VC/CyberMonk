@@ -8,6 +8,6 @@ namespace CyberMonk.Utils.Variables
     /// <summary>
     /// Defintion for the float variable scriptable object.
     /// </summary>
-    [CreateAssetMenu(fileName = "Float Variable", menuName = "Float Variable")]
+    [CreateAssetMenu(fileName = "Float Variable", menuName = "Variables/Float Variable")]
     public class FloatVariable : GenericVariable<float> { }
 }

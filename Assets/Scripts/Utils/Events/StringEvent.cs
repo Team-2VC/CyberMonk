@@ -7,6 +7,6 @@ namespace CyberMonk.Utils.Events
     /// <summary>
     /// The string game event.
     /// </summary>
-    [CreateAssetMenu(fileName = "Game Event (String)", menuName = "Game Event (String)")]
+    [CreateAssetMenu(fileName = "Game Event (String)", menuName = "Events/Game Event (String)")]
     public class StringEvent : GenericEvent<string> { }
 }

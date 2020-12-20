@@ -7,6 +7,6 @@ namespace CyberMonk.Utils.Events
     /// <summary>
     /// The float event scriptable object definition.
     /// </summary>
-    [CreateAssetMenu(fileName = "Game Event (Float)", menuName = "Game Event (Float)")]
+    [CreateAssetMenu(fileName = "Game Event (Float)", menuName = "Events/Game Event (Float)")]
     public class FloatEvent : GenericEvent<float> { }
 }

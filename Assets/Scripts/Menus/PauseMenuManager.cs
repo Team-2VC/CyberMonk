@@ -32,10 +32,10 @@ namespace CyberMonk.Menus
         /// Called when the exit menu was pressed.
         /// </summary>
         /// <param name="level">The level to load.</param>
-        public void OnExitPressed(string level)
+        public void OnExitPressed(Game.Level.LevelLoadData levelLoadData)
         {
             this.paused.Value = false;
-            SceneManager.LoadScene(level);
+            Game.Level.LevelLoader.LoadLevel(levelLoadData);
         }
     }
 }

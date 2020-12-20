@@ -7,7 +7,7 @@ namespace CyberMonk.Utils.Events
     /// <summary>
     /// Integer Events definition.
     /// </summary>
-    [CreateAssetMenu(fileName = "Game Event (Integer)", menuName = "Game Event (Integer)")]
+    [CreateAssetMenu(fileName = "Game Event (Integer)", menuName = "Events/Game Event (Integer)")]
     public class IntegerEvent : GenericEvent<int> { }
 }
 

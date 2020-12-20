@@ -13,20 +13,21 @@ namespace CyberMonk.Menus
         /// <summary>
         /// Called when the retry button was clicked.
         /// </summary>
-        public void OnRetryClicked()
+        /// <param name="levelData">The level data.</param>
+        public void OnRetryClicked(Game.Level.LevelLoadData levelData)
         {
             Time.timeScale = 1f;
-            SceneManager.LoadScene("Level");
+            Game.Level.LevelLoader.LoadLevel(levelData);
         }
 
         /// <summary>
         /// Called when the exit button was clicked.
         /// </summary>
-        /// <param name="mainMenu">The main menu scene.</param>
-        public void OnExitClicked()
+        /// <param name="levelData">The level data.</param>
+        public void OnExitClicked(Game.Level.LevelLoadData levelData)
         {
             Time.timeScale = 1f;
-            SceneManager.LoadScene("MainMenu");
+            Game.Level.LevelLoader.LoadLevel(levelData);
         }
     }
 }
