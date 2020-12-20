@@ -108,13 +108,21 @@ namespace CyberMonk.Game.Zombie.Melee
             MoonkeyComponent matchedTarget = Moonkey.MoonkeyHolder.GetClosestMoonkey(this._transform.position,
             (Moonkey.MoonkeyComponent a, Moonkey.MoonkeyComponent b) =>
             {
-                // TODO: Implement lambda filter.
+                // TODO: Implement lambda filter to.
                 return false;
             });
 
             if(this._targetMoonkey != matchedTarget)
             {
                 this._targetMoonkey = matchedTarget;
+            }
+        }
+
+        protected override void OnAttackBegin(MoonkeyComponent attacker)
+        {
+            if(this._rigidbody.velocity != Vector2.zero)
+            {
+                this._rigidbody.velocity = Vector2.zero;
             }
         }
 

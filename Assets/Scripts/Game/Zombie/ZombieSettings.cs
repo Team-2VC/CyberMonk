@@ -14,6 +14,8 @@ namespace CyberMonk.Game.Zombie
         {
             [SerializeField]
             private float launchHeight;
+            [SerializeField, Range(0f, 100f)]
+            private float endScalePercentage;
             [SerializeField]
             private float launchDuration;
 
@@ -22,6 +24,9 @@ namespace CyberMonk.Game.Zombie
 
             public float LaunchDuration
                 => this.launchDuration;
+
+            public float EndScaleMultiplier
+                => this.endScalePercentage / 100f;
         }
 
         [SerializeField]

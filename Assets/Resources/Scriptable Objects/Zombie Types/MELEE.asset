@@ -25,6 +25,7 @@ MonoBehaviour:
     speedForce: 20
     launchData:
       launchHeight: 14
+      endScalePercentage: 34.8
       launchDuration: 0.9
   soundData:
     launchSound: event:/Zombie/Zombie Hurt

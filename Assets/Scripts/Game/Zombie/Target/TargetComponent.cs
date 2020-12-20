@@ -111,7 +111,7 @@ namespace CyberMonk.Game.Zombie.Target
         {
             if(Input.GetKeyDown(KeyCode.W) && this.Active && this.BeatEntered)
             {
-                this.OnPressed();
+                 this.OnPressed();
             }
         }
 

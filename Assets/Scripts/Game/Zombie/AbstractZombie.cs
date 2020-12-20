@@ -259,8 +259,8 @@ namespace CyberMonk.Game.Zombie
             if (this._currentSoundData.HasValue)
             {
                 CurrentSoundData soundData = this._currentSoundData.Value;
-                FMOD.Studio.EventInstance currentSound = this._currentSoundData.Value.currentSound;
-                if (this._currentSoundData.Value.IsPlaying)
+                FMOD.Studio.EventInstance currentSound = soundData.currentSound;
+                if (soundData.IsPlaying)
                 {
                     currentSound.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
                 }
@@ -272,8 +272,8 @@ namespace CyberMonk.Game.Zombie
                 newSoundData.currentSound = this._sounds[sound];
                 newSoundData.soundType = sound;
 
+                newSoundData.currentSound.start();
                 this._currentSoundData = newSoundData;
-                this._currentSoundData.Value.currentSound.start();
             }
         }
     }
@@ -516,8 +516,6 @@ namespace CyberMonk.Game.Zombie
         {
             if(data.Reason == DeactivationReason.REASON_RUN_OUT_OF_TIME)
             {
-                // TODO: hook up the targets to the event and damage player.
-                Debug.Log("Damage the player & deactivate targets.");
                 this.ResetTargets();
                 this.AttackEvent(AttackOutcome.OUTCOME_FAILED);
                 return;
@@ -525,8 +523,6 @@ namespace CyberMonk.Game.Zombie
 
             if(this._previousTargetClicked + 1 != targetIndex)
             {
-                // TODO: Hook up the targets to the event and damage player. 
-                Debug.Log("Damage the player & deactivate targets.");
                 this.ResetTargets();
                 this.AttackEvent(AttackOutcome.OUTCOME_FAILED);
                 return;
@@ -562,16 +558,64 @@ namespace CyberMonk.Game.Zombie
     /// </summary>
     public class ZombieLaunchController
     {
+        /// <summary>
+        /// Contains the scale data for the zombie launch.
+        /// </summary>
+        public class ScaleData
+        {
+            private Vector2 _initialScale;
+            private Vector2 _endScale;
+
+            public ScaleData(Vector3 initialScale, float scalePercentage)
+            {
+                this._initialScale = (Vector2)initialScale;
+                this._endScale = initialScale * scalePercentage;
+            }
+
+            public Vector2 Calculate(float percentage)
+            {
+                return Vector2.Lerp(this._initialScale, this._endScale, percentage);
+            }
+        }
+
+        /// <summary>
+        /// The position data of the zombie. (Utilizes bezier curves)
+        /// </summary>
+        public class PositionData
+        {
+            private Vector2 _startPosition;
+            private Vector2 _centerPosition;
+            private Vector2 _endPosition;
+
+            public PositionData(Vector2 startPosition, Vector2 endPosition, float height)
+            {
+                this._startPosition = startPosition;
+                this._endPosition = endPosition;
+
+                Vector2 midPosition = Vector2.zero;
+                midPosition.y += height;
+                midPosition.x = (this._startPosition.x + this._endPosition.x / 2.0f);
+                this._centerPosition = midPosition;
+            }
+
+            public Vector2 Calculate(float percentage)
+            {
+                Vector2 rayAB = Vector2.Lerp(this._startPosition, this._centerPosition, percentage);
+                Vector2 rayBC = Vector2.Lerp(this._centerPosition, this._endPosition, percentage);
+
+                return Vector2.Lerp(rayAB, rayBC, percentage);
+            }
+        }
 
         private AZombieMovementController _parent;
         private Rigidbody2D _rigidbody;
+        private Transform _transform;
 
-        private Vector2 _startPosition;
-        private Vector2 _centerPosition;
-        private Vector2 _endPosition;
+        private float _currentLaunchDuration = 0f;
 
         private ZombieMovementData.ZombieLaunchData _launchData;
-        private float _currentLaunchDuration = 0f;
+        private PositionData _positionData;
+        private ScaleData _scaleData;
 
         public bool Completed
             => this._currentLaunchDuration >= this._launchData.LaunchDuration;
@@ -584,17 +628,16 @@ namespace CyberMonk.Game.Zombie
 
         public ZombieLaunchController(AZombieMovementController parent, ZombieMovementData.ZombieLaunchData launchData)
         {
+            ZombieComponent component = parent.Controller.Component;
+
+            this._transform = component.transform;
             this._parent = parent;
             this._rigidbody = parent.Rigidbody;
-            this._startPosition = parent.Controller.Component.transform.position;
-            this._endPosition = parent.Controller.Component.References.MoonPosition;
+            
+            this._positionData = new PositionData(
+                this._transform.position, component.References.MoonPosition, launchData.LaunchHeight);
             this._launchData = launchData;
-
-            // Calculates the middle position.
-            Vector2 midPosition = new Vector2();
-            midPosition.y += launchData.LaunchHeight;
-            midPosition.x = (this._startPosition.x + this._endPosition.x / 2.0f);
-            this._centerPosition = midPosition;
+            this._scaleData = new ScaleData(this._transform.localScale, launchData.EndScaleMultiplier);
         }
 
         /// <summary>
@@ -605,21 +648,10 @@ namespace CyberMonk.Game.Zombie
             if(!this.Completed)
             {
                 this._currentLaunchDuration += Time.fixedDeltaTime;
-                this._rigidbody.MovePosition(this.BezierCurve(this.DurationPercentage));
+
+                this._rigidbody.MovePosition(this._positionData.Calculate(this.DurationPercentage));
+                this._transform.localScale = this._scaleData.Calculate(this.DurationPercentage);
             }
-        }
-
-        /// <summary>
-        /// Gets the bezier curve used for the movement of the launch.
-        /// </summary>
-        /// <param name="travelPercentage">The travel percentage.</param>
-        /// <returns>The point where to travel to.</returns>
-        private Vector2 BezierCurve(float travelPercentage)
-        {
-            Vector2 rayAB = Vector2.Lerp(this._startPosition, this._centerPosition, travelPercentage);
-            Vector2 rayBC = Vector2.Lerp(this._centerPosition, this._endPosition, travelPercentage);
-
-            return Vector2.Lerp(rayAB, rayBC, travelPercentage);
         }
     }
 
