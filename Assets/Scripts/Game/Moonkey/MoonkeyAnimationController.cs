@@ -107,7 +107,7 @@ namespace CyberMonk.Game.Moonkey
                 return;
             }
 
-            if(this._movementController.OnGround)
+            if(this._movementController.OnGround && !this._movementController.Dashing)
             {
                 if (this._movementController.Moving)
                 {
@@ -177,7 +177,10 @@ namespace CyberMonk.Game.Moonkey
 
         private void OnDashEnd()
         {
+            
             this.PlayNormalState();
+            
+
         }
 
         private void OnJumpBegin()
