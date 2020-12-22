@@ -101,14 +101,6 @@ namespace CyberMonk.Game.Zombie.Melee
             this._movementData = data;
         }
 
-        protected override void OnAttackedByMoonkeyBegin(MoonkeyComponent attacker)
-        {
-            if(this._rigidbody.velocity != Vector2.zero)
-            {
-                this._rigidbody.velocity = Vector2.zero;
-            }
-        }
-
         protected override void OnDownBeat()
         {
             if(this._transform == null)

@@ -803,7 +803,8 @@ namespace CyberMonk.Game.Zombie
  
         protected AZombieController _controller;
         private ZombieLaunchController _launchController = null;
-        private ZombieMovementData.ZombieLaunchData _launchData;
+        private ZombieMovementData _movementData;
+        private Rigidbody2D _rigidbody;
 
         #endregion
 
@@ -829,7 +830,8 @@ namespace CyberMonk.Game.Zombie
         public AZombieMovementController(AZombieController controller, ZombieMovementData movementData)
         {
             this._controller = controller;
-            this._launchData = movementData.LaunchData;
+            this._rigidbody = controller.Component.GetComponent<Rigidbody2D>();
+            this._movementData = movementData;
         }
 
         #endregion
@@ -873,7 +875,27 @@ namespace CyberMonk.Game.Zombie
             }
         }
 
-        protected virtual void OnAttackedByMoonkeyBegin(Moonkey.MoonkeyComponent attacker) { }
+        protected virtual void OnAttackedByMoonkeyBegin(Moonkey.MoonkeyComponent attacker) 
+        {
+            if(this._rigidbody.velocity != Vector2.zero)
+            {
+                this._rigidbody.velocity = Vector2.zero;
+            }
+
+            Vector2 direction = new Vector2(attacker.Controller.MovementController.LookDirection, Mathf.Sqrt(2));
+            this.KnockBack(direction, this._movementData.KnockbackForce);
+        }
+
+        /// <summary>
+        /// Applies a knockback force to the zombie.
+        /// </summary>
+        /// <param name="direction">The direction of the force.</param>
+        /// <param name="force">The force applied.</param>
+        protected void KnockBack(Vector2 direction, float force)
+        {
+            Vector2 properDirection = direction.normalized;
+            this._rigidbody.AddForce(properDirection * force, ForceMode2D.Impulse);
+        }
 
         protected virtual void OnAttackedByMoonkey(AttackOutcome outcome) { }
 
@@ -881,7 +903,7 @@ namespace CyberMonk.Game.Zombie
 
         protected virtual void OnLaunched()
         {
-            this._launchController = new ZombieLaunchController(this, this._launchData);
+            this._launchController = new ZombieLaunchController(this, this._movementData.LaunchData);
         }
         
         protected void UpdateLaunched()

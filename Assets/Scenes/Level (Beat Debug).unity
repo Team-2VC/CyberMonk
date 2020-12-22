@@ -290,21 +290,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1691348460101005934, guid: 051128727cb65ed4f801ca4651b0f7b3,
-        type: 3}
-      propertyPath: m_Offset.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1691348460101005934, guid: 051128727cb65ed4f801ca4651b0f7b3,
-        type: 3}
-      propertyPath: m_Radius
-      value: 0.4
-      objectReference: {fileID: 0}
-    - target: {fileID: 1998505801714944056, guid: 051128727cb65ed4f801ca4651b0f7b3,
-        type: 3}
-      propertyPath: m_Radius
-      value: 0.4
-      objectReference: {fileID: 0}
     - target: {fileID: 4245225831426242232, guid: 051128727cb65ed4f801ca4651b0f7b3,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -364,16 +349,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Moonkey
-      objectReference: {fileID: 0}
-    - target: {fileID: 4245225831761857294, guid: 051128727cb65ed4f801ca4651b0f7b3,
-        type: 3}
-      propertyPath: m_FlipX
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7025496622609187657, guid: 051128727cb65ed4f801ca4651b0f7b3,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7282887463030473684, guid: 051128727cb65ed4f801ca4651b0f7b3,
         type: 3}
