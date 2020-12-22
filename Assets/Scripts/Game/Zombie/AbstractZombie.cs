@@ -186,6 +186,7 @@ namespace CyberMonk.Game.Zombie
     {
         STATE_DANCING,
         STATE_ATTACKED,
+        STATE_ATTACKING,
         STATE_LAUNCHED
     }
 
@@ -428,7 +429,7 @@ namespace CyberMonk.Game.Zombie
 
         #region fields
 
-        public event System.Action<AttackOutcome> AttackEvent
+        public event System.Action<AttackOutcome> AttackedByMoonkeyEvent
             = delegate { };
 
         private bool _targetsActive = false;
@@ -517,25 +518,25 @@ namespace CyberMonk.Game.Zombie
             if(data.Reason == DeactivationReason.REASON_RUN_OUT_OF_TIME)
             {
                 this.ResetTargets();
-                this.AttackEvent(AttackOutcome.OUTCOME_FAILED);
+                this.AttackedByMoonkeyEvent(AttackOutcome.OUTCOME_FAILED);
                 return;
             }
 
             if(this._previousTargetClicked + 1 != targetIndex)
             {
                 this.ResetTargets();
-                this.AttackEvent(AttackOutcome.OUTCOME_FAILED);
+                this.AttackedByMoonkeyEvent(AttackOutcome.OUTCOME_FAILED);
                 return;
             }
 
             if(this._targetsIterator.Last != null && this._targetsIterator.Last.TargetIndex == targetIndex)
             {
-                this.AttackEvent(AttackOutcome.OUTCOME_SUCCESS);
+                this.AttackedByMoonkeyEvent(AttackOutcome.OUTCOME_SUCCESS);
                 return;
             }
 
             this._previousTargetClicked = targetIndex;
-            this.AttackEvent(AttackOutcome.OUTCOME_NORMAL);
+            this.AttackedByMoonkeyEvent(AttackOutcome.OUTCOME_NORMAL);
         }
 
         /// <summary>
@@ -655,6 +656,63 @@ namespace CyberMonk.Game.Zombie
         }
     }
 
+    /// <summary>
+    /// The abstract attack controller for the zombies.
+    /// </summary>
+    public abstract class AZombieAttackController
+    {
+
+        //  TODO: Attack sequence, update state, attack cooldown
+
+        protected readonly AZombieController _controller;
+        private Moonkey.MoonkeyComponent _target;
+        private Transform _transform;
+
+        public Moonkey.MoonkeyComponent Target
+            => this._target;
+
+        public bool HasTarget
+            => this._target != null;
+
+
+        public AZombieAttackController(AZombieController controller)
+        {
+            this._controller = controller;
+            this._transform = controller.Component.transform;
+            this._target = null;
+        }
+
+        public virtual void Update()
+        {
+            if(!this.HasTarget)
+            {
+                Moonkey.MoonkeyComponent searchedTarget = this.SearchForTarget();
+
+                if(this._target != searchedTarget)
+                {
+                    this._target = searchedTarget;
+                }
+            }
+        }
+
+        protected virtual Moonkey.MoonkeyComponent SearchForTarget()
+        {
+            if (this._transform == null)
+            {
+                return null;
+            }
+
+            Moonkey.MoonkeyComponent matchedTarget = Moonkey.MoonkeyHolder.GetClosestMoonkey(this._transform.position,
+            (Moonkey.MoonkeyComponent a, Moonkey.MoonkeyComponent b) =>
+            {
+                // TODO: Implement lambda filter to.
+                return false;
+            });
+
+            return matchedTarget;
+        }
+    }
+
 
 
     /// <summary>
@@ -715,8 +773,8 @@ namespace CyberMonk.Game.Zombie
             ZombieReferences references = this._controller.Component.References;
             references.BeatDownEvent += this.OnDownBeat;
 
-            this._controller.AttackedEvent += this.OnAttackBegin;
-            this._controller.AttackEvent += this.OnAttack;
+            this._controller.AttackedByMoonkeyBeginEvent += this.OnAttackedByMoonkeyBegin;
+            this._controller.AttackedByMoonkeyEvent += this.OnAttackedByMoonkey;
             this._controller.LaunchBeginEvent += this.OnLaunched;
         }
 
@@ -728,8 +786,8 @@ namespace CyberMonk.Game.Zombie
             ZombieReferences references = this._controller.Component.References;
             references.BeatDownEvent -= this.OnDownBeat;
 
-            this._controller.AttackedEvent -= this.OnAttackBegin;
-            this._controller.AttackEvent -= this.OnAttack;
+            this._controller.AttackedByMoonkeyBeginEvent -= this.OnAttackedByMoonkeyBegin;
+            this._controller.AttackedByMoonkeyEvent -= this.OnAttackedByMoonkey;
             this._controller.LaunchBeginEvent -= this.OnLaunched;
         }
 
@@ -747,9 +805,9 @@ namespace CyberMonk.Game.Zombie
             this.UpdateMovement();
         }
 
-        protected virtual void OnAttackBegin(Moonkey.MoonkeyComponent attacker) { }
+        protected virtual void OnAttackedByMoonkeyBegin(Moonkey.MoonkeyComponent attacker) { }
 
-        protected virtual void OnAttack(AttackOutcome outcome) { }
+        protected virtual void OnAttackedByMoonkey(AttackOutcome outcome) { }
 
         abstract protected void OnDownBeat();
 
@@ -757,7 +815,7 @@ namespace CyberMonk.Game.Zombie
         /// Updates the movement of the zombie, called
         /// in the Update function.
         /// </summary>
-        abstract protected void UpdateMovement();
+        protected virtual void UpdateMovement() { }
 
         protected virtual void OnLaunched()
         {
@@ -801,14 +859,6 @@ namespace CyberMonk.Game.Zombie
 
         #region properties
 
-        /// <summary>
-        /// Determines whether the zombie is open for an attack.
-        /// </summary>
-        public abstract bool OpenForAttack
-        {
-            get;
-        }
-
         public abstract Moonkey.MoonkeyComponent Attacker
         {
             get;
@@ -838,8 +888,8 @@ namespace CyberMonk.Game.Zombie
         {
             ZombieReferences references = this._controller.Component.References;
             references.BeatDownEvent += this.OnDownBeat;
-            this._controller.AttackedEvent += this.OnAttacked;
-            this._controller.AttackEvent += this.OnAttack;
+            this._controller.AttackedByMoonkeyBeginEvent += this.OnAttackedByMoonkeyBegin;
+            this._controller.AttackedByMoonkeyEvent += this.OnAttackedByMoonkey;
             this._controller.LaunchEndEvent += this.OnLaunchEnd;
         }
 
@@ -850,35 +900,47 @@ namespace CyberMonk.Game.Zombie
         {
             ZombieReferences references = this._controller.Component.References;
             references.BeatDownEvent -= this.OnDownBeat;
-            this._controller.AttackedEvent -= this.OnAttacked;
-            this._controller.AttackEvent -= this.OnAttack;
+            this._controller.AttackedByMoonkeyBeginEvent -= this.OnAttackedByMoonkeyBegin;
+            this._controller.AttackedByMoonkeyEvent -= this.OnAttackedByMoonkey;
             this._controller.LaunchEndEvent -= this.OnLaunchEnd;
         }
 
         /// <summary>
-        /// Called when the beat goes down.
+        /// Called when the monkey begins its attack.
         /// </summary>
-        private void OnDownBeat()
+        /// <param name="component">The monkey component</param>
+        /// <returns>The try attack zombie outcome.</returns>
+        public virtual TryZombieAttackOutcome OnMoonkeyAttemptAttack(Moonkey.MoonkeyComponent component)
         {
-            this.OnBeat();
+            switch (this._state)
+            {
+                case ZombieState.STATE_ATTACKING:
+                    return TryZombieAttackOutcome.OUTCOME_FAILED_ZOMBIE_ATTACKING;
+                case ZombieState.STATE_DANCING:
+                    return TryZombieAttackOutcome.OUTCOME_SUCCESS;
+                case ZombieState.STATE_ATTACKED:
+                    return TryZombieAttackOutcome.OUTCOME_FAILED_PLAYER_ATTACKING;
+            }
+
+            return TryZombieAttackOutcome.OUTCOME_FAILED_MISC;
         }
 
         /// <summary>
         /// Handles when a down beat event is applied.
         /// </summary>
-        abstract protected void OnBeat();
+        abstract protected void OnDownBeat();
 
         /// <summary>
         /// Called when the zombie is attacked.
         /// </summary>
         /// <param name="component">The moonkey component.</param>
-        abstract protected void OnAttacked(Moonkey.MoonkeyComponent component);
+        abstract protected void OnAttackedByMoonkeyBegin(Moonkey.MoonkeyComponent component);
 
         /// <summary>
         /// Called when the attack has ended.
         /// </summary>
         /// <param name="outcome">The attack outcome.</param>
-        abstract protected void OnAttack(AttackOutcome outcome);
+        abstract protected void OnAttackedByMoonkey(AttackOutcome outcome);
 
         /// <summary>
         /// Called to launch the zombie.
@@ -958,13 +1020,13 @@ namespace CyberMonk.Game.Zombie
     {
         #region fields
 
-        public event System.Action<Moonkey.MoonkeyComponent> AttackedEvent
+        public event System.Action<Moonkey.MoonkeyComponent> AttackedByMoonkeyBeginEvent
             = delegate { };
 
-        public event System.Action<AttackOutcome> AttackEvent
+        public event System.Action<AttackOutcome> AttackedByMoonkeyEvent
         {
-            add => this._targetController.AttackEvent += value;
-            remove => this._targetController.AttackEvent -= value;
+            add => this._targetController.AttackedByMoonkeyEvent += value;
+            remove => this._targetController.AttackedByMoonkeyEvent -= value;
         }
 
         public event System.Action LaunchBeginEvent
@@ -1034,6 +1096,11 @@ namespace CyberMonk.Game.Zombie
             get;
         }
 
+        public abstract AZombieAttackController AttackController
+        {
+            get;
+        }
+
         public ZombieComponent Component => this._component;
 
         public ZombieType Type 
@@ -1092,25 +1159,14 @@ namespace CyberMonk.Game.Zombie
         /// </summary>
         /// <param name="component">The moonkey component reference.</param>
         /// <returns>True if the monkey was successfully attacked, false otherwise.</returns>
-        public virtual TryZombieAttackOutcome OnMoonkeyAttack(Moonkey.MoonkeyComponent component)
+        public virtual TryZombieAttackOutcome OnMoonkeyAttemptAttack(Moonkey.MoonkeyComponent component)
         {
-            if(this.StateController.State == ZombieState.STATE_DANCING)
+            TryZombieAttackOutcome outcome = this.StateController.OnMoonkeyAttemptAttack(component);
+            if(outcome == TryZombieAttackOutcome.OUTCOME_SUCCESS)
             {
-                if(this.StateController.OpenForAttack)
-                {
-                    this.AttackedEvent(component);
-                    return TryZombieAttackOutcome.OUTCOME_SUCCESS;
-                }
-
-                return TryZombieAttackOutcome.OUTCOME_FAILED_ZOMBIE_ATTACKING;
+                this.AttackedByMoonkeyBeginEvent(component);
             }
-
-            if(this.StateController.State == ZombieState.STATE_ATTACKED)
-            {
-                return TryZombieAttackOutcome.OUTCOME_FAILED_PLAYER_ATTACKING;
-            }
-
-            return TryZombieAttackOutcome.OUTCOME_FAILED_MISC;
+            return outcome;
         }
 
         #endregion

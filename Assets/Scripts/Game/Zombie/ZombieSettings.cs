@@ -80,6 +80,22 @@ namespace CyberMonk.Game.Zombie
         }
     }
 
+
+    [System.Serializable]
+    public struct ZombieCombatData
+    {
+        [SerializeField, Range(0f, 100f)]
+        private float attackRange;
+        [SerializeField, Range(1, 10)]
+        private int attackCooldownInBeats;
+
+        public float AttackRange
+            => this.attackRange;
+
+        public int AttackCooldownInBeats
+            => this.attackCooldownInBeats;
+    }
+
     /// <summary>
     /// The Zombie Settings.
     /// </summary>
@@ -97,6 +113,8 @@ namespace CyberMonk.Game.Zombie
         private ZombieMovementData movementData;
         [SerializeField]
         private ZombieSoundData soundData;
+        [SerializeField]
+        private ZombieCombatData combatData;
 
         [SerializeField]
         private RuntimeAnimatorController animatorController;
@@ -116,8 +134,12 @@ namespace CyberMonk.Game.Zombie
         public ZombieSoundData SoundData
             => this.soundData;
 
+        public ZombieCombatData CombatData
+            => this.combatData;
+
         public RuntimeAnimatorController AnimatorController
             => this.animatorController;
+
 
         #endregion
     }

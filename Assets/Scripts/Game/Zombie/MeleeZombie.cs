@@ -58,6 +58,21 @@ namespace CyberMonk.Game.Zombie.Melee
         }
     }
 
+    /// <summary>
+    /// The melee zombie attack controller.
+    /// </summary>
+    public class MeleeZombieAttackController : AZombieAttackController
+    {
+
+        // TODO: Implementation
+
+        public MeleeZombieAttackController(MeleeZombieController controller)
+            : base(controller)
+        {
+
+        }
+    }
+
 
     /// <summary>
     /// Handles the melee zombie movement controller.
@@ -68,15 +83,10 @@ namespace CyberMonk.Game.Zombie.Melee
         private Rigidbody2D _rigidbody;
         private Transform _transform;
         private ZombieMovementData _movementData;
-
-        private MeleeZombieStateController _stateController;
         
-        private MoonkeyComponent _targetMoonkey = null;
-
-        protected bool HasTarget
-            => this._targetMoonkey != null;
-
-        // TODO: 
+        private MeleeZombieStateController _stateController;
+        private MeleeZombieAttackController _attackController;
+        // TODO: Attack controller.
 
         public override Rigidbody2D Rigidbody
             => this._rigidbody;
@@ -87,38 +97,11 @@ namespace CyberMonk.Game.Zombie.Melee
             this._stateController = (MeleeZombieStateController)controller.StateController;
             this._rigidbody = controller.Component.GetComponent<Rigidbody2D>();
             this._transform = controller.Component.transform;
+            this._attackController = (MeleeZombieAttackController)controller.AttackController;
             this._movementData = data;
         }
 
-        protected override void UpdateMovement()
-        {
-            if(!this.HasTarget)
-            {
-                this.SearchForTarget();
-            }
-        }
-
-        private void SearchForTarget()
-        {
-            if(this._transform == null)
-            {
-                return;
-            }
-
-            MoonkeyComponent matchedTarget = Moonkey.MoonkeyHolder.GetClosestMoonkey(this._transform.position,
-            (Moonkey.MoonkeyComponent a, Moonkey.MoonkeyComponent b) =>
-            {
-                // TODO: Implement lambda filter to.
-                return false;
-            });
-
-            if(this._targetMoonkey != matchedTarget)
-            {
-                this._targetMoonkey = matchedTarget;
-            }
-        }
-
-        protected override void OnAttackBegin(MoonkeyComponent attacker)
+        protected override void OnAttackedByMoonkeyBegin(MoonkeyComponent attacker)
         {
             if(this._rigidbody.velocity != Vector2.zero)
             {
@@ -136,21 +119,21 @@ namespace CyberMonk.Game.Zombie.Melee
             ZombieReferences references = this._controller.Component.References;
             int beatDown = references.BeatCounter;
 
-            if (this.HasTarget && beatDown % 2 == 0)
+            if (this._attackController.HasTarget && beatDown % 2 == 0)
             {
                 AZombieStateController stateController = this._controller.StateController;
                 if (stateController.State != ZombieState.STATE_DANCING)
                 {
+                    // TODO: Movement for when monkey is attacking.
                     return;
                 }
 
-                if (this._targetMoonkey.IsAttacking)
+                if (this._attackController.Target.IsAttacking)
                 {
-                    this.SearchForTarget();
                     return;
                 }
 
-                Vector2 movementDirection = this._targetMoonkey.transform.position - this._transform.position;
+                Vector2 movementDirection = this._attackController.Target.transform.position - this._transform.position;
                 movementDirection.y = 0f;
                 this._rigidbody.AddForce(movementDirection.normalized * this._movementData.SpeedForce, ForceMode2D.Impulse);
             }
@@ -165,8 +148,6 @@ namespace CyberMonk.Game.Zombie.Melee
         #region fields
 
         private ZombieTargetController _targetController;
-        private int _attackBeat, _spawnBeat;
-
         private MoonkeyComponent _attacker = null;
 
         #endregion
@@ -175,19 +156,6 @@ namespace CyberMonk.Game.Zombie.Melee
 
         public ZombieReferences? References
             => this._controller?.Component.References;
-
-        public override bool OpenForAttack
-        {
-            get
-            {
-                if(this.References.HasValue)
-                {
-                    return this.References.Value.BeatCounter != this._attackBeat;
-                }
-                
-                return true;
-            }
-        }
 
         public override Moonkey.MoonkeyComponent Attacker
             => this._attacker;
@@ -200,15 +168,13 @@ namespace CyberMonk.Game.Zombie.Melee
             : base(controller) 
         {
             this._targetController = controller.TargetController;
-            this._spawnBeat = this.References.Value.BeatCounter;
-            this. _attackBeat = (this._spawnBeat + 3) % 4;
         }
 
         #endregion
 
         #region methods
 
-        protected override void OnBeat()
+        protected override void OnDownBeat()
         {
             if(this._state == ZombieState.STATE_ATTACKED
                 && !this._targetController.TargetsActive)
@@ -217,7 +183,7 @@ namespace CyberMonk.Game.Zombie.Melee
             }
         }
 
-        protected override void OnAttacked(MoonkeyComponent component)
+        protected override void OnAttackedByMoonkeyBegin(MoonkeyComponent component)
         {
             if(this._attacker == null)
             {
@@ -227,7 +193,7 @@ namespace CyberMonk.Game.Zombie.Melee
             this._state = ZombieState.STATE_ATTACKED;
         }
 
-        protected override void OnAttack(AttackOutcome outcome)
+        protected override void OnAttackedByMoonkey(AttackOutcome outcome)
         {
             if(outcome == AttackOutcome.OUTCOME_FAILED)
             {
@@ -295,6 +261,7 @@ namespace CyberMonk.Game.Zombie.Melee
         private readonly MeleeZombieMovementController _movementController;
         private readonly MeleeZombieSoundController _soundController;
         private readonly MeleeZombieAnimationController _animationController;
+        private readonly MeleeZombieAttackController _attackController;
 
         #endregion
 
@@ -312,6 +279,11 @@ namespace CyberMonk.Game.Zombie.Melee
         public override AZombieAnimationController AnimationController 
             => this._animationController;
 
+        
+        // TODO: Implementation
+        public override AZombieAttackController AttackController 
+            => this._attackController;
+
         #endregion
 
         #region constructor
@@ -323,6 +295,7 @@ namespace CyberMonk.Game.Zombie.Melee
             this._movementController = new MeleeZombieMovementController(this, settings.MovementData);
             this._soundController = new MeleeZombieSoundController(this, settings.SoundData);
             this._animationController = new MeleeZombieAnimationController(this, settings.AnimatorController);
+            this._attackController = new MeleeZombieAttackController(this);
         }
 
         #endregion

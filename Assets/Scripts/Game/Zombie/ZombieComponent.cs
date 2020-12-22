@@ -142,7 +142,7 @@ namespace CyberMonk.Game.Zombie
                 return TryZombieAttackOutcome.OUTCOME_FAILED_MISC;
             }
 
-            return this._controller.OnMoonkeyAttack(component);
+            return this._controller.OnMoonkeyAttemptAttack(component);
         }
 
         private void FixedUpdate()
