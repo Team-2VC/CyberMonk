@@ -4,11 +4,40 @@ using UnityEngine;
 
 namespace CyberMonk.Game.Moonkey
 {
-    [RequireComponent(typeof(Animator))]
+    [RequireComponent(typeof(Animator), typeof(SpriteRenderer))]
     public class MoonkeyGFXComponent : MonoBehaviour
     {
+
+        #region fields
+
         [SerializeField]
         private MoonkeyComponent parent;
+        
+        private SpriteRenderer _renderer;
+        private Animator _animator;
+
+        #endregion
+
+        #region properties
+
+        public SpriteRenderer SpriteRenderer
+            => this._renderer;
+
+        public Animator Animator
+            => this._animator;
+
+        public MoonkeyComponent Parent
+            => this.parent;
+
+        #endregion
+
+        #region methods
+
+        private void Start()
+        {
+            this._renderer = this.GetComponent<SpriteRenderer>();
+            this._animator = this.GetComponent<Animator>();
+        }
 
         /// <summary>
         /// Called when the moonkey's feet touches the ground.
@@ -42,6 +71,8 @@ namespace CyberMonk.Game.Moonkey
                 parent.Controller.OnJump();
             }
         }
+
+        #endregion
     }
 }
 

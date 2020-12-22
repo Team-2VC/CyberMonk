@@ -7,6 +7,54 @@ namespace CyberMonk.Game.Moonkey
 {
 
     /// <summary>
+    /// Controls the dash effects.
+    /// </summary>
+    public class MoonkeyDashFXController
+    {
+        private List<MoonkeyDashEffect> _effects;
+
+        private MoonkeyComponent _component;
+        private MoonkeyProperties _properties;
+
+        protected bool IsDashing
+            => this._component.Controller.MovementController.Dashing;
+
+        public MoonkeyDashFXController(MoonkeyComponent component)
+        {
+            this._effects = new List<MoonkeyDashEffect>();
+            this._component = component;
+            this._properties = component.Properties;
+        }
+
+        public void Update()
+        {
+            for (int i = this._effects.Count - 1; i >= 0; i--)
+            {
+                MoonkeyDashEffect effect = this._effects[i];
+                if(effect.IsFinished)
+                {
+                    this._effects.RemoveAt(i);
+                }
+                effect?.Update();
+            }
+
+            if (!this.IsDashing)
+            {
+                return;
+            }
+
+            this.SpawnDashEffect();
+        }
+
+        private void SpawnDashEffect()
+        {
+            MoonkeyDashEffect effect = new MoonkeyDashEffect(
+                this._properties.DashFXProperties.DisplayTime, this._component);
+            this._effects.Add(effect);
+        }
+    }
+
+    /// <summary>
     /// The Moonkey animation controller.
     /// </summary>
     public class MoonkeyAnimationController
@@ -17,16 +65,39 @@ namespace CyberMonk.Game.Moonkey
         private const int MAX_PUNCH_NUMBER = 3;
 
         private readonly MoonkeyController _controller;
-        private readonly Animator _animator;
-        private readonly SpriteRenderer _renderer;
+        private MoonkeyProperties _properties;
 
         private MoonkeyMovementController _movementController;
+        private MoonkeyDashFXController _dashEffectsController;
+
+        private RuntimeAnimatorController _animatorController;
 
         private bool _prevMoving = false;
         private bool _isDamaged = false, _isAttacking = false;
         private bool _isJumping = false;
 
         private int _punchNumber = 0;
+
+        protected Animator Animator
+        {
+            get
+            {
+                Animator animator = this._properties.GraphicsComponent.Animator;
+                if(animator == null)
+                {
+                    return animator;
+                }
+
+                if(animator.runtimeAnimatorController == null)
+                {
+                    animator.runtimeAnimatorController = this._animatorController;
+                }
+                return animator;
+            }
+        }
+
+        protected SpriteRenderer Renderer
+            => this._properties.GraphicsComponent.SpriteRenderer;
 
         #endregion
 
@@ -36,13 +107,9 @@ namespace CyberMonk.Game.Moonkey
         {
             this._controller = controller;
             this._movementController = controller.MovementController;
-
-            MoonkeyProperties properties = controller.Component.Properties;
-
-            this._animator = properties.GraphicsAnimator;
-            this._animator.runtimeAnimatorController = animatorController;
-
-            this._renderer = properties.GraphicsSpriteRenderer;
+            this._properties = controller.Component.Properties;
+            this._animatorController = animatorController;
+            this._dashEffectsController = new MoonkeyDashFXController(controller.Component);
         }
 
         #endregion
@@ -87,7 +154,7 @@ namespace CyberMonk.Game.Moonkey
         private void UpdateLookDirection()
         {
             int lookDirection = (int)Mathf.RoundToInt(this._movementController.LookDirection);
-            this._renderer.flipX = lookDirection == -1;
+            this.Renderer.flipX = lookDirection == -1;
         }
 
         /// <summary>
@@ -95,6 +162,8 @@ namespace CyberMonk.Game.Moonkey
         /// </summary>
         private void UpdateMovingAnimator()
         {
+            this._dashEffectsController.Update();
+
             if(this._isJumping)
             {
                 this._prevMoving = this._movementController.Moving;
@@ -111,14 +180,14 @@ namespace CyberMonk.Game.Moonkey
             {
                 if (this._movementController.Moving)
                 {
-                    this._animator.Play("moonkey walk persp");
+                    this.Animator.Play("moonkey walk persp");
                     this._prevMoving = this._movementController.Moving;
                     return;
                 }
 
                 if (this._prevMoving)
                 {
-                    this._animator.Play("moonkey idle");
+                    this.Animator.Play("moonkey idle");
                 }
             }
 
@@ -129,7 +198,7 @@ namespace CyberMonk.Game.Moonkey
         {
             if(damaged < 0f && this._controller.Health > 0f)
             {
-                this._animator.Play("moonkey damaged");
+                this.Animator.Play("moonkey damaged");
                 this._isDamaged = true;
             }
         }
@@ -146,7 +215,7 @@ namespace CyberMonk.Game.Moonkey
         private void OnAttackBegin(Zombie.ZombieComponent component)
         {
             // TODO: fighting stance idle?
-            this._animator.Play("moonkey idle");
+            this.Animator.Play("moonkey idle");
             this._isAttacking = true;
         }
 
@@ -154,7 +223,7 @@ namespace CyberMonk.Game.Moonkey
         {
             if(outcome != Zombie.AttackOutcome.OUTCOME_FAILED)
             {
-                this._animator.Play("moonkey punch " + this._punchNumber);
+                this.Animator.Play("moonkey punch " + this._punchNumber);
                 this._punchNumber++;
                 this._punchNumber %= MAX_PUNCH_NUMBER;
 
@@ -172,7 +241,7 @@ namespace CyberMonk.Game.Moonkey
 
         private void OnDashBegin()
         {
-            this._animator.Play("moonkey fly");
+            this.Animator.Play("moonkey fly");
         }
 
         private void OnDashEnd()
@@ -183,7 +252,7 @@ namespace CyberMonk.Game.Moonkey
         private void OnJumpBegin()
         {
             this._isJumping = true;
-            this._animator.Play("moonkey jump");
+            this.Animator.Play("moonkey jump");
         }
 
         private void OnJump()
@@ -207,12 +276,12 @@ namespace CyberMonk.Game.Moonkey
         {
             if (this._movementController.Moving)
             {
-                this._animator.Play("moonkey walk persp");
+                this.Animator.Play("moonkey walk persp");
                 return;
             }
 
             this._prevMoving = false;
-            this._animator.Play("moonkey idle");
+            this.Animator.Play("moonkey idle");
         }
 
         /// <summary>

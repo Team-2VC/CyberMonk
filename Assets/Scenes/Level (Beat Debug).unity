@@ -350,6 +350,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: Moonkey
       objectReference: {fileID: 0}
+    - target: {fileID: 4245225831426242234, guid: 051128727cb65ed4f801ca4651b0f7b3,
+        type: 3}
+      propertyPath: properties.dashEffectProperties.dashFXSpawnDelay
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4245225831426242234, guid: 051128727cb65ed4f801ca4651b0f7b3,
+        type: 3}
+      propertyPath: properties.dashEffectProperties.displayTime
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4245225831426242234, guid: 051128727cb65ed4f801ca4651b0f7b3,
+        type: 3}
+      propertyPath: properties.dashEffectProperties.startAlpha
+      value: 0.8
+      objectReference: {fileID: 0}
     - target: {fileID: 7282887463030473684, guid: 051128727cb65ed4f801ca4651b0f7b3,
         type: 3}
       propertyPath: m_AnchorMin.x

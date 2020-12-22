@@ -552,8 +552,10 @@ MonoBehaviour:
       variable: {fileID: 11400000, guid: 5c56c2f61d47f904389d3447591fe5f8, type: 2}
     deathEvent: {fileID: 11400000, guid: 7ead4a01b8e90374c9e7f6f24b0663eb, type: 2}
   properties:
-    graphicsAnimator: {fileID: 4245225831761857295}
-    graphicsSpriteRenderer: {fileID: 4245225831761857294}
+    graphicsComponent: {fileID: 487160763}
+    dashEffectProperties:
+      displayTime: 0.7
+      startAlpha: 0.8
     leftDashCollider: {fileID: 1998505801714944056}
     rightDashCollider: {fileID: 1691348460101005934}
 --- !u!1 &4245225831761857293
@@ -583,7 +585,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4245225831761857293}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.64, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4245225831144168999}
