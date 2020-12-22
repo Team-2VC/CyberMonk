@@ -110,7 +110,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 853334531523552961}
-  - component: {fileID: 3209754395354175120}
+  - component: {fileID: 4235642460017888543}
   m_Layer: 8
   m_Name: GroundCollider
   m_TagString: Untagged
@@ -126,14 +126,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1395575617514267529}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.63, z: 0}
+  m_LocalPosition: {x: 0.23, y: -0.98, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3866498697796471687}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!68 &3209754395354175120
-EdgeCollider2D:
+--- !u!58 &4235642460017888543
+CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -146,10 +146,8 @@ EdgeCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
-  m_EdgeRadius: 0
-  m_Points:
-  - {x: -0.5, y: -0.6150049}
-  - {x: 1.0390792, y: -0.6150048}
+  serializedVersion: 2
+  m_Radius: 0.5
 --- !u!1 &3866498697796471686
 GameObject:
   m_ObjectHideFlags: 0
