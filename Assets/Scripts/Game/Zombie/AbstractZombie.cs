@@ -659,14 +659,19 @@ namespace CyberMonk.Game.Zombie
     /// <summary>
     /// The abstract attack controller for the zombies.
     /// </summary>
-    public abstract class AZombieAttackController
+    public class ZombieAttackController
     {
 
-        //  TODO: Attack sequence, update state, attack cooldown
+        public event System.Action AttackSequenceBeginEvent
+            = delegate { };
 
         protected readonly AZombieController _controller;
+        protected readonly ZombieCombatData _combatData;
+
         private Moonkey.MoonkeyComponent _target;
         private Transform _transform;
+        
+        private int _attackCooldown = 0;
 
         public Moonkey.MoonkeyComponent Target
             => this._target;
@@ -674,13 +679,31 @@ namespace CyberMonk.Game.Zombie
         public bool HasTarget
             => this._target != null;
 
+        public bool IsInCooldown
+            => this._attackCooldown > 0;
 
-        public AZombieAttackController(AZombieController controller)
+        public ZombieAttackController(AZombieController controller, ZombieCombatData combatData)
         {
             this._controller = controller;
             this._transform = controller.Component.transform;
+            this._combatData = combatData;
             this._target = null;
         }
+
+        public virtual void HookEvents()
+        {
+            ZombieReferences references = this._controller.Component.References;
+            this._controller.AttackSequenceEndEvent += this.OnAttackSequenceEnded;
+            references.BeatDownEvent += this.OnBeatDown;
+        }
+
+        public virtual void UnhookEvents()
+        {
+            ZombieReferences references = this._controller.Component.References;
+            this._controller.AttackSequenceEndEvent -= this.OnAttackSequenceEnded;
+            references.BeatDownEvent -= this.OnBeatDown;
+        }
+
 
         public virtual void Update()
         {
@@ -693,6 +716,36 @@ namespace CyberMonk.Game.Zombie
                     this._target = searchedTarget;
                 }
             }
+        }
+
+        protected virtual void OnBeatDown()
+        {
+            if(this.IsInCooldown)
+            {
+                this._attackCooldown--;
+
+                if(this._attackCooldown <= 0)
+                {
+                    this._attackCooldown = 0;
+                }
+                return;
+            }
+
+            if(this.CanBeginAttackSequence())
+            {
+                Debug.Log("Begin Attack Sequence");
+                this.BeginAttackSequence();
+            }
+        }
+
+        protected virtual void BeginAttackSequence()
+        {
+            this.AttackSequenceBeginEvent();
+        }
+
+        protected virtual void OnAttackSequenceEnded()
+        {
+            this._attackCooldown = this._combatData.AttackCooldownInBeats;
         }
 
         protected virtual Moonkey.MoonkeyComponent SearchForTarget()
@@ -710,6 +763,24 @@ namespace CyberMonk.Game.Zombie
             });
 
             return matchedTarget;
+        }
+
+
+        protected virtual bool CanBeginAttackSequence()
+        {
+            return !this.IsInCooldown && this.IsInRange() && this._controller.StateController.State == ZombieState.STATE_DANCING;
+        }
+
+
+        protected bool IsInRange()
+        {
+            if(this._target == null || this._transform == null)
+            {
+                return false;
+            }
+
+            float distance = Vector2.Distance(this._transform.position, this._target.transform.position);
+            return distance <= this._combatData.AttackRange;
         }
     }
 
@@ -794,15 +865,12 @@ namespace CyberMonk.Game.Zombie
         /// <summary>
         /// Updates the physics of the zombie, used to update movement.
         /// </summary>
-        public void PhysicsUpdate()
+        public virtual void PhysicsUpdate()
         {
             if(this.Launched)
             {
                 this.UpdateLaunched();
-                return;
             }
-
-            this.UpdateMovement();
         }
 
         protected virtual void OnAttackedByMoonkeyBegin(Moonkey.MoonkeyComponent attacker) { }
@@ -810,12 +878,6 @@ namespace CyberMonk.Game.Zombie
         protected virtual void OnAttackedByMoonkey(AttackOutcome outcome) { }
 
         abstract protected void OnDownBeat();
-
-        /// <summary>
-        /// Updates the movement of the zombie, called
-        /// in the Update function.
-        /// </summary>
-        protected virtual void UpdateMovement() { }
 
         protected virtual void OnLaunched()
         {
@@ -891,6 +953,8 @@ namespace CyberMonk.Game.Zombie
             this._controller.AttackedByMoonkeyBeginEvent += this.OnAttackedByMoonkeyBegin;
             this._controller.AttackedByMoonkeyEvent += this.OnAttackedByMoonkey;
             this._controller.LaunchEndEvent += this.OnLaunchEnd;
+            this._controller.AttackSequenceBeginEvent += this.OnAttackSequenceBegin;
+            this._controller.AttackSequenceEndEvent += this.OnAttackSequenceEnd;
         }
 
         /// <summary>
@@ -903,6 +967,8 @@ namespace CyberMonk.Game.Zombie
             this._controller.AttackedByMoonkeyBeginEvent -= this.OnAttackedByMoonkeyBegin;
             this._controller.AttackedByMoonkeyEvent -= this.OnAttackedByMoonkey;
             this._controller.LaunchEndEvent -= this.OnLaunchEnd;
+            this._controller.AttackSequenceBeginEvent += this.OnAttackSequenceBegin;
+            this._controller.AttackSequenceEndEvent += this.OnAttackSequenceEnd;
         }
 
         /// <summary>
@@ -915,6 +981,10 @@ namespace CyberMonk.Game.Zombie
             switch (this._state)
             {
                 case ZombieState.STATE_ATTACKING:
+                    if(component != this._controller.AttackController.Target)
+                    {
+                        return TryZombieAttackOutcome.OUTCOME_FAILED_MISC;
+                    }
                     return TryZombieAttackOutcome.OUTCOME_FAILED_ZOMBIE_ATTACKING;
                 case ZombieState.STATE_DANCING:
                     return TryZombieAttackOutcome.OUTCOME_SUCCESS;
@@ -960,6 +1030,19 @@ namespace CyberMonk.Game.Zombie
         /// Called when the launch has ended.
         /// </summary>
         abstract protected void OnLaunchEnd();
+
+        protected virtual void OnAttackSequenceBegin()
+        {
+            this._state = ZombieState.STATE_ATTACKING;
+        }
+
+        protected virtual void OnAttackSequenceEnd()
+        {
+            if(this._state == ZombieState.STATE_ATTACKING)
+            {
+                this._state = ZombieState.STATE_DANCING;
+            }
+        }
 
         #endregion
     }
@@ -1023,6 +1106,15 @@ namespace CyberMonk.Game.Zombie
         public event System.Action<Moonkey.MoonkeyComponent> AttackedByMoonkeyBeginEvent
             = delegate { };
 
+        public event System.Action AttackSequenceBeginEvent
+        {
+            add => this.AttackController.AttackSequenceBeginEvent += value;
+            remove => this.AttackController.AttackSequenceBeginEvent -= value;
+        }
+
+        public event System.Action AttackSequenceEndEvent
+            = delegate { };
+
         public event System.Action<AttackOutcome> AttackedByMoonkeyEvent
         {
             add => this._targetController.AttackedByMoonkeyEvent += value;
@@ -1075,7 +1167,7 @@ namespace CyberMonk.Game.Zombie
 
         public virtual ZombieTargetController TargetController
             => this._targetController;
-
+    
         public abstract AZombieStateController StateController
         {
             get;
@@ -1096,7 +1188,7 @@ namespace CyberMonk.Game.Zombie
             get;
         }
 
-        public abstract AZombieAttackController AttackController
+        public abstract ZombieAttackController AttackController
         {
             get;
         }
@@ -1132,6 +1224,7 @@ namespace CyberMonk.Game.Zombie
             this.MovementController?.HookEvents();
             this.SoundController?.HookEvents();
             this.AnimationController?.HookEvents();
+            this.AttackController?.HookEvents();
         }
 
         /// <summary>
@@ -1144,6 +1237,12 @@ namespace CyberMonk.Game.Zombie
             this.MovementController?.UnHookEvents();
             this.SoundController?.UnHookEvents();
             this.AnimationController?.UnHookEvents();
+            this.AttackController?.UnhookEvents();
+        }
+
+        public virtual void Update()
+        {
+            this.AttackController?.Update();
         }
 
         /// <summary>
@@ -1152,6 +1251,14 @@ namespace CyberMonk.Game.Zombie
         public virtual void PhysicsUpdate()
         {
             this.MovementController?.PhysicsUpdate();
+        }
+
+        /// <summary>
+        /// Ends the attack sequence.
+        /// </summary>
+        public virtual void EndAttackSequence()
+        {
+            this.AttackSequenceEndEvent();
         }
 
         /// <summary>

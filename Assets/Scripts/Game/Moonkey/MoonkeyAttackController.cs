@@ -84,7 +84,7 @@ namespace CyberMonk.Game.Moonkey
                 case Zombie.TryZombieAttackOutcome.OUTCOME_FAILED_ZOMBIE_ATTACKING:
                     // TODO: Damage the player.
                     this._controller.MovementController.ForceStopDashing();
-                    this._controller.Damage(attackedComponent.References.DamageAmount);
+                    // this._controller.Damage(attackedComponent.References.DamageAmount);
                     break;
             }
         }

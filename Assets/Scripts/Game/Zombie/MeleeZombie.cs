@@ -61,13 +61,13 @@ namespace CyberMonk.Game.Zombie.Melee
     /// <summary>
     /// The melee zombie attack controller.
     /// </summary>
-    public class MeleeZombieAttackController : AZombieAttackController
+    public class MeleeZombieAttackController : ZombieAttackController
     {
 
         // TODO: Implementation
 
-        public MeleeZombieAttackController(MeleeZombieController controller)
-            : base(controller)
+        public MeleeZombieAttackController(MeleeZombieController controller, ZombieCombatData oombatData)
+            : base(controller, oombatData)
         {
 
         }
@@ -281,8 +281,11 @@ namespace CyberMonk.Game.Zombie.Melee
 
         
         // TODO: Implementation
-        public override AZombieAttackController AttackController 
+        public override ZombieAttackController AttackController 
             => this._attackController;
+
+
+        // TODO: Implement arm swings
 
         #endregion
 
@@ -292,10 +295,10 @@ namespace CyberMonk.Game.Zombie.Melee
             : base(component, settings)
         {
             this._stateController = new MeleeZombieStateController(this);
+            this._attackController = new MeleeZombieAttackController(this, settings.CombatData);
             this._movementController = new MeleeZombieMovementController(this, settings.MovementData);
             this._soundController = new MeleeZombieSoundController(this, settings.SoundData);
             this._animationController = new MeleeZombieAnimationController(this, settings.AnimatorController);
-            this._attackController = new MeleeZombieAttackController(this);
         }
 
         #endregion

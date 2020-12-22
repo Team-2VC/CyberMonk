@@ -155,6 +155,16 @@ namespace CyberMonk.Game.Zombie
             this._controller?.PhysicsUpdate();
         }
 
+        private void Update()
+        {
+            if(this.references.Paused)
+            {
+                return;
+            }
+
+            this._controller?.Update();
+        }
+
         /// <summary>
         /// Called when the zombie component is enabled.
         /// </summary>
