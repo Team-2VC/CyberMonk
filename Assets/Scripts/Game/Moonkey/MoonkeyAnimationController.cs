@@ -177,10 +177,7 @@ namespace CyberMonk.Game.Moonkey
 
         private void OnDashEnd()
         {
-            
             this.PlayNormalState();
-            
-
         }
 
         private void OnJumpBegin()

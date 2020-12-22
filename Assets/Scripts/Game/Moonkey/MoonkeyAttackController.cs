@@ -29,7 +29,6 @@ namespace CyberMonk.Game.Moonkey
         {
             this._controller = controller;
             this._references = controller.Component.References;
-            
         }
 
         #endregion

@@ -95,11 +95,22 @@ namespace CyberMonk.Game.Moonkey
         [SerializeField]
         private SpriteRenderer graphicsSpriteRenderer;
 
+        [SerializeField]
+        private Collider2D leftDashCollider;
+        [SerializeField]
+        private Collider2D rightDashCollider;
+
         public Animator GraphicsAnimator
             => this.graphicsAnimator;
 
         public SpriteRenderer GraphicsSpriteRenderer
             => this.graphicsSpriteRenderer;
+
+        public Collider2D LeftDashCollider
+            => this.leftDashCollider;
+
+        public Collider2D RightDashCollider
+            => this.rightDashCollider;
     }
 
     /// <summary>

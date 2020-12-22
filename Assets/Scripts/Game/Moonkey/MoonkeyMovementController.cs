@@ -10,6 +10,52 @@ namespace CyberMonk.Game.Moonkey
 {
 
     /// <summary>
+    /// Updates the colliders.
+    /// </summary>
+    public class DashingColliders
+    {
+
+        private Collider2D _activeCollider = null;
+        private MoonkeyProperties _properties;
+
+        public DashingColliders(MoonkeyProperties properties)
+        {
+            this._properties = properties;
+            this.HideColliders();
+        }
+
+        public void UpdateColliderDirection(float direction)
+        {
+            Collider2D other = (int)direction == 1 ?
+                this._properties.RightDashCollider : this._properties.LeftDashCollider;
+            
+            if(this._activeCollider != null)
+            {
+                if(this._activeCollider == other)
+                {
+                    return;
+                }
+
+                this._activeCollider?.gameObject.SetActive(false);
+            }
+
+            this._activeCollider = other;
+            this._activeCollider?.gameObject.SetActive(true);
+        }
+
+        public void HideColliders()
+        {
+            if(this._activeCollider != null)
+            {
+                this._activeCollider = null;
+            }
+
+            this._properties.LeftDashCollider?.gameObject.SetActive(false);
+            this._properties.RightDashCollider?.gameObject.SetActive(false);
+        }
+    }
+
+    /// <summary>
     /// Handles the moonkey movement.
     /// </summary>
     public class MoonkeyMovementController
@@ -25,6 +71,7 @@ namespace CyberMonk.Game.Moonkey
         private float _dashTime = 0f;
         private float _dashCooldownTime = 0f;
         private int _dashCounter = 0;
+        private DashingColliders _dashColliders;
 
         private Vector2 _lookDirection = Vector2.right;
 
@@ -106,6 +153,7 @@ namespace CyberMonk.Game.Moonkey
             this._rigidbody = controller.Component.GetComponent<Rigidbody2D>();
             this._transform = controller.Component.transform;
 
+            this._dashColliders = new DashingColliders(controller.Component.Properties);
             this._movementSettings = settings.MovementSettings;
 
             this._dashCounter = this._movementSettings.DashMaxCounter;
@@ -286,6 +334,7 @@ namespace CyberMonk.Game.Moonkey
                 this.DashEndEvent();
             }
 
+            this._dashColliders.HideColliders();
             this._dashTime = 0f;
             this._rigidbody.velocity = Vector2.zero;
         }
@@ -367,6 +416,8 @@ namespace CyberMonk.Game.Moonkey
             this._dashTime = this._movementSettings.DashTime;
             this._rigidbody.velocity = this._lookDirection * this._movementSettings.DashSpeed;
             this._dashCounter--;
+
+            this._dashColliders.UpdateColliderDirection(this.LookDirection);
 
             this.DashBeginEvent();
         }

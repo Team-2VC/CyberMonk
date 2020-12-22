@@ -280,7 +280,6 @@ namespace CyberMonk.Game.Zombie.Melee
             => this._animationController;
 
         
-        // TODO: Implementation
         public override ZombieAttackController AttackController 
             => this._attackController;
 

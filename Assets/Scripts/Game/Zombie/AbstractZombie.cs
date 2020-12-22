@@ -734,7 +734,7 @@ namespace CyberMonk.Game.Zombie
             if(this.CanBeginAttackSequence())
             {
                 Debug.Log("Begin Attack Sequence");
-                this.BeginAttackSequence();
+                // this.BeginAttackSequence();
             }
         }
 
