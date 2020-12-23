@@ -5,12 +5,49 @@ using UnityEngine.UI;
 
 namespace CyberMonk.UI
 {
+    [System.Serializable]
+    public struct PlayerUIProperties
+    {
+        [System.Serializable]
+        public struct ComboMultiplier
+        {
+
+            [SerializeField]
+            private Text comboText;
+            [SerializeField]
+            private GameObject gameObject;
+
+            public Text ComboText
+                => this.comboText;
+
+            public GameObject GameObject
+                => this.gameObject;
+        }
+
+        [SerializeField]
+        private ComboMultiplier comboCounter;
+        [SerializeField]
+        private Slider healthBar;
+        [SerializeField]
+        private Text scoreText;
+
+        public ComboMultiplier CombosMultiplier
+            => this.comboCounter;
+
+        public Slider HealthBar
+            => this.healthBar;
+
+        public Text ScoreText
+            => this.scoreText;
+    }
 
     [System.Serializable]
     public struct PlayerUIReferences
     {
         [SerializeField]
         private Utils.References.IntegerReference totalScore;
+        [SerializeField]
+        private Utils.References.IntegerReference comboMultiplier;
         [SerializeField]
         private Utils.Events.GameEvent beatDownEvent;
 
@@ -22,6 +59,18 @@ namespace CyberMonk.UI
                 if(this.totalScore != null)
                 {
                     this.totalScore = value;
+                }
+            }
+        }
+
+        public Utils.References.IntegerReference ComboMultiplier
+        {
+            get => this.comboMultiplier;
+            set
+            {
+                if (this.comboMultiplier != null)
+                {
+                    this.comboMultiplier = value;
                 }
             }
         }
@@ -48,12 +97,9 @@ namespace CyberMonk.UI
         [SerializeField]
         private PlayerUIReferences references;
         [SerializeField]
+        private PlayerUIProperties properties;
+        [SerializeField]
         private Game.Moonkey.MoonkeyComponent moonkey;
-
-        [SerializeField]
-        private Slider healthBar;
-        [SerializeField]
-        private Text scoreText;
 
         private Animator _animator;
 
@@ -65,8 +111,13 @@ namespace CyberMonk.UI
             this.HookHealthChangedEvent();
 
             this._animator = this.GetComponent<Animator>();
-            this.scoreText.text = "Score: " + (int)this.references.TotalScore.Value;
-            this.healthBar.value = 0f;
+
+            PlayerUIProperties.ComboMultiplier counter = this.properties.CombosMultiplier;
+            counter.ComboText.text = "0x";
+            counter.GameObject.SetActive(false);
+
+            this.properties.ScoreText.text = "Score: " + (int)this.references.TotalScore.Value;
+            this.properties.HealthBar.value = 0f;
         }
 
         private void HookHealthChangedEvent()
@@ -80,6 +131,7 @@ namespace CyberMonk.UI
         private void OnEnable()
         {
             this.HookHealthChangedEvent();
+            this.references.ComboMultiplier.ChangedValueEvent += this.OnComboMultiplierChanged;
             this.references.BeatDownEvent += this.OnBeatDown;
             this.references.TotalScore.ChangedValueEvent += this.OnScoreChanged;
         }
@@ -91,6 +143,7 @@ namespace CyberMonk.UI
                 this.moonkey.Controller.HealthChangedEvent -= this.OnHealthChanged;
             }
 
+            this.references.ComboMultiplier.ChangedValueEvent -= this.OnComboMultiplierChanged;
             this.references.BeatDownEvent -= this.OnBeatDown;
             this.references.TotalScore.ChangedValueEvent -= this.OnScoreChanged;
         }
@@ -104,7 +157,14 @@ namespace CyberMonk.UI
             float maxHealth = this.moonkey.Controller.MaxHealth;
             float healthBarPercentage = (maxHealth - this.moonkey.Controller.Health) / maxHealth;
             Debug.Log(healthBarPercentage);
-            this.healthBar.value = healthBarPercentage;
+            this.properties.HealthBar.value = healthBarPercentage;
+        }
+
+        private void OnComboMultiplierChanged(int combo)
+        {
+            PlayerUIProperties.ComboMultiplier counter = this.properties.CombosMultiplier;
+            counter.GameObject.SetActive(combo > 3);
+            this.properties.CombosMultiplier.ComboText.text = combo + "x";
         }
 
         /// <summary>
@@ -121,7 +181,7 @@ namespace CyberMonk.UI
         /// <param name="scoreChanged">The amount changed.</param>
         private void OnScoreChanged(int scoreChanged)
         {
-            this.scoreText.text = "Score: " + scoreChanged;
+            this.properties.ScoreText.text = "Score: " + scoreChanged;
         }
     }
 }

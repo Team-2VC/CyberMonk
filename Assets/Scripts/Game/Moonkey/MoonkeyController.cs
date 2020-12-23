@@ -171,7 +171,7 @@ namespace CyberMonk.Game.Moonkey
             if (references.HasValue)
             {
                 MoonkeyReferences @ref = references.Value;
-                @ref.AttackFinishedEvent += this.OnAttack;
+                @ref.AttackFinishedEvent += this.OnAttackFinished;
             }
 
             this._stateController?.HookEvents();
@@ -190,7 +190,7 @@ namespace CyberMonk.Game.Moonkey
             if (references.HasValue)
             {
                 MoonkeyReferences @ref = references.Value;
-                @ref.AttackFinishedEvent -= this.OnAttack;
+                @ref.AttackFinishedEvent -= this.OnAttackFinished;
             }
 
             this._stateController?.UnHookEvents();
@@ -216,7 +216,7 @@ namespace CyberMonk.Game.Moonkey
         /// <param name="moonkey">The monkey component.</param>
         /// <param name="component">The zombie component we are calling.</param>
         /// <param name="outcome">The attack outcome.</param>
-        private void OnAttack(MoonkeyComponent moonkey, Zombie.ZombieComponent component, AttackOutcome outcome)
+        private void OnAttackFinished(MoonkeyComponent moonkey, Zombie.ZombieComponent component, AttackOutcome outcome)
         {
             // Don't do anything if the attacked zombie isn't equivalent to the current zombie
             // we are attacking.

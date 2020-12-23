@@ -31,6 +31,9 @@ namespace CyberMonk.Game.Zombie
         {
             private DeactivationReason _reason;
             private object _data;
+            
+            private GameObject _hitParticlePrefab;
+            private Vector2 _rawTargetPosition;
 
             public object Data
                 => this._data;
@@ -38,10 +41,18 @@ namespace CyberMonk.Game.Zombie
             public DeactivationReason Reason
                 => this._reason;
 
-            public DeactivationData(DeactivationReason reason, object otherData = null)
+            public GameObject HitParticlePrefab
+                => this._hitParticlePrefab;
+
+            public Vector2 RawTargetPosition
+                => this._rawTargetPosition;
+
+            public DeactivationData(DeactivationReason reason, GameObject hitParticlePrefab, Vector2 targetPosition, object otherData = null)
             {
                 this._reason = reason;
                 this._data = null;
+                this._hitParticlePrefab = hitParticlePrefab;
+                this._rawTargetPosition = targetPosition;
             }
         }
 
@@ -100,6 +111,9 @@ namespace CyberMonk.Game.Zombie
 
             public int TargetIndex
                 => this._targetIndex;
+
+            public Vector2 SpawnPosition
+                => this._spawnPosition;
 
             #region constructor
 
@@ -320,6 +334,18 @@ namespace CyberMonk.Game.Zombie
                 }
             }
 
+            public Target.ZombieTargetWrapper Current
+            {
+                get
+                {
+                    if(this.currentTarget < this._targets.Count && this.currentTarget >= 0)
+                    {
+                        return this._targets[this.currentTarget];
+                    }
+                    return null;
+                }
+            }
+
             #endregion
 
             #region constructor
@@ -529,6 +555,8 @@ namespace CyberMonk.Game.Zombie
                 return;
             }
 
+            this.OnOutcomeSuccess(data);
+
             if(this._targetsIterator.Last != null && this._targetsIterator.Last.TargetIndex == targetIndex)
             {
                 this.AttackedByMoonkeyEvent(AttackOutcome.OUTCOME_SUCCESS);
@@ -537,6 +565,14 @@ namespace CyberMonk.Game.Zombie
 
             this._previousTargetClicked = targetIndex;
             this.AttackedByMoonkeyEvent(AttackOutcome.OUTCOME_NORMAL);
+        }
+
+        private void OnOutcomeSuccess(DeactivationData data)
+        {
+            GameObject.Instantiate(data.HitParticlePrefab, data.RawTargetPosition, Quaternion.identity);
+            
+            // TODO: Randomize the offset of the text
+            // TODO: Combo counter text
         }
 
         /// <summary>

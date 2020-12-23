@@ -118,7 +118,6 @@ namespace CyberMonk.Game.Moonkey
         public MoonkeyGFXComponent GraphicsComponent
             => this.graphicsComponent;
 
-
         public DashEffectProperties DashFXProperties
             => this.dashEffectProperties;
 

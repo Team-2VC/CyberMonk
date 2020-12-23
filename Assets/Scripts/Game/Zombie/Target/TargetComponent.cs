@@ -168,7 +168,6 @@ namespace CyberMonk.Game.Zombie.Target
                 this._cameraAnimator.Play("CamShake");
             }
 
-            Instantiate(this.hitParticlePrefab, this.transform.position, Quaternion.identity);
             this.Deactivate(DeactivationReason.REASON_PLAYER_HIT, this._pressedTime.Value - this._beatTime.Value);
         }
 
@@ -183,11 +182,11 @@ namespace CyberMonk.Game.Zombie.Target
             
             if(dat is float)
             {
-                data = new DeactivationData(reason, (float)dat);
+                data = new DeactivationData(reason, this.hitParticlePrefab, this.transform.position, (float)dat);
             }
             else
             {
-                data = new DeactivationData(reason);
+                data = new DeactivationData(reason, this.hitParticlePrefab, this.transform.position);
             }
 
             this._parentWrapper?.OnDeactivated(data);

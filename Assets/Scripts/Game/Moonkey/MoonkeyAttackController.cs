@@ -109,7 +109,7 @@ namespace CyberMonk.Game.Moonkey
             } 
             else if(outcome == Zombie.AttackOutcome.OUTCOME_NORMAL)
             {
-                this._references.ComboCounter += 1;
+                this._references.ComboCounter++;
                 this._references.TotalScore += 100 * this._references.ComboMultiplier;
             }
         }
