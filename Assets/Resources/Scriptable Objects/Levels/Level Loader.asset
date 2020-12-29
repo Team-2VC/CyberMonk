@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c3a831ae9592fb42bf68299014b80f6, type: 3}
+  m_Name: Level Loader
+  m_EditorClassIdentifier: 
+  beginTransitionEvent: {fileID: 11400000, guid: 02bb2618263280046b2ff89cbaa738e0,
+    type: 2}
+  midTransitionEvent: {fileID: 11400000, guid: 9e0a981dc071fca4eb2a4984ac2c07bc, type: 2}
+  switchLevelEvent: {fileID: 11400000, guid: 0b050303a24d50e429e5554457b9ce60, type: 2}

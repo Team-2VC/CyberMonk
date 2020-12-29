@@ -10,14 +10,20 @@ namespace CyberMonk.Menus
     /// </summary>
     public class GameOverMenuManager : MonoBehaviour
     {
+        [SerializeField]
+        private Game.Level.LevelLoaderReference levelLoader;
+        [SerializeField]
+        private Utils.Events.GameEvent exitGameEvent;
+        [SerializeField]
+        private Utils.Events.GameEvent retryGameEvent;
+
         /// <summary>
         /// Called when the retry button was clicked.
         /// </summary>
         /// <param name="levelData">The level data.</param>
         public void OnRetryClicked(Game.Level.LevelLoadData levelData)
         {
-            Time.timeScale = 1f;
-            Game.Level.LevelLoader.LoadLevel(levelData);
+            this.levelLoader.Loader?.LoadLevel(levelData);
         }
 
         /// <summary>
@@ -26,8 +32,8 @@ namespace CyberMonk.Menus
         /// <param name="levelData">The level data.</param>
         public void OnExitClicked(Game.Level.LevelLoadData levelData)
         {
-            Time.timeScale = 1f;
-            Game.Level.LevelLoader.LoadLevel(levelData);
+            this.exitGameEvent?.Call();
+            this.levelLoader.Loader?.LoadLevel(levelData);
         }
     }
 }

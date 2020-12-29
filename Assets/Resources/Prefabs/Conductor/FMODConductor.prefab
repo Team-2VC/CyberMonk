@@ -43,15 +43,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46c47ef6d7b51104da4c7e9dabc45d8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  beatEvent: {fileID: 11400000, guid: d73961cd309650a44b36f0f55ef2d599, type: 2}
-  beatCounter:
-    constant: 0
-    constantValue: 0
-    variable: {fileID: 11400000, guid: d50f134e000ce614b8873ed998976472, type: 2}
   musicPath:
     constant: 0
     constantValue: 
     variable: {fileID: 11400000, guid: 99fa0dc031724e54f81688b8215dabe4, type: 2}
+  beatEvent: {fileID: 11400000, guid: d73961cd309650a44b36f0f55ef2d599, type: 2}
+  exitGameEvent: {fileID: 11400000, guid: ea7b8947fd9c1c24d92e561e744ab246, type: 2}
+  beatCounter:
+    constant: 0
+    constantValue: 0
+    variable: {fileID: 11400000, guid: d50f134e000ce614b8873ed998976472, type: 2}
   paused:
     constant: 0
     constantValue: 0

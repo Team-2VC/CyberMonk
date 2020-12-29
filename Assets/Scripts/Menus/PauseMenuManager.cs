@@ -12,7 +12,11 @@ namespace CyberMonk.Menus
     public class PauseMenuManager : MonoBehaviour
     {
         [SerializeField]
+        private Game.Level.LevelLoaderReference levelLoader;
+        [SerializeField]
         private Utils.References.BooleanReference paused;
+        [SerializeField]
+        private Utils.Events.GameEvent exitGameEvent;
         [SerializeField]
         private bool closeOnContinue;
 
@@ -34,8 +38,9 @@ namespace CyberMonk.Menus
         /// <param name="level">The level to load.</param>
         public void OnExitPressed(Game.Level.LevelLoadData levelLoadData)
         {
+            this.exitGameEvent?.Call();
             this.paused.Value = false;
-            Game.Level.LevelLoader.LoadLevel(levelLoadData);
+            this.levelLoader.Loader?.LoadLevel(levelLoadData);
         }
     }
 }

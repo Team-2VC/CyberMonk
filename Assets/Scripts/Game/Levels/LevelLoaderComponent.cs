@@ -12,6 +12,8 @@ namespace CyberMonk.Game.Level
     /// </summary>
     public class LevelLoaderComponent : MonoBehaviour
     {
+        [SerializeField]
+        private LevelLoaderReference reference;
         
         private static bool _instantiated = false;
 
@@ -32,9 +34,9 @@ namespace CyberMonk.Game.Level
 
         private void Update()
         {
-            LevelLoader.Update();
+            this.reference.Loader?.Update();
             
-            IEnumerator asyncLoadLevel = LevelLoader.EnumerateLoadSceneAsync();
+            IEnumerator asyncLoadLevel = this.reference.Loader?.EnumerateLoadSceneAsync();
             if(asyncLoadLevel != null)
             {
                 this.StartCoroutine(asyncLoadLevel);

@@ -567,6 +567,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc3014aa41b143f41bd220bd3a8576be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelLoader:
+    levelLoader: {fileID: 11400000, guid: 2159e9863c50318479aa1e724e77e503, type: 2}
+  exitGameEvent: {fileID: 11400000, guid: ea7b8947fd9c1c24d92e561e744ab246, type: 2}
+  retryGameEvent: {fileID: 11400000, guid: 08b62c5f6c26725419e05789f06214ba, type: 2}
 --- !u!1 &5574530933971057773
 GameObject:
   m_ObjectHideFlags: 0

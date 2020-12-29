@@ -16,6 +16,8 @@ namespace CyberMonk.Game.Music
         [SerializeField]
         private Utils.Events.GameEvent beatEvent;
         [SerializeField]
+        private Utils.Events.GameEvent exitGameEvent;
+        [SerializeField]
         private Utils.References.IntegerReference beatCounter;
         [SerializeField]
         private Utils.References.BooleanReference paused;
@@ -27,16 +29,23 @@ namespace CyberMonk.Game.Music
         protected override void HookEvents()
         {
             this.paused.ChangedValueEvent += this.OnPaused;
+            this.exitGameEvent += this.OnExitGame;
         }
 
         protected override void UnHookEvents()
         {
             this.paused.ChangedValueEvent -= this.OnPaused;
+            this.exitGameEvent -= this.OnExitGame;
         }
 
         private void OnPaused(bool paused)
         {
             this.eventInstance.setPaused(paused);
+        }
+
+        private void OnExitGame()
+        {
+            Destroy(this.gameObject);
         }
 
         protected override void OnCallbackSuccess(FMOD.Studio.EVENT_CALLBACK_TYPE type, System.IntPtr instancePtr, System.IntPtr parameterInt)
