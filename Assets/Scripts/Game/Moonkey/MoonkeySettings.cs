@@ -63,6 +63,21 @@ namespace CyberMonk.Game.Moonkey
     }
 
     [System.Serializable]
+    public struct MoonkeyDashEffectSettings
+    {
+        [SerializeField, Range(0f, 10f)]
+        private float displayTime;
+        [SerializeField, Range(0f, 1.0f)]
+        private float startAlpha;
+
+        public float DisplayTime
+            => this.displayTime;
+
+        public float StartAlpha
+            => this.startAlpha;
+    }
+
+    [System.Serializable]
     public class MoonkeySoundSettings
     {
         [SerializeField]
@@ -124,6 +139,8 @@ namespace CyberMonk.Game.Moonkey
         [SerializeField]
         private MoonkeyMovementSettings movementSettings;
         [SerializeField]
+        private MoonkeyDashEffectSettings dashEffectSettings;
+        [SerializeField]
         private MoonkeyHealthSettings healthSettings;
         [SerializeField]
         private MoonkeySoundSettings soundSettings;
@@ -145,6 +162,9 @@ namespace CyberMonk.Game.Moonkey
 
         public MoonkeySoundSettings SoundSettings
             => this.soundSettings;
+
+        public MoonkeyDashEffectSettings DashEffectSettings
+            => this.dashEffectSettings;
 
         #endregion
     }

@@ -21,6 +21,9 @@ MonoBehaviour:
     dashCooldownTime: 1
     dashMaxCounter: 2
     inputBufferForFrames: 11
+  dashEffectSettings:
+    displayTime: 0.5
+    startAlpha: 0.7
   healthSettings:
     maxHealth: 200
   soundSettings:
