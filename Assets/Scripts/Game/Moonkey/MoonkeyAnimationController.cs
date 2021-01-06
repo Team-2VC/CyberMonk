@@ -14,7 +14,7 @@ namespace CyberMonk.Game.Moonkey
         private List<MoonkeyDashEffect> _effects;
 
         private MoonkeyComponent _component;
-        private MoonkeyProperties _properties;
+        private MoonkeySettings _settings;
 
         protected bool IsDashing
             => this._component.Controller.MovementController.Dashing;
@@ -23,7 +23,7 @@ namespace CyberMonk.Game.Moonkey
         {
             this._effects = new List<MoonkeyDashEffect>();
             this._component = component;
-            this._properties = component.Properties;
+            this._settings = component.Settings;
         }
 
         public void Update()
@@ -49,7 +49,7 @@ namespace CyberMonk.Game.Moonkey
         private void SpawnDashEffect()
         {
             MoonkeyDashEffect effect = new MoonkeyDashEffect(
-                this._properties.DashFXProperties.DisplayTime, this._component);
+                this._settings.DashEffectSettings.DisplayTime, this._component);
             this._effects.Add(effect);
         }
     }

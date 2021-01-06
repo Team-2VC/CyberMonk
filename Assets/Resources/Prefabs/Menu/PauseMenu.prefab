@@ -192,10 +192,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8725f5b39c63f2d4b868d00150e8ba6d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelLoader:
+    levelLoader: {fileID: 11400000, guid: 2159e9863c50318479aa1e724e77e503, type: 2}
   paused:
     constant: 0
     constantValue: 0
     variable: {fileID: 11400000, guid: 5c56c2f61d47f904389d3447591fe5f8, type: 2}
+  exitGameEvent: {fileID: 11400000, guid: ea7b8947fd9c1c24d92e561e744ab246, type: 2}
   closeOnContinue: 1
 --- !u!222 &8978451175662010282
 CanvasRenderer:

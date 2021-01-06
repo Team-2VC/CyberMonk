@@ -28,7 +28,7 @@ namespace CyberMonk.Game.Moonkey
         public MoonkeyDashEffect(float displayTime, MoonkeyComponent component)
         {
             this._currentDisplayTime = this._maxDisplayTime = displayTime;
-            this._startAlpha = component.Properties.DashFXProperties.StartAlpha;
+            this._startAlpha = component.Settings.DashEffectSettings.StartAlpha;
             this._component = component;
 
             this.SpawnObject();

@@ -5,20 +5,42 @@ using UnityEngine.SceneManagement;
 
 namespace CyberMonk.Menus
 {
-    public struct TransitionData
-    {
-        public object data;
-        public System.Action<object> callable;
-    }
 
     [System.Serializable]
-    public struct AnimationTransitions
+    public struct BeatPulseAnimation
     {
         [SerializeField]
-        private string playGameTransition;
+        private string animation;
+        [SerializeField]
+        private Utils.Events.GameEvent beatDownEvent;
+        [SerializeField]
+        private bool enabled;
+        [SerializeField, Range(0, 20)]
+        private int pulseTime;
 
-        public string PlayGameTransition
-            => this.playGameTransition;
+        public string Animation
+            => this.animation;
+
+        public Utils.Events.GameEvent BeatDownEvent
+        {
+            get => this.beatDownEvent;
+            set
+            {
+                if(this.beatDownEvent != null)
+                {
+                    this.beatDownEvent = value;
+                }
+            }
+        }
+
+        public bool Enabled
+        {
+            get => this.enabled;
+            set => this.enabled = value;
+        }
+
+        public int PulseTime
+            => this.pulseTime;
     }
 
     /// <summary>
@@ -27,15 +49,23 @@ namespace CyberMonk.Menus
     [RequireComponent(typeof(Animator))]
     public class MainMenuManager : MonoBehaviour
     {
+        #region fields
 
         [SerializeField]
-        private AnimationTransitions animationTransitions;
+        private Game.Level.LevelLoaderReference levelLoader;
+        [SerializeField]
+        private BeatPulseAnimation beatAnimation;
+
         private Animator _animator;
+        private int _currentBeat = 0;
 
-        private TransitionData? _currentTransition = null;
+        #endregion
 
-        protected bool IsInTransition
-            => this._currentTransition.HasValue;
+        #region properties
+
+        #endregion
+
+        #region methods
 
         /// <summary>
         /// Called when the main menu has started.
@@ -45,25 +75,38 @@ namespace CyberMonk.Menus
             this._animator = this.GetComponent<Animator>();
         }
 
+        private void OnEnable()
+        {
+            this.beatAnimation.BeatDownEvent += this.OnBeatDown;
+        }
+
+        private void OnDisable()
+        {
+            this.beatAnimation.BeatDownEvent -= this.OnBeatDown;
+        }
+
+        private void OnBeatDown()
+        {
+            this._currentBeat++;
+
+            if(!this.beatAnimation.Enabled)
+            {
+                return;
+            }
+
+            if(this.beatAnimation.PulseTime <= 1 
+                || (this._currentBeat % this.beatAnimation.PulseTime) == 0)
+            {
+                this._animator.Play(this.beatAnimation.Animation);
+            }
+        }
+
         /// <summary>
         /// Called when the play button is selected.
         /// </summary>
         public void OnPlaySelected(Game.Level.LevelLoadData levelData)
         {
-            if(this.IsInTransition)
-            {
-                return;
-            }
-
-            this._animator.Play(this.animationTransitions.PlayGameTransition);
-            this.SetTransitionData((object a) =>
-                {
-                    if(a is Game.Level.LevelLoadData)
-                    {
-                        // TODO: Load instructions scene??
-                        Game.Level.LevelLoader.LoadLevel((Game.Level.LevelLoadData)a);
-                    }
-                }, levelData);
+            this.levelLoader.Loader?.LoadLevel(levelData);
         }
 
         /// <summary>
@@ -71,11 +114,6 @@ namespace CyberMonk.Menus
         /// </summary>
         public void OnCreditsSelected()
         {
-            if (this.IsInTransition)
-            {
-                return;
-            }
-
             // TODO: Implementation
         }
 
@@ -84,41 +122,9 @@ namespace CyberMonk.Menus
         /// </summary>
         public void OnQuitSelected()
         {
-            if(this.IsInTransition)
-            {
-                return;
-            }
-
             Application.Quit();
         }
 
-
-        /// <summary>
-        /// Sets the transition data.
-        /// </summary>
-        /// <param name="callable">The callable.</param>
-        /// <param name="data">The data used by the transition.</param>
-        private void SetTransitionData(System.Action<object> callable, object data = null)
-        {
-            TransitionData dat = new TransitionData();
-            dat.data = data;
-            dat.callable = callable;
-            this._currentTransition = dat;
-        }
-
-        /// <summary>
-        /// Called when the animation transition has finished.
-        /// </summary>
-        private void OnTransitionFinished()
-        {
-            if(!this.IsInTransition)
-            {
-                return;
-            }
-
-            TransitionData data = this._currentTransition.Value;
-            data.callable(data.data);
-            this._currentTransition = null;
-        }
+        #endregion
     }
 }

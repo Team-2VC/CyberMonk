@@ -16,3 +16,6 @@ MonoBehaviour:
   showLoadingScreen: 1
   minLoadTime: 2
   maxLoadTime: 3
+  transitionData:
+    displayTransition: 1
+    transitionName: FadeToBlack

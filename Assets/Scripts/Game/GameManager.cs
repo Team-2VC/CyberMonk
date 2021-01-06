@@ -120,14 +120,10 @@ namespace CyberMonk.Game
 
         private void OnPaused(bool paused)
         {
-            float timeScale = 1f;
             if (paused && this._currentMenu == null)
             {
-                timeScale = 0f;
                 this._currentMenu = Instantiate(this.references.PausedPrefab);
             }
-
-            Time.timeScale = timeScale;
         }
         
         private void OnGameOver()
@@ -140,7 +136,6 @@ namespace CyberMonk.Game
             if(this.references.Paused.Value)
             {
                 this.references.Paused.Value = false;
-                Time.timeScale = 1f;
             }
 
             this._currentMenu = Instantiate(this.references.GameOverPrefab);

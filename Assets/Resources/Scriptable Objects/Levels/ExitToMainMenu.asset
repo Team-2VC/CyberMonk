@@ -13,6 +13,9 @@ MonoBehaviour:
   m_Name: ExitToMainMenu
   m_EditorClassIdentifier: 
   levelToLoad: MainMenu
-  showLoadingScreen: 0
-  minLoadTime: 0
-  maxLoadTime: 0
+  showLoadingScreen: 1
+  minLoadTime: 3
+  maxLoadTime: 4
+  transitionData:
+    displayTransition: 1
+    transitionName: FadeToBlack

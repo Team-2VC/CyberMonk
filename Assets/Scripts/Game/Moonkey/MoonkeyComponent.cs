@@ -90,25 +90,9 @@ namespace CyberMonk.Game.Moonkey
     [System.Serializable]
     public struct MoonkeyProperties
     {
-        [System.Serializable]
-        public struct DashEffectProperties
-        {
-            [SerializeField, Range(0f, 10f)]
-            private float displayTime;
-            [SerializeField, Range(0f, 1.0f)]
-            private float startAlpha;
-
-            public float DisplayTime
-                => this.displayTime;
-
-            public float StartAlpha
-                => this.startAlpha;
-        }
-
+ 
         [SerializeField]
         private MoonkeyGFXComponent graphicsComponent;
-        [SerializeField]
-        private DashEffectProperties dashEffectProperties;
 
         [SerializeField]
         private Collider2D leftDashCollider;
@@ -117,9 +101,6 @@ namespace CyberMonk.Game.Moonkey
 
         public MoonkeyGFXComponent GraphicsComponent
             => this.graphicsComponent;
-
-        public DashEffectProperties DashFXProperties
-            => this.dashEffectProperties;
 
         public Collider2D LeftDashCollider
             => this.leftDashCollider;
@@ -157,6 +138,9 @@ namespace CyberMonk.Game.Moonkey
 
         public MoonkeyProperties Properties
             => this.properties;
+
+        public MoonkeySettings Settings
+            => this.settings;
 
         public bool IsAttacking
             => this._controller.IsAtttacking;
